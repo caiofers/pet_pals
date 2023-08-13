@@ -1,0 +1,29 @@
+{
+    "appTitle": "Pet Pals",
+
+    "helloUser": "Olá, {userName}!",
+    "@helloUser": {
+        "description": "A message to refer to user on home page with a single parameter",
+        "placeholders": {
+            "userName": {
+                "type": "String",
+                "example": "Caio"
+            }
+        }
+    },
+
+    "homePageLabel": "Home",
+    "petsPageLabel": "Pets",
+    "notificationsPageLabel": "Notificações",
+    "settingsPageLabel": "Configurações",
+
+    "numberOfPets": "{count, plural, =0{sem pets} =1{1 pet} other{{count} pets}}",
+    "@numberOfPets": {
+        "placeholders": {
+            "count": {
+            "type": "num",
+            "format": "compact"
+            }
+        }
+    }
+}

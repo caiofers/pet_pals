@@ -1,0 +1,28 @@
+{
+    "appTitle": "Pet Pals",
+
+    "helloUser": "Hello, {userName}!",
+    "@helloUser": {
+        "placeholders": {
+            "userName": {
+                "type": "String",
+                "example": "Caio"
+            }
+        }
+    },
+
+    "homePageLabel": "Home",
+    "petsPageLabel": "Pets",
+    "notificationsPageLabel": "Notifications",
+    "settingsPageLabel": "Settings",
+
+    "numberOfPets": "{count, plural, =0{no pets} =1{1 pet} other{{count} pets}}",
+    "@numberOfPets": {
+        "placeholders": {
+            "count": {
+            "type": "num",
+            "format": "compact"
+            }
+        }
+    }
+}
