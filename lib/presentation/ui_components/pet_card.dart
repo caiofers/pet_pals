@@ -8,28 +8,43 @@ class PetCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.red,
       child: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 8.0),
         child: Row(
           children: [
-            const Icon(Icons.pets_rounded),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(pet.name),
-                Row(
-                  children: [Text(pet.type.name), Text(pet.gender.name)],
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: const Icon(Icons.pets_rounded),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    pet.name,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  Row(
+                    children: [Text("Cadela, Fêmea")],
+                  ),
+                ],
+              ),
             ),
             Spacer(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Idade: ${pet.age}"),
-                Text("Raça: ${pet.kind}"),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Idade: ${pet.age} meses"),
+                  Text("Raça: Não definida"),
+                ],
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.more_vert),
             )
           ],
         ),
