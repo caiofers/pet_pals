@@ -19,48 +19,57 @@ class PetsScreen extends StatelessWidget {
     final double buttonHeight = 50;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            margin: EdgeInsets.only(
-                top: titleHeight + 16, bottom: buttonHeight + 16),
-            child: ListView(
-              children: [for (var pet in petsProvider.pets) PetCard(pet: pet)],
-            ),
-          ),
-          if (petsProvider.pets.isEmpty) ...[
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8.0),
+        child: Stack(
+          children: [
             Container(
-                height: titleHeight,
-                color:
-                    Theme.of(context).colorScheme.background.withOpacity(0.95),
-                margin: EdgeInsets.only(top: topPadding),
-                child: Text("User, você ainda não tem pets cadastrado.")),
-          ] else ...[
-            Container(
-                width: double.infinity,
-                color:
-                    Theme.of(context).colorScheme.background.withOpacity(0.95),
-                margin: EdgeInsets.only(top: topPadding),
-                child: Text("User, você ainda não tem pets cadastrado.")),
-          ],
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: buttonHeight,
-              color: Colors.transparent,
               margin: EdgeInsets.only(
-                  top: 8, left: 8, right: 8, bottom: bottomPadding),
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  petsProvider.add(Pet("Cacau", PetType.dog, "Vira lata", 3,
-                      PetGender.female, ""));
-                },
-                child: const Text("Add pet"),
+                  top: titleHeight + 16, bottom: buttonHeight + 16),
+              child: ListView(
+                children: [
+                  for (var pet in petsProvider.pets) PetCard(pet: pet)
+                ],
               ),
             ),
-          ),
-        ],
+            if (petsProvider.pets.isEmpty) ...[
+              Container(
+                  height: titleHeight,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .background
+                      .withOpacity(0.95),
+                  margin: EdgeInsets.only(top: topPadding),
+                  child: Text("User, você ainda não tem pets cadastrado.")),
+            ] else ...[
+              Container(
+                  width: double.infinity,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .background
+                      .withOpacity(0.95),
+                  margin: EdgeInsets.only(top: topPadding),
+                  child: Text("User, você ainda não tem pets cadastrado.")),
+            ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: buttonHeight,
+                color: Colors.transparent,
+                margin: EdgeInsets.only(
+                    top: 8, left: 8, right: 8, bottom: bottomPadding),
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    petsProvider.add(Pet("Cacau", PetType.dog, "Vira lata", 3,
+                        PetGender.female, ""));
+                  },
+                  child: const Text("Add pet"),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
