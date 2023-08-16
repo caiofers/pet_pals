@@ -1,34 +1,43 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_pals/presentation/screens/pets_screen.dart';
+import 'package:pet_pals/repositories/pets_repository.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pet_pals/presentation/screens/home_screen.dart';
 import 'package:pet_pals/presentation/screens/settings_screen.dart';
+import 'package:pet_pals/presentation/themes/theme_manager.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      Provider<ThemeDataManager>(create: (context) => ThemeDataManager()),
+      Provider<PetsRepository>(create: (context) => PetsRepository()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'PetPals',
-      theme: ThemeData(
-        fontFamily: "Manrope",
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Color.fromRGBO(180, 95, 6, 1),
-          background: Color.fromRGBO(245, 232, 216, 1),
-        ),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+    return ChangeNotifierProvider(
+      create: (context) => ThemeDataManager(),
+      builder: (context, child) {
+        final provider = Provider.of<ThemeDataManager>(context);
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: provider.currentTheme,
+          darkTheme: provider.currentDarkTheme,
+          themeMode: ThemeMode.system,
+          home: const MyHomePage(),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+        );
+      },
     );
   }
 }
@@ -44,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<Widget> _screens = const [
     HomeScreen(),
-    HomeScreen(),
+    PetsScreen(),
     HomeScreen(),
     SettingsScreen(),
   ];
