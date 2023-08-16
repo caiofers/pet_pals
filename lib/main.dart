@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_pals/presentation/screens/notifications_screen.dart';
 import 'package:pet_pals/presentation/screens/pets_screen.dart';
 import 'package:pet_pals/repositories/pets_repository.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +12,10 @@ import 'package:pet_pals/presentation/themes/theme_manager.dart';
 void main() {
   runApp(MultiProvider(
     providers: [
-      Provider<ThemeDataManager>(create: (context) => ThemeDataManager()),
-      Provider<PetsRepository>(create: (context) => PetsRepository()),
+      ChangeNotifierProvider<ThemeDataManager>(
+          create: (context) => ThemeDataManager()),
+      ChangeNotifierProvider<PetsRepository>(
+          create: (context) => PetsRepository()),
     ],
     child: const MyApp(),
   ));
@@ -23,21 +26,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ThemeDataManager(),
-      builder: (context, child) {
-        final provider = Provider.of<ThemeDataManager>(context);
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: provider.currentTheme,
-          darkTheme: provider.currentDarkTheme,
-          themeMode: ThemeMode.system,
-          home: const MyHomePage(),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
-        );
-      },
+    final provider = Provider.of<ThemeDataManager>(context);
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: provider.currentTheme,
+      darkTheme: provider.currentDarkTheme,
+      themeMode: ThemeMode.system,
+      home: const MyHomePage(),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
     );
   }
 }
@@ -54,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Widget> _screens = const [
     HomeScreen(),
     PetsScreen(),
-    HomeScreen(),
+    NotificationsScreen(),
     SettingsScreen(),
   ];
 
@@ -65,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
         extendBody: true,
         appBar: AppBar(
           elevation: 0,
+          scrolledUnderElevation: 0,
           title: Container(
               alignment: AlignmentDirectional.centerStart,
               child: Image(
@@ -86,42 +85,39 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             )
           ],
-          backgroundColor: Color.fromRGBO(245, 232, 216, 0.95),
+          backgroundColor:
+              Theme.of(context).colorScheme.background.withOpacity(0.95),
         ),
         bottomNavigationBar: Container(
-          padding: const EdgeInsets.only(top: 4),
-          color: Color.fromRGBO(245, 232, 216, 0.4),
-          child: Container(
-            padding: const EdgeInsets.only(top: 6),
-            color: Color.fromRGBO(245, 232, 216, 1),
-            child: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              items: [
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: AppLocalizations.of(context)!.homePageLabel),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.pets),
-                    label: AppLocalizations.of(context)!.petsPageLabel),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.notifications),
-                    label:
-                        AppLocalizations.of(context)!.notificationsPageLabel),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.settings),
-                    label: AppLocalizations.of(context)!.settingsPageLabel),
-              ],
-              //backgroundColor: Color.fromRGBO(245, 232, 216, 1),
-              //selectedItemColor: Theme.of(context).colorScheme.primary,
-              selectedItemColor: Color.fromRGBO(56, 118, 29, 1),
-              unselectedItemColor: Theme.of(context).colorScheme.secondary,
-              currentIndex: _selectedIndex,
-              onTap: (value) {
-                setState(() {
-                  _selectedIndex = value;
-                });
-              },
-            ),
+          padding: const EdgeInsets.only(top: 8),
+          child: BottomNavigationBar(
+            elevation: 0,
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: AppLocalizations.of(context)!.homePageLabel),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.pets),
+                  label: AppLocalizations.of(context)!.petsPageLabel),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.notifications),
+                  label: AppLocalizations.of(context)!.notificationsPageLabel),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: AppLocalizations.of(context)!.settingsPageLabel),
+            ],
+            backgroundColor:
+                Theme.of(context).colorScheme.background.withOpacity(0.95),
+            //selectedItemColor: Theme.of(context).colorScheme.primary,
+            selectedItemColor: Color.fromRGBO(56, 118, 29, 1),
+            unselectedItemColor: Theme.of(context).colorScheme.secondary,
+            currentIndex: _selectedIndex,
+            onTap: (value) {
+              setState(() {
+                _selectedIndex = value;
+              });
+            },
           ),
         ),
         body: _screens[_selectedIndex]);

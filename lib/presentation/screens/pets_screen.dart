@@ -1,75 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pet_pals/models/pet.dart';
+import 'package:pet_pals/presentation/ui_components/pet_card.dart';
+import 'package:pet_pals/repositories/pets_repository.dart';
+import 'package:provider/provider.dart';
 
 class PetsScreen extends StatelessWidget {
   const PetsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      child: ListView(children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: Text(
-            "Curiosidade do dia - Cachorro",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    final petsProvider = Provider.of<PetsRepository>(context);
+    final topPadding = MediaQuery.of(context).padding.top;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+
+    // TODO: Get height dinamically
+    final double titleHeight = 16;
+    final double buttonHeight = 50;
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            margin: EdgeInsets.only(
+                top: titleHeight + 16, bottom: buttonHeight + 16),
+            child: ListView(
+              children: [for (var pet in petsProvider.pets) PetCard(pet: pet)],
+            ),
           ),
-        ),
-        Card(
-          color: Colors.red,
-          child: Container(
-            //margin: EdgeInsets.symmetric(horizontal: 8),
-            height: 250,
-            child: Center(
-                child: Text(AppLocalizations.of(context)!.helloUser("Caio"))),
+          if (petsProvider.pets.isEmpty) ...[
+            Container(
+                height: titleHeight,
+                color:
+                    Theme.of(context).colorScheme.background.withOpacity(0.95),
+                margin: EdgeInsets.only(top: topPadding),
+                child: Text("User, você ainda não tem pets cadastrado.")),
+          ] else ...[
+            Container(
+                width: double.infinity,
+                color:
+                    Theme.of(context).colorScheme.background.withOpacity(0.95),
+                margin: EdgeInsets.only(top: topPadding),
+                child: Text("User, você ainda não tem pets cadastrado.")),
+          ],
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: buttonHeight,
+              color: Colors.transparent,
+              margin: EdgeInsets.only(
+                  top: 8, left: 8, right: 8, bottom: bottomPadding),
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  petsProvider.add(Pet("Cacau", PetType.dog, "Vira lata", 3,
+                      PetGender.female, ""));
+                },
+                child: const Text("Add pet"),
+              ),
+            ),
           ),
-        ),
-        Card(
-          child: Container(
-            //margin: EdgeInsets.symmetric(horizontal: 8),
-            height: 250,
-            child: Center(child: Text("Test")),
-          ),
-        ),
-        Container(
-          height: 230,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              Card(
-                color: Colors.red,
-                child: Container(
-                  //margin: EdgeInsets.symmetric(horizontal: 8),
-                  width: 300,
-                  child: Center(child: Text("Test")),
-                ),
-              ),
-              Card(
-                child: Container(
-                  //margin: EdgeInsets.symmetric(horizontal: 8),
-                  width: 300,
-                  child: Center(child: Text("Test")),
-                ),
-              ),
-              Card(
-                child: Container(
-                  //margin: EdgeInsets.symmetric(horizontal: 8),
-                  width: 300,
-                  child: Center(child: Text("Test")),
-                ),
-              ),
-              Card(
-                child: Container(
-                  //margin: EdgeInsets.symmetric(horizontal: 8),
-                  width: 300,
-                  child: Center(child: Text("Test")),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }
