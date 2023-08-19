@@ -9,27 +9,29 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ThemeDataManager>(context);
-    return ListView(
-      children: [
-        ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          leading: Icon(Icons.share),
-          title: Text("Green Theme"),
-          onTap: () {
-            provider.theme = ThemeOptions.greenTheme;
-            print(provider.currentThemeName);
-          },
-        ),
-        ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          leading: Icon(Icons.share),
-          title: Text("Default Theme"),
-          onTap: () {
-            provider.theme = ThemeOptions.defaultTheme;
-            print(provider.currentThemeName);
-          },
-        )
-      ],
+    return Scaffold(
+      body: ListView(
+        children: [
+          ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            leading: Icon(Icons.share),
+            title: Text("Green Theme"),
+            onTap: () {
+              provider.theme = ThemeOptions.greenTheme;
+              print(provider.currentThemeName);
+            },
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            leading: Icon(Icons.share),
+            title: Text("Default Theme"),
+            onTap: () {
+              provider.theme = ThemeOptions.defaultTheme;
+              print(provider.currentThemeName);
+            },
+          )
+        ],
+      ),
     );
   }
 }

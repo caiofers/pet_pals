@@ -11,46 +11,34 @@ class PetsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final petsProvider = Provider.of<PetsRepository>(context);
-    final topPadding = MediaQuery.of(context).padding.top;
     final bottomPadding = MediaQuery.of(context).padding.bottom;
-
-    // TODO: Get height dinamically
-    final double titleHeight = 16;
-    final double buttonHeight = 50;
+    const double buttonHeight = 50;
 
     return Scaffold(
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 8.0),
         child: Stack(
           children: [
-            Container(
-              margin: EdgeInsets.only(
-                  top: titleHeight + 16, bottom: buttonHeight + 16),
-              child: ListView(
-                children: [
-                  for (var pet in petsProvider.pets) PetCard(pet: pet)
-                ],
-              ),
+            ListView(
+              children: [
+                Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      !petsProvider.pets.isEmpty
+                          ? "Seus pets:"
+                          : "User, você ainda não tem pets cadastrado.",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+                for (var pet in petsProvider.pets) PetCard(pet: pet),
+                SizedBox(
+                  height: buttonHeight + 16,
+                )
+              ],
             ),
-            if (petsProvider.pets.isEmpty) ...[
-              Container(
-                  height: titleHeight,
-                  color: Theme.of(context)
-                      .colorScheme
-                      .background
-                      .withOpacity(0.95),
-                  margin: EdgeInsets.only(top: topPadding),
-                  child: Text("User, você ainda não tem pets cadastrado.")),
-            ] else ...[
-              Container(
-                  width: double.infinity,
-                  color: Theme.of(context)
-                      .colorScheme
-                      .background
-                      .withOpacity(0.95),
-                  margin: EdgeInsets.only(top: topPadding),
-                  child: Text("User, você ainda não tem pets cadastrado.")),
-            ],
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -61,8 +49,13 @@ class PetsScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    petsProvider.add(Pet("Cacau", PetType.dog, "Vira lata", 3,
-                        PetGender.female, ""));
+                    petsProvider.add(Pet(
+                        "Cacau",
+                        PetType.dog,
+                        "Vira lata",
+                        3,
+                        PetGender.female,
+                        "https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_16x9.jpg?w=1200"));
                   },
                   child: const Text("Add pet"),
                 ),

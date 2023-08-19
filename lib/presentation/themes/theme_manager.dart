@@ -46,9 +46,13 @@ class ThemeDataManager extends ChangeNotifier {
   ThemeData _getDefaultTheme() {
     return ThemeData(
       fontFamily: "Manrope",
+      appBarTheme: const AppBarTheme(
+          backgroundColor: Color.fromRGBO(246, 229, 207, 0.90)),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Color.fromRGBO(246, 229, 207, 0.90)),
       colorScheme: ColorScheme.fromSeed(
         seedColor: const Color.fromRGBO(180, 95, 6, 1),
-        background: const Color.fromRGBO(245, 232, 216, 1),
+        background: Color.fromARGB(255, 243, 235, 226),
       ),
       useMaterial3: true,
     );
@@ -70,7 +74,7 @@ class ThemeDataManager extends ChangeNotifier {
       fontFamily: "Manrope",
       colorScheme: ColorScheme.fromSeed(
         seedColor: const Color.fromARGB(255, 44, 103, 46),
-        background: const Color.fromARGB(255, 165, 243, 167),
+        background: Color.fromARGB(255, 227, 250, 228),
       ),
       useMaterial3: true,
     );

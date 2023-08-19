@@ -85,8 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             )
           ],
-          backgroundColor:
-              Theme.of(context).colorScheme.background.withOpacity(0.95),
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         ),
         bottomNavigationBar: Container(
           padding: const EdgeInsets.only(top: 8),
@@ -108,10 +107,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   label: AppLocalizations.of(context)!.settingsPageLabel),
             ],
             backgroundColor:
-                Theme.of(context).colorScheme.background.withOpacity(0.95),
-            //selectedItemColor: Theme.of(context).colorScheme.primary,
-            selectedItemColor: Color.fromRGBO(56, 118, 29, 1),
-            unselectedItemColor: Theme.of(context).colorScheme.secondary,
+                Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+            selectedItemColor:
+                Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
+            unselectedItemColor:
+                Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
             currentIndex: _selectedIndex,
             onTap: (value) {
               setState(() {
