@@ -54,6 +54,10 @@ class ThemeDataManager extends ChangeNotifier {
         seedColor: const Color.fromRGBO(180, 95, 6, 1),
         background: Color.fromARGB(255, 243, 235, 226),
       ),
+      inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(5)))),
       useMaterial3: true,
     );
   }

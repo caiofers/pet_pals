@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pet_pals/models/pet.dart';
+import 'package:pet_pals/presentation/screens/add_pet_screen.dart';
 import 'package:pet_pals/presentation/ui_components/pet_card.dart';
 import 'package:pet_pals/repositories/pets_repository.dart';
 import 'package:provider/provider.dart';
@@ -49,13 +50,11 @@ class PetsScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    petsProvider.add(Pet(
-                        "Cacau",
-                        PetType.dog,
-                        "Vira lata",
-                        3,
-                        PetGender.female,
-                        "https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_16x9.jpg?w=1200"));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const AddPetScreen()));
                   },
                   child: const Text("Add pet"),
                 ),
