@@ -15,4 +15,16 @@ class PetsRepository extends ChangeNotifier {
     _pets.removeWhere((element) => element.id == id);
     notifyListeners();
   }
+
+  update(int id, String name, PetType type, String kind, int age,
+      PetGender gender, ImageProvider imageProvider) {
+    var pet = _pets.firstWhere((element) => element.id == id);
+    pet.name = name;
+    pet.type = type;
+    pet.kind = kind;
+    pet.age = age;
+    pet.gender = gender;
+    pet.image = imageProvider;
+    notifyListeners();
+  }
 }

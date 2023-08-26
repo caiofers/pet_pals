@@ -53,8 +53,9 @@ class PetsScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const AddPetScreen()));
+                            builder: (BuildContext context) => AddPetScreen(
+                                  pet: null,
+                                )));
                   },
                   child: const Text("Add pet"),
                 ),

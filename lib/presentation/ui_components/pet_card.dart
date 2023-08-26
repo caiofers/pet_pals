@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pals/models/pet.dart';
+import 'package:pet_pals/presentation/screens/add_pet_screen.dart';
 import 'package:pet_pals/presentation/screens/pet_info_screen.dart';
 
 class PetCard extends StatelessWidget {
@@ -27,8 +28,8 @@ class PetCard extends StatelessWidget {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8),
                       topRight: Radius.circular(8)),
-                  child: Image.network(
-                    "https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_16x9.jpg?w=1200",
+                  child: Image(
+                    image: pet.image,
                     fit: BoxFit.cover,
                     height: 200,
                     width: double.infinity,
@@ -50,7 +51,9 @@ class PetCard extends StatelessWidget {
                                   fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                             Row(
-                              children: [Text("Cadela, Fêmea")],
+                              children: [
+                                Text("${pet.type.name}, ${pet.gender.name}")
+                              ],
                             ),
                           ],
                         ),
@@ -62,13 +65,20 @@ class PetCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Idade: ${pet.age} meses"),
-                            Text("Raça: Não definida"),
+                            Text("Raça: ${pet.kind}"),
                           ],
                         ),
                       ),
                       IconButton(
                         onPressed: () {
                           print("More options pet");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      AddPetScreen(
+                                        pet: pet,
+                                      )));
                         },
                         icon: const Icon(Icons.more_vert),
                       )
