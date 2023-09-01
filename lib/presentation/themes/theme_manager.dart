@@ -52,7 +52,7 @@ class ThemeDataManager extends ChangeNotifier {
           backgroundColor: Color.fromRGBO(246, 229, 207, 0.90)),
       colorScheme: ColorScheme.fromSeed(
         seedColor: const Color.fromRGBO(180, 95, 6, 1),
-        background: Color.fromARGB(255, 243, 235, 226),
+        background: Color.fromRGBO(243, 235, 226, 1),
       ),
       inputDecorationTheme: InputDecorationTheme(
           filled: true,
