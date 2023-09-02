@@ -16,13 +16,13 @@ class PetsRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  update(int id, String name, PetType type, String kind, int age,
+  update(int id, String name, PetType type, String breed, DateTime birthdate,
       PetGender gender, ImageProvider imageProvider) {
     var pet = _pets.firstWhere((element) => element.id == id);
     pet.name = name;
     pet.type = type;
-    pet.kind = kind;
-    pet.age = age;
+    pet.breed = breed;
+    pet.birthdate = birthdate;
     pet.gender = gender;
     pet.image = imageProvider;
     notifyListeners();

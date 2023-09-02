@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_pals/init.dart';
+import 'package:pet_pals/l10n/app_localizations_manager.dart';
 import 'package:pet_pals/presentation/screens/notifications_screen.dart';
 import 'package:pet_pals/presentation/screens/pets_screen.dart';
 import 'package:pet_pals/repositories/pets_repository.dart';
@@ -10,19 +12,25 @@ import 'package:pet_pals/presentation/screens/settings_screen.dart';
 import 'package:pet_pals/presentation/themes/theme_manager.dart';
 
 void main() {
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider<ThemeDataManager>(
-          create: (context) => ThemeDataManager()),
-      ChangeNotifierProvider<PetsRepository>(
-          create: (context) => PetsRepository()),
-    ],
-    child: const MyApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ThemeDataManager>(
+            create: (context) => ThemeDataManager()),
+        ChangeNotifierProvider<PetsRepository>(
+            create: (context) => PetsRepository()),
+      ],
+      child: const InitializationApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class InitializationApp extends StatelessWidget {
+  const InitializationApp({super.key});
+
+  Future _initFuture(BuildContext context) async {
+    await Init.initialize();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +40,23 @@ class MyApp extends StatelessWidget {
       theme: provider.currentTheme,
       darkTheme: provider.currentDarkTheme,
       themeMode: ThemeMode.system,
-      home: const MyHomePage(),
+      home: FutureBuilder(
+        future: _initFuture(context),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return const MyHomePage();
+          } else {
+            AppLocalizationsManager(context);
+            //TODO: Criar SplashScreen
+            return const Text("SplashScreen");
+          }
+        },
+      ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+      onGenerateTitle: (context) {
+        return AppLocalizationsManager.appLocalizations?.appTitle ?? "";
+      },
     );
   }
 }

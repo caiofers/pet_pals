@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pet_pals/models/pet.dart';
 import 'package:pet_pals/repositories/pets_repository.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class AddPetScreen extends StatefulWidget {
   const AddPetScreen({super.key, required this.pet});
@@ -19,18 +20,22 @@ class _AddPetScreenState extends State<AddPetScreen> {
   Pet? pet;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController petNameController = TextEditingController();
-  final TextEditingController petAgeController = TextEditingController();
+  final TextEditingController petBirthdateController = TextEditingController();
+  DateTime petBirthdate = DateTime.now();
   PetType petType = PetType.dog;
   PetGender petGender = PetGender.male;
   File? image;
 
+  DateFormat dateFormat =
+      DateFormat(DateFormat.YEAR_MONTH_DAY, Platform.localeName);
   @override
   void initState() {
     super.initState();
     pet = widget.pet;
     if (pet != null) {
       petNameController.text = pet!.name;
-      petAgeController.text = pet!.age.toString();
+      petBirthdateController.text = dateFormat.format(pet!.birthdate);
+      petBirthdate = pet!.birthdate;
       petType = pet!.type;
       petGender = pet!.gender;
     }
@@ -39,7 +44,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
   @override
   void dispose() {
     petNameController.dispose();
-    petAgeController.dispose();
+    petBirthdateController.dispose();
     super.dispose();
   }
 
@@ -140,16 +145,32 @@ class _AddPetScreenState extends State<AddPetScreen> {
 
                     //TODO: Trocar para date picker e escolher data de nascimento.
                     TextFormField(
-                      controller: petAgeController,
+                      controller: petBirthdateController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.abc),
-                        hintText: "Enter with pet age in months",
-                        labelText: "Pet age (months)",
+                        hintText: "Enter with pet birthdate",
+                        labelText: "Pet birthdate",
                       ),
-                      keyboardType: TextInputType.number,
+                      onTap: () async {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        DateTime? birthdate = await showDatePicker(
+                          context: context,
+                          initialDate: petBirthdateController.text.isEmpty
+                              ? DateTime.now()
+                              : petBirthdate,
+                          firstDate: DateTime(1990),
+                          lastDate: DateTime.now(),
+                        );
+
+                        if (birthdate != null) {
+                          petBirthdate = birthdate;
+                          petBirthdateController.text =
+                              dateFormat.format(birthdate);
+                        }
+                      },
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return "Please, enter with a age";
+                          return "Please, enter with the birthdate";
                         }
 
                         return null;
@@ -202,7 +223,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                                     petNameController.text,
                                     petType,
                                     "Vira lata",
-                                    int.parse(petAgeController.text),
+                                    petBirthdate,
                                     petGender,
                                     image != null
                                         ? FileImage(image!) as ImageProvider
@@ -216,7 +237,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                                     petNameController.text,
                                     petType,
                                     "Vira lata",
-                                    int.parse(petAgeController.text),
+                                    petBirthdate,
                                     petGender,
                                     image != null
                                         ? FileImage(image!) as ImageProvider

@@ -131,7 +131,7 @@ class PetInfoData extends StatelessWidget {
                     pet.name,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  Text("${pet.type.name}, ${pet.kind}"),
+                  Text("${pet.type.name}, ${pet.breed}"),
                 ],
               ),
               CircleAvatar(

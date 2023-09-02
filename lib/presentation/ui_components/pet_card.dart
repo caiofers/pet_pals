@@ -64,8 +64,8 @@ class PetCard extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Idade: ${pet.age} meses"),
-                            Text("Raça: ${pet.kind}"),
+                            Text("Idade: ${pet.age}"),
+                            Text("Raça: ${pet.breed}"),
                           ],
                         ),
                       ),
