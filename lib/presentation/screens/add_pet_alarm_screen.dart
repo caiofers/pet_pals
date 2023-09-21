@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:pet_pals/extensions/time_of_day_extension.dart';
 import 'package:pet_pals/models/alarm.dart';
 import 'package:pet_pals/models/pet.dart';
 import 'package:pet_pals/models/user.dart';
@@ -39,7 +40,7 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
     if (alarm != null) {
       alarmNameController.text = alarm!.name;
       alarmType = alarm!.type;
-      alarmTimeController.text = alarm!.time.toString();
+      alarmTimeController.text = alarm!.time.toStringByLocale();
       alarmTime = alarm!.time;
       recurrence = alarm!.recurrence;
       firstAlarmDateController.text =
@@ -138,7 +139,8 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
 
                         if (alarmTime != null) {
                           this.alarmTime = alarmTime;
-                          alarmTimeController.text = alarmTime.format(context);
+                          alarmTimeController.text =
+                              alarmTime.toStringByLocale();
                         }
                       },
                       validator: (value) {

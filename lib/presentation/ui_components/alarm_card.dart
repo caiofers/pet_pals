@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pet_pals/extensions/time_of_day_extension.dart';
 import 'package:pet_pals/models/alarm.dart';
 import 'package:pet_pals/presentation/screens/add_pet_alarm_screen.dart';
+import 'package:pet_pals/repositories/alarms_repository.dart';
+import 'package:provider/provider.dart';
 
 class AlarmCard extends StatelessWidget {
   const AlarmCard({super.key, required this.alarm});
@@ -8,6 +11,7 @@ class AlarmCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final alarmsProvider = Provider.of<AlarmsRepository>(context);
     return Card(
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -39,20 +43,34 @@ class AlarmCard extends StatelessWidget {
                               fontWeight: FontWeight.bold, fontSize: 16),
                         ),
                         Row(
-                          children: [Text(alarm.type.name)],
+                          children: [
+                            Text(alarm.type.name),
+                            Container(
+                              margin: const EdgeInsets.only(left: 4),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Container(
+                                    height: 32,
+                                    width: 32,
+                                    //padding: EdgeInsets.all(8),
+                                    color: Colors.amber,
+                                    child: const Icon(
+                                      size: 20,
+                                      Icons.pets,
+                                    )),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
                   const Spacer(),
-                  Container(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Container(
-                          padding: EdgeInsets.all(8),
-                          color: Colors.amber,
-                          child: const Icon(Icons.pets)),
-                    ),
+                  Switch(
+                    value: alarm.enabled,
+                    onChanged: (enabled) {
+                      alarmsProvider.updateEnable(alarm.id, enabled);
+                    },
                   ),
                 ],
               ),
@@ -70,7 +88,7 @@ class AlarmCard extends StatelessWidget {
                       margin: const EdgeInsets.only(right: 8),
                       child: const Icon(Icons.alarm)),
                   Text(
-                    alarm.time.format(context),
+                    alarm.time.toStringByLocale(),
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const Spacer(),
