@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pet_pals/l10n/app_localizations_manager.dart';
 
 // TODO: Adicionar name do type com internacionalização (+ diferenciação de gênero);

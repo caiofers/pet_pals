@@ -16,16 +16,6 @@
     "notificationsPageLabel": "Notifications",
     "settingsPageLabel": "Settings",
 
-    "numberOfPets": "{count, plural, =0{no pets} =1{1 pet} other{{count} pets}}",
-    "@numberOfPets": {
-        "placeholders": {
-            "count": {
-            "type": "num",
-            "format": "compact"
-            }
-        }
-    },
-
     "ageYears": "{count, plural, =0{0 years} =1{1 year} other{{count} years}}",
     "@ageYears": {
         "placeholders": {

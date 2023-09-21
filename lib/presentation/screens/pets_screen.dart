@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:pet_pals/models/pet.dart';
 import 'package:pet_pals/presentation/screens/add_pet_screen.dart';
 import 'package:pet_pals/presentation/ui_components/pet_card.dart';
 import 'package:pet_pals/repositories/pets_repository.dart';

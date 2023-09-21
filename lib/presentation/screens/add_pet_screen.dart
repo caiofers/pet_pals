@@ -142,8 +142,6 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         return null;
                       },
                     ),
-
-                    //TODO: Trocar para date picker e escolher data de nascimento.
                     TextFormField(
                       controller: petBirthdateController,
                       decoration: InputDecoration(
@@ -158,7 +156,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                           initialDate: petBirthdateController.text.isEmpty
                               ? DateTime.now()
                               : petBirthdate,
-                          firstDate: DateTime(1990),
+                          firstDate: DateTime(1900),
                           lastDate: DateTime.now(),
                         );
 

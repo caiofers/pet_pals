@@ -4,6 +4,7 @@ import 'package:pet_pals/init.dart';
 import 'package:pet_pals/l10n/app_localizations_manager.dart';
 import 'package:pet_pals/presentation/screens/notifications_screen.dart';
 import 'package:pet_pals/presentation/screens/pets_screen.dart';
+import 'package:pet_pals/repositories/alarms_repository.dart';
 import 'package:pet_pals/repositories/pets_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,6 +20,8 @@ void main() {
             create: (context) => ThemeDataManager()),
         ChangeNotifierProvider<PetsRepository>(
             create: (context) => PetsRepository()),
+        ChangeNotifierProvider<AlarmsRepository>(
+            create: (context) => AlarmsRepository()),
       ],
       child: const InitializationApp(),
     ),
@@ -40,18 +43,19 @@ class InitializationApp extends StatelessWidget {
       theme: provider.currentTheme,
       darkTheme: provider.currentDarkTheme,
       themeMode: ThemeMode.system,
-      home: FutureBuilder(
-        future: _initFuture(context),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return const MyHomePage();
-          } else {
-            AppLocalizationsManager(context);
-            //TODO: Criar SplashScreen
-            return const Text("SplashScreen");
-          }
-        },
-      ),
+      home: const MyHomePage(),
+      // FutureBuilder(
+      //   future: _initFuture(context),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.done) {
+      //       return const MyHomePage();
+      //     } else {
+      //       AppLocalizationsManager(context);
+      //       //TODO: Criar SplashScreen
+      //       return const Text("SplashScreen");
+      //     }
+      //   },
+      // ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       onGenerateTitle: (context) {
