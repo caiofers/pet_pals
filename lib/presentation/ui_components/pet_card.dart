@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_pals/models/pet.dart';
+import 'package:pet_pals/models/pet_model.dart';
 import 'package:pet_pals/presentation/screens/add_pet_screen.dart';
 import 'package:pet_pals/presentation/screens/pet_info_screen.dart';
 
@@ -14,11 +14,13 @@ class PetCard extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(8)),
         onTap: () {
           Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (BuildContext context) => PetInfoScreen(
-                        pet: pet,
-                      )));
+            context,
+            new MaterialPageRoute(
+              builder: (BuildContext context) => PetInfoScreen(
+                pet: pet,
+              ),
+            ),
+          );
         },
         child: Stack(
           children: [

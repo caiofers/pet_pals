@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_pals/models/pet.dart';
+import 'package:pet_pals/models/pet_model.dart';
 
 class PetInfoScreen extends StatefulWidget {
   const PetInfoScreen({super.key, required this.pet});

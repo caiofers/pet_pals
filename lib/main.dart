@@ -4,6 +4,7 @@ import 'package:pet_pals/init.dart';
 import 'package:pet_pals/l10n/app_localizations_manager.dart';
 import 'package:pet_pals/presentation/screens/notifications_screen.dart';
 import 'package:pet_pals/presentation/screens/pets_screen.dart';
+import 'package:pet_pals/presentation/screens/signin_screen.dart';
 import 'package:pet_pals/repositories/alarms_repository.dart';
 import 'package:pet_pals/repositories/pets_repository.dart';
 import 'package:provider/provider.dart';
@@ -103,6 +104,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 iconSize: 30,
                 icon: Icon(Icons.account_circle_rounded),
                 onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) => SignInScreen());
+
                   if (kDebugMode) {
                     print("Abrir login");
                   }

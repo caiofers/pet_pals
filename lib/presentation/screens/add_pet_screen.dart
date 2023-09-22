@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pet_pals/models/pet.dart';
+import 'package:pet_pals/models/pet_model.dart';
 import 'package:pet_pals/repositories/pets_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';

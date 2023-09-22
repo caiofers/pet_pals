@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_pals/models/pet.dart';
+import 'package:pet_pals/models/pet_model.dart';
 
 class PetsRepository extends ChangeNotifier {
   final List<Pet> _pets = [];

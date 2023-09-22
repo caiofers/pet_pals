@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pals/extensions/time_of_day_extension.dart';
-import 'package:pet_pals/models/alarm.dart';
+import 'package:pet_pals/models/alarm_model.dart';
 import 'package:pet_pals/presentation/screens/add_pet_alarm_screen.dart';
 import 'package:pet_pals/repositories/alarms_repository.dart';
 import 'package:provider/provider.dart';

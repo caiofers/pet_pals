@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pet_pals/extensions/time_of_day_extension.dart';
-import 'package:pet_pals/models/alarm.dart';
-import 'package:pet_pals/models/pet.dart';
-import 'package:pet_pals/models/user.dart';
+import 'package:pet_pals/models/alarm_model.dart';
+import 'package:pet_pals/models/alarm_recurrence_model.dart';
+import 'package:pet_pals/models/pet_model.dart';
+import 'package:pet_pals/models/user_model.dart';
 import 'package:pet_pals/repositories/alarms_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -28,7 +29,7 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
 
   AlarmType alarmType = AlarmType.food;
   TimeOfDay alarmTime = TimeOfDay.now();
-  AlarmRecurrence recurrence = AlarmRecurrence();
+  AlarmRecurrenceModel recurrence = AlarmRecurrenceModel();
 
   DateFormat dateFormat =
       DateFormat(DateFormat.YEAR_MONTH_DAY, Platform.localeName);

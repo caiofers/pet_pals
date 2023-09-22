@@ -1,16 +1,8 @@
-import 'dart:math';
-
-import 'package:flutter/material.dart';
-import 'package:pet_pals/models/pet.dart';
-import 'package:pet_pals/models/user.dart';
-
-enum AlarmType { food, cleaning, water, walk, play, other }
-
 enum RecurrenceType { never, daily, weekly, monthly, annualy }
 
 enum RecurrenceEnds { doNotEnd, atDate, afterNumberOfOccurences }
 
-class AlarmRecurrence {
+class AlarmRecurrenceModel {
   int period = 1;
   RecurrenceType recurrenceType = RecurrenceType.never;
   RecurrenceEnds recurrenceEnds = RecurrenceEnds.doNotEnd;
@@ -106,22 +98,5 @@ class AlarmRecurrence {
       case RecurrenceType.annualy:
         break;
     }
-  }
-}
-
-class Alarm {
-  late int id;
-  String name;
-  AlarmType type;
-  AlarmRecurrence recurrence = AlarmRecurrence();
-  TimeOfDay time = TimeOfDay.now();
-  bool enabled = true;
-
-  List<User> users;
-  List<Pet> pets;
-
-  Alarm(
-      this.name, this.type, this.recurrence, this.time, this.users, this.pets) {
-    id = Random().nextInt(10);
   }
 }

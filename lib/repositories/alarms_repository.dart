@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pet_pals/models/alarm.dart';
-import 'package:pet_pals/models/pet.dart';
-import 'package:pet_pals/models/user.dart';
+import 'package:pet_pals/models/alarm_model.dart';
+import 'package:pet_pals/models/alarm_recurrence_model.dart';
+import 'package:pet_pals/models/pet_model.dart';
+import 'package:pet_pals/models/user_model.dart';
 
 class AlarmsRepository extends ChangeNotifier {
   final List<Alarm> _alarms = [];
@@ -18,7 +19,7 @@ class AlarmsRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  update(int id, String name, AlarmType type, AlarmRecurrence recurrence,
+  update(int id, String name, AlarmType type, AlarmRecurrenceModel recurrence,
       TimeOfDay time, List<Pet> pets, List<User> users) {
     var alarm = _alarms.firstWhere((element) => element.id == id);
     alarm.name = name;
@@ -36,7 +37,7 @@ class AlarmsRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateRecurrence(int id, AlarmRecurrence recurrence) {
+  updateRecurrence(int id, AlarmRecurrenceModel recurrence) {
     var alarm = _alarms.firstWhere((element) => element.id == id);
     alarm.recurrence = recurrence;
     notifyListeners();
