@@ -1,28 +1,26 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_pals/domain/global_path.dart';
 import 'package:pet_pals/init.dart';
-import 'package:pet_pals/l10n/app_localizations_manager.dart';
-import 'package:pet_pals/presentation/screens/notifications_screen.dart';
-import 'package:pet_pals/presentation/screens/pets_screen.dart';
-import 'package:pet_pals/presentation/screens/signin_screen.dart';
-import 'package:pet_pals/repositories/alarms_repository.dart';
-import 'package:pet_pals/repositories/pets_repository.dart';
+import 'package:pet_pals/domain/bloc/app_localizations_bloc.dart';
+import 'package:pet_pals/presentation/screens/alarm/notifications_screen.dart';
+import 'package:pet_pals/presentation/screens/pet/pets_screen.dart';
+import 'package:pet_pals/presentation/screens/login/signin_screen.dart';
+import 'package:pet_pals/domain/bloc/alarms_bloc.dart';
+import 'package:pet_pals/domain/bloc/pets_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:pet_pals/presentation/screens/home_screen.dart';
-import 'package:pet_pals/presentation/screens/settings_screen.dart';
-import 'package:pet_pals/presentation/themes/theme_manager.dart';
+import 'package:pet_pals/presentation/screens/home/home_screen.dart';
+import 'package:pet_pals/presentation/screens/settings/settings_screen.dart';
+import 'package:pet_pals/domain/bloc/theme_bloc.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<ThemeDataManager>(
-            create: (context) => ThemeDataManager()),
-        ChangeNotifierProvider<PetsRepository>(
-            create: (context) => PetsRepository()),
-        ChangeNotifierProvider<AlarmsRepository>(
-            create: (context) => AlarmsRepository()),
+        ChangeNotifierProvider<ThemeBloc>(create: (context) => ThemeBloc()),
+        ChangeNotifierProvider<PetsBloc>(create: (context) => PetsBloc()),
+        ChangeNotifierProvider<AlarmsBloc>(create: (context) => AlarmsBloc()),
       ],
       child: const InitializationApp(),
     ),
@@ -38,7 +36,7 @@ class InitializationApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ThemeDataManager>(context);
+    final provider = Provider.of<ThemeBloc>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: provider.currentTheme,
@@ -60,7 +58,7 @@ class InitializationApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       onGenerateTitle: (context) {
-        return AppLocalizationsManager.appLocalizations?.appTitle ?? "";
+        return AppLocalizationsBloc.appLocalizations?.appTitle ?? "";
       },
     );
   }
@@ -93,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Container(
               alignment: AlignmentDirectional.centerStart,
               child: Image(
-                image: AssetImage('lib/assets/images/logoofc1.png'),
+                image: AssetImage('${GlobalPath.imageAssetPath}logoofc1.png'),
                 width: 180,
               )),
           centerTitle: false,

@@ -66,7 +66,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - lib/assets/images/
+    - lib/resources/assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -94,18 +94,18 @@ flutter:
   fonts:
     - family: Manrope
       fonts:
-        - asset: lib/assets/fonts/Manrope-ExtraBold.ttf
+        - asset: lib/resources/assets/fonts/Manrope-ExtraBold.ttf
           weight: 800
-        - asset: lib/assets/fonts/Manrope-Bold.ttf
+        - asset: lib/resources/assets/fonts/Manrope-Bold.ttf
           weight: 700
-        - asset: lib/assets/fonts/Manrope-SemiBold.ttf
+        - asset: lib/resources/assets/fonts/Manrope-SemiBold.ttf
           weight: 600
-        - asset: lib/assets/fonts/Manrope-Medium.ttf
+        - asset: lib/resources/assets/fonts/Manrope-Medium.ttf
           weight: 500
-        - asset: lib/assets/fonts/Manrope-Regular.ttf
-        - asset: lib/assets/fonts/Manrope-Light.ttf
+        - asset: lib/resources/assets/fonts/Manrope-Regular.ttf
+        - asset: lib/resources/assets/fonts/Manrope-Light.ttf
           weight: 300
-        - asset: lib/assets/fonts/Manrope-ExtraLight.ttf
+        - asset: lib/resources/assets/fonts/Manrope-ExtraLight.ttf
           weight: 200
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

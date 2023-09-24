@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_pals/l10n/app_localizations_manager.dart';
+import 'package:pet_pals/domain/bloc/app_localizations_bloc.dart';
 
 class Init {
   static Future initialize() async {
