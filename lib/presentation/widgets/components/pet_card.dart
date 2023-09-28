@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pals/domain/global_path.dart';
-import 'package:pet_pals/domain/models/pet_model.dart';
-import 'package:pet_pals/presentation/screens/pet/add_pet_screen.dart';
-import 'package:pet_pals/presentation/screens/pet/pet_info_screen.dart';
+import 'package:pet_pals/domain/entities/pet_entity.dart';
+import 'package:pet_pals/presentation/widgets/screens/pet/add_pet_screen.dart';
+import 'package:pet_pals/presentation/widgets/screens/pet/pet_info_screen.dart';
 
 class PetCard extends StatelessWidget {
   const PetCard({super.key, required this.pet});
@@ -32,7 +32,7 @@ class PetCard extends StatelessWidget {
                       topLeft: Radius.circular(8),
                       topRight: Radius.circular(8)),
                   child: Image(
-                    image: pet.image,
+                    image: NetworkImage(pet.imageUrl),
                     fit: BoxFit.cover,
                     height: 200,
                     width: double.infinity,

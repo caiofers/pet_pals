@@ -1,21 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:pet_pals/domain/bloc/app_localizations_bloc.dart';
+import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
 
 class Pet {
-  late String id;
+  String id;
   String name;
   PetType type;
   String breed;
   DateTime birthdate;
-  ImageProvider image;
+  String imageUrl;
   PetGender gender;
+  List<String> tutorIds;
+  List<String> alarmIds;
 
-  Pet(this.name, this.type, this.breed, this.birthdate, this.gender,
-      this.image) {
-    id = UniqueKey().toString();
-  }
+  Pet(this.id, this.name, this.type, this.breed, this.birthdate, this.gender,
+      this.imageUrl, this.tutorIds, this.alarmIds);
 
   String get age {
     int ageInDays = DateTime.now().difference(birthdate).inDays;

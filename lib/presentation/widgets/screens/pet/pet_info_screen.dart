@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_pals/domain/models/pet_model.dart';
+import 'package:pet_pals/domain/entities/pet_entity.dart';
 
 class PetInfoScreen extends StatefulWidget {
   const PetInfoScreen({super.key, required this.pet});
@@ -69,7 +69,7 @@ class _PetInfoScreenState extends State<PetInfoScreen> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: widget.pet.image,
+                      image: NetworkImage(widget.pet.imageUrl),
                     ),
                   ),
                 ),
@@ -304,7 +304,7 @@ class TutorPic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundImage: pet.image,
+      backgroundImage: NetworkImage(pet.imageUrl),
       child: Container(
           decoration: BoxDecoration(shape: BoxShape.circle),
           alignment: Alignment.bottomCenter,

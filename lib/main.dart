@@ -2,17 +2,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_pals/domain/global_path.dart';
 import 'package:pet_pals/init.dart';
-import 'package:pet_pals/domain/bloc/app_localizations_bloc.dart';
-import 'package:pet_pals/presentation/screens/alarm/notifications_screen.dart';
-import 'package:pet_pals/presentation/screens/pet/pets_screen.dart';
-import 'package:pet_pals/presentation/screens/login/signin_screen.dart';
-import 'package:pet_pals/domain/bloc/alarms_bloc.dart';
-import 'package:pet_pals/domain/bloc/pets_bloc.dart';
+import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
+import 'package:pet_pals/presentation/widgets/screens/alarm/notifications_screen.dart';
+import 'package:pet_pals/presentation/widgets/screens/pet/pets_screen.dart';
+import 'package:pet_pals/presentation/widgets/screens/login/signin_screen.dart';
+import 'package:pet_pals/presentation/bloc/alarms_bloc.dart';
+import 'package:pet_pals/presentation/bloc/pets_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:pet_pals/presentation/screens/home/home_screen.dart';
-import 'package:pet_pals/presentation/screens/settings/settings_screen.dart';
-import 'package:pet_pals/domain/bloc/theme_bloc.dart';
+import 'package:pet_pals/presentation/widgets/screens/home/home_screen.dart';
+import 'package:pet_pals/presentation/widgets/screens/settings/settings_screen.dart';
+import 'package:pet_pals/presentation/bloc/theme_bloc.dart';
 
 void main() {
   runApp(

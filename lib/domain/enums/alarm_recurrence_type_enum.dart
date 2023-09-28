@@ -1,1 +1,7 @@
-enum AlarmRecurrenceType { never, daily, weekly, monthly, annualy }
+enum AlarmRecurrenceType {
+  never,
+  daily,
+  weekly,
+  monthly,
+  annualy;
+}

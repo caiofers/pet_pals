@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pals/domain/extensions/time_of_day_extension.dart';
-import 'package:pet_pals/domain/models/alarm_model.dart';
-import 'package:pet_pals/presentation/screens/alarm/add_pet_alarm_screen.dart';
-import 'package:pet_pals/domain/bloc/alarms_bloc.dart';
+import 'package:pet_pals/domain/entities/alarm_entity.dart';
+import 'package:pet_pals/presentation/widgets/screens/alarm/add_pet_alarm_screen.dart';
+import 'package:pet_pals/presentation/bloc/alarms_bloc.dart';
 import 'package:provider/provider.dart';
 
 class AlarmCard extends StatelessWidget {

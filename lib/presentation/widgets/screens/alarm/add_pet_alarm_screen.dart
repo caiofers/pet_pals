@@ -1,13 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:pet_pals/domain/enums/alarm_recurrence_ends_enum.dart';
+import 'package:pet_pals/domain/enums/alarm_recurrence_monthly_repetition_enum.dart';
 import 'package:pet_pals/domain/enums/alarm_recurrence_type_enum.dart';
 import 'package:pet_pals/domain/enums/alarm_type_enum.dart';
 import 'package:pet_pals/domain/extensions/time_of_day_extension.dart';
-import 'package:pet_pals/domain/models/alarm_model.dart';
-import 'package:pet_pals/domain/models/alarm_recurrence_model.dart';
-import 'package:pet_pals/domain/models/pet_model.dart';
-import 'package:pet_pals/domain/models/user_model.dart';
-import 'package:pet_pals/domain/bloc/alarms_bloc.dart';
+import 'package:pet_pals/domain/entities/alarm_entity.dart';
+import 'package:pet_pals/domain/entities/alarm_recurrence_entity.dart';
+import 'package:pet_pals/domain/entities/pet_entity.dart';
+import 'package:pet_pals/domain/entities/tutor_entity.dart';
+import 'package:pet_pals/presentation/bloc/alarms_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -31,7 +33,23 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
 
   AlarmType alarmType = AlarmType.food;
   TimeOfDay alarmTime = TimeOfDay.now();
-  AlarmRecurrence recurrence = AlarmRecurrence();
+  AlarmRecurrence recurrence = AlarmRecurrence(
+    AlarmRecurrenceType.never,
+    AlarmRecurrenceEnds.doNotEnd,
+    0,
+    {
+      "sunday": false,
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": false,
+    },
+    AlarmRecurrenceMonthlyRepetition.sameDayEachMonth,
+    DateTime.now(),
+    [],
+  );
 
   DateFormat dateFormat =
       DateFormat(DateFormat.YEAR_MONTH_DAY, Platform.localeName);
@@ -249,9 +267,6 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
                                                 dateFormat
                                                     .format(firstAlarmDate);
                                           }
-
-                                          recurrence.updateRecurrenceType(
-                                              AlarmRecurrenceType.monthly);
                                         },
                                         validator: (value) {
                                           if (value?.isEmpty ?? true) {
@@ -313,14 +328,13 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
                           if (true) {
                             if (alarm == null) {
                               alarmsProvider.add(
-                                Alarm(
-                                  alarmNameController.text,
-                                  alarmType,
-                                  recurrence,
-                                  alarmTime,
-                                  [],
-                                  [],
-                                ),
+                                alarmNameController.text,
+                                alarmType,
+                                recurrence,
+                                alarmTime,
+                                true,
+                                [],
+                                [],
                               );
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text("Olá")),
@@ -332,6 +346,7 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
                                 alarmType,
                                 recurrence,
                                 alarmTime,
+                                alarm!.enabled,
                                 [],
                                 [],
                               );

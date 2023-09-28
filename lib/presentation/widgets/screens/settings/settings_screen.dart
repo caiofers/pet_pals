@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_pals/domain/bloc/theme_bloc.dart';
+import 'package:pet_pals/presentation/bloc/theme_bloc.dart';
 import 'package:pet_pals/domain/enums/theme_options_enum.dart';
 import 'package:provider/provider.dart';
 

@@ -1,1 +1,8 @@
-enum AlarmType { food, cleaning, water, walk, play, other }
+enum AlarmType {
+  food,
+  cleaning,
+  water,
+  walk,
+  play,
+  other;
+}

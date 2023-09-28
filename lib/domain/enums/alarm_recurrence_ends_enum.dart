@@ -1,1 +1,5 @@
-enum AlarmRecurrenceEnds { doNotEnd, atDate, afterNumberOfOccurences }
+enum AlarmRecurrenceEnds {
+  doNotEnd,
+  atDate,
+  afterNumberOfOccurences;
+}

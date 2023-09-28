@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:pet_pals/presentation/screens/alarm/add_pet_alarm_screen.dart';
-import 'package:pet_pals/presentation/widgets/alarm_card.dart';
-import 'package:pet_pals/domain/bloc/alarms_bloc.dart';
+import 'package:pet_pals/presentation/widgets/screens/pet/add_pet_screen.dart';
+import 'package:pet_pals/presentation/widgets/components/pet_card.dart';
+import 'package:pet_pals/presentation/bloc/pets_bloc.dart';
 import 'package:provider/provider.dart';
 
-class NotificationsScreen extends StatelessWidget {
-  const NotificationsScreen({super.key});
+class PetsScreen extends StatelessWidget {
+  const PetsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final alarmBloc = Provider.of<AlarmsBloc>(context);
+    final petsBloc = Provider.of<PetsBloc>(context);
     final bottomPadding = MediaQuery.of(context).padding.bottom;
     const double buttonHeight = 50;
 
@@ -25,16 +25,15 @@ class NotificationsScreen extends StatelessWidget {
                     width: double.infinity,
                     padding: EdgeInsets.all(8),
                     child: Text(
-                      alarmBloc.getAllAlarms().isNotEmpty
-                          ? "Seus alarmes"
-                          : "User, você ainda não tem alarmes cadastrados.",
+                      petsBloc.getAllPets().isNotEmpty
+                          ? "Seus pets:"
+                          : "User, você ainda não tem pets cadastrado.",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     )),
-                for (var alarm in alarmBloc.getAllAlarms())
-                  AlarmCard(alarm: alarm),
+                for (var pet in petsBloc.getAllPets()) PetCard(pet: pet),
                 SizedBox(
                   height: buttonHeight + 16,
                 )
@@ -51,15 +50,13 @@ class NotificationsScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => AddPetAlarmScreen(
-                          alarm: null,
-                        ),
-                      ),
-                    );
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => AddPetScreen(
+                                  pet: null,
+                                )));
                   },
-                  child: const Text("Adicionar alarme"),
+                  child: const Text("Add pet"),
                 ),
               ),
             ),

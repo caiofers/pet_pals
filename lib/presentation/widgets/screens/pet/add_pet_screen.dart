@@ -1,12 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
 import 'package:pet_pals/domain/global_path.dart';
-import 'package:pet_pals/domain/models/pet_model.dart';
-import 'package:pet_pals/domain/bloc/pets_bloc.dart';
+import 'package:pet_pals/domain/entities/pet_entity.dart';
+import 'package:pet_pals/presentation/bloc/pets_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -69,6 +68,25 @@ class _AddPetScreenState extends State<AddPetScreen> {
         MediaQuery.of(context).padding.top + AppBar().preferredSize.height;
     final petsProvider = Provider.of<PetsBloc>(context);
 
+    Image getPetImage() {
+      if (image != null) {
+        return Image.file(
+          image!,
+          fit: BoxFit.cover,
+        );
+      } else if (pet?.imageUrl.isNotEmpty ?? false) {
+        return Image.network(
+          pet!.imageUrl,
+          fit: BoxFit.cover,
+        );
+      } else {
+        return Image.asset(
+          "${GlobalPath.imageAssetPath}dog.png",
+          color: Colors.amber,
+        );
+      }
+    }
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -81,21 +99,12 @@ class _AddPetScreenState extends State<AddPetScreen> {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: topSpacing),
-              height: 200,
-              width: double.infinity,
-              child: image == null
-                  ? Image.asset(
-                      "${GlobalPath.imageAssetPath}dog.png",
-                      color: Colors.amber,
-                    )
-                  : Image.file(
-                      image!,
-                      fit: BoxFit.cover,
-                    ),
-            ),
+                margin: EdgeInsets.only(top: topSpacing),
+                height: 300,
+                width: double.infinity,
+                child: getPetImage()),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
               child: Form(
                 key: _formKey,
                 child: Wrap(
@@ -220,30 +229,33 @@ class _AddPetScreenState extends State<AddPetScreen> {
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
                               if (pet == null) {
-                                petsProvider.add(Pet(
-                                    petNameController.text,
-                                    petType,
-                                    "Vira lata",
-                                    petBirthdate,
-                                    petGender,
-                                    image != null
-                                        ? FileImage(image!) as ImageProvider
-                                        : AssetImage(
-                                            "${GlobalPath.imageAssetPath}dog.png")));
+                                petsProvider.add(
+                                  petNameController.text,
+                                  petType,
+                                  "Vira lata",
+                                  petBirthdate,
+                                  petGender,
+                                  image?.path ?? "",
+                                  [], //TODO: Add tutorIds
+                                  [], //TODO: Add alarmIds
+                                );
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text("Olá")));
+                                  SnackBar(
+                                    content: Text("Olá"),
+                                  ),
+                                );
                               } else {
                                 petsProvider.update(
-                                    pet!.id,
-                                    petNameController.text,
-                                    petType,
-                                    "Vira lata",
-                                    petBirthdate,
-                                    petGender,
-                                    image != null
-                                        ? FileImage(image!) as ImageProvider
-                                        : AssetImage(
-                                            "${GlobalPath.imageAssetPath}dog.png"));
+                                  pet!.id,
+                                  petNameController.text,
+                                  petType,
+                                  "Vira lata",
+                                  petBirthdate,
+                                  petGender,
+                                  image?.path ?? pet!.imageUrl,
+                                  [], //TODO: Add tutorIds
+                                  [], //TODO: Add alarmIds
+                                );
                               }
                               Navigator.pop(context);
                             }
