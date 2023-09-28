@@ -1,6 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_pals/domain/global_path.dart';
+import 'package:pet_pals/firebase_options.dart';
 import 'package:pet_pals/init.dart';
 import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
 import 'package:pet_pals/presentation/widgets/screens/alarm/notifications_screen.dart';
@@ -14,7 +16,11 @@ import 'package:pet_pals/presentation/widgets/screens/home/home_screen.dart';
 import 'package:pet_pals/presentation/widgets/screens/settings/settings_screen.dart';
 import 'package:pet_pals/presentation/bloc/theme_bloc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await initializeApp();
+
   runApp(
     MultiProvider(
       providers: [
@@ -25,6 +31,10 @@ void main() {
       child: const InitializationApp(),
     ),
   );
+}
+
+initializeApp() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }
 
 class InitializationApp extends StatelessWidget {
