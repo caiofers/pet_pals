@@ -17,8 +17,8 @@ class PetsBloc extends ChangeNotifier {
     String imagePath,
     List<String> tutorIds,
     List<String> alarmIds,
-  ) {
-    repository.add(
+  ) async {
+    await repository.add(
       name,
       type,
       breed,
@@ -61,7 +61,7 @@ class PetsBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Pet> getAllPets() {
-    return repository.getAllPet().toList();
+  Future<List<Pet>> getAllPets() async {
+    return await repository.getAllPet();
   }
 }

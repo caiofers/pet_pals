@@ -3,7 +3,7 @@ import 'package:pet_pals/domain/enums/pet_type_enum.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
 
 abstract interface class PetRepositoryProtocol {
-  void add(
+  Future<void> add(
     String name,
     PetType type,
     String breed,
@@ -25,5 +25,5 @@ abstract interface class PetRepositoryProtocol {
     List<String> alarmIds,
   );
   void remove(String id);
-  List<Pet> getAllPet();
+  Future<List<Pet>> getAllPet();
 }

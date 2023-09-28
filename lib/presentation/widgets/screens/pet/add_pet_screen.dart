@@ -253,8 +253,8 @@ class _AddPetScreenState extends State<AddPetScreen> {
                                   petBirthdate,
                                   petGender,
                                   image?.path ?? pet!.imageUrl,
-                                  [], //TODO: Add tutorIds
-                                  [], //TODO: Add alarmIds
+                                  ["a"], //TODO: Add tutorIds
+                                  ["b"], //TODO: Add alarmIds
                                 );
                               }
                               Navigator.pop(context);

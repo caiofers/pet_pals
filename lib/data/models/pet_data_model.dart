@@ -26,19 +26,21 @@ class PetDataModel {
   );
 
   factory PetDataModel.fromJson(dynamic json) {
-    var tutorIdsJson = json['tutorIds'] as List;
+    var tutorIdsJson = json['tutorIds'] as List?;
     List<String> tutorIds = tutorIdsJson
-        .map(
-          (tutorIdJson) => tutorIdJson.toString(),
-        )
-        .toList();
+            ?.map(
+              (tutorIdJson) => tutorIdJson.toString(),
+            )
+            .toList() ??
+        [];
 
-    var alarmIdsJson = json['alarmIds'] as List;
+    var alarmIdsJson = json['alarmIds'] as List?;
     List<String> alarmIds = alarmIdsJson
-        .map(
-          (alarmIdJson) => alarmIdJson.toString(),
-        )
-        .toList();
+            ?.map(
+              (alarmIdJson) => alarmIdJson.toString(),
+            )
+            .toList() ??
+        [];
     return PetDataModel(
       json['id'] as String,
       json['name'] as String,
@@ -69,7 +71,7 @@ class PetDataModel {
   Pet toEntity() {
     PetType petType = PetType.values.elementAt(type);
     DateTime petBirthdate = DateTime.parse(birthdate);
-    PetGender petGender = PetGender.values.elementAt(type);
+    PetGender petGender = PetGender.values.elementAt(gender);
 
     return Pet(
       id,
@@ -82,5 +84,19 @@ class PetDataModel {
       tutorIds,
       alarmIds,
     );
+  }
+
+  Map toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'type': type,
+      'gender': gender,
+      'breed': breed,
+      'birthdate': birthdate,
+      'imgUrl': imgUrl,
+      'tutorIds': tutorIds,
+      'alarmIds': alarmIds
+    };
   }
 }
