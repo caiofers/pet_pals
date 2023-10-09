@@ -1,34 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pals/domain/global_path.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
-import 'package:pet_pals/presentation/widgets/screens/pet/add_pet_screen.dart';
-import 'package:pet_pals/presentation/widgets/screens/pet/pet_info_screen.dart';
 
 class PetCard extends StatelessWidget {
-  const PetCard({super.key, required this.pet});
+  const PetCard({
+    super.key,
+    required this.pet,
+    required this.onCardTap,
+    required this.onMoreOptionsPressed,
+  });
   final Pet pet;
+  final Function onCardTap;
+  final Function onMoreOptionsPressed;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        onTap: () {
-          Navigator.push(
-            context,
-            new MaterialPageRoute(
-              builder: (BuildContext context) => PetInfoScreen(
-                pet: pet,
-              ),
-            ),
-          );
-        },
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        onTap: () => onCardTap(),
         child: Stack(
           children: [
             Column(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8),
                       topRight: Radius.circular(8)),
                   child: Image(
@@ -36,11 +32,17 @@ class PetCard extends StatelessWidget {
                     fit: BoxFit.cover,
                     height: 200,
                     width: double.infinity,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                        "${GlobalPath.imageAssetPath}dog.png",
+                        height: 200,
+                      );
+                    },
                   ),
                 ),
                 Container(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 24.0, horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 24.0, horizontal: 8.0),
                   child: Row(
                     children: [
                       Padding(
@@ -50,7 +52,7 @@ class PetCard extends StatelessWidget {
                           children: [
                             Text(
                               pet.name,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                             Row(
@@ -61,7 +63,7 @@ class PetCard extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Column(
@@ -74,14 +76,7 @@ class PetCard extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          print("More options pet");
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      AddPetScreen(
-                                        pet: pet,
-                                      )));
+                          onMoreOptionsPressed();
                         },
                         icon: const Icon(Icons.more_vert),
                       )
@@ -91,15 +86,14 @@ class PetCard extends StatelessWidget {
               ],
             ),
             Container(
-              margin: EdgeInsets.only(top: 180, left: 16),
+              margin: const EdgeInsets.only(top: 180, left: 16),
               height: 48,
               width: 48,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   color: Colors.amber,
-                  //child: const Icon(Icons.pets),
                   child: Image.asset(pet.type.iconAssetName),
                 ),
               ),

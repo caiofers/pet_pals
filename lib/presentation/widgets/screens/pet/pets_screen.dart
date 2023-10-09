@@ -4,6 +4,7 @@ import 'package:pet_pals/domain/entities/pet_entity.dart';
 import 'package:pet_pals/presentation/widgets/screens/pet/add_pet_screen.dart';
 import 'package:pet_pals/presentation/widgets/components/pet_card.dart';
 import 'package:pet_pals/presentation/bloc/pets_bloc.dart';
+import 'package:pet_pals/presentation/widgets/screens/pet/pet_info_screen.dart';
 import 'package:provider/provider.dart';
 
 class PetsScreen extends StatefulWidget {
@@ -20,16 +21,6 @@ class _PetsScreenState extends State<PetsScreen> {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
     const double buttonHeight = 50;
 
-    List<Pet> pets = [];
-
-    getAllPetsList() {
-      petsBloc.getAllPets().then((value) {
-        setState(() {
-          pets = value;
-        });
-      });
-    }
-
     return Scaffold(
       body: FutureBuilder(
           future: petsBloc.getAllPets(),
@@ -43,10 +34,11 @@ class _PetsScreenState extends State<PetsScreen> {
                   return Text("Erro");
                 else
                   return ListOfPets(
-                      context: context,
-                      snapshot: snapshot,
-                      buttonHeight: buttonHeight,
-                      bottomPadding: bottomPadding);
+                    context: context,
+                    snapshot: snapshot,
+                    buttonHeight: buttonHeight,
+                    bottomPadding: bottomPadding,
+                  );
             }
           }),
     );
@@ -87,7 +79,116 @@ class ListOfPets extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   )),
-              for (var pet in snapshot.data!) PetCard(pet: pet),
+              for (var pet in snapshot.data!)
+                PetCard(
+                  pet: pet,
+                  onCardTap: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (BuildContext context) => PetInfoScreen(
+                          pet: pet,
+                        ),
+                      ),
+                    );
+                  },
+                  onMoreOptionsPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      barrierColor: Colors.black38,
+                      builder: (context) {
+                        return Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 16.0),
+                              child: SizedBox(
+                                height: 8,
+                                width: 80,
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(5),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: ListView(
+                                children: [
+                                  ListTile(
+                                    leading: Icon(Icons.edit),
+                                    title: Text("Editar"),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              AddPetScreen(
+                                            pet: pet,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.people),
+                                    title: Text("Gerenciar tutores"),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              AddPetScreen(
+                                            pet: pet,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.alarm),
+                                    title: Text("Gerenciar alarmes"),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              AddPetScreen(
+                                            pet: pet,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.delete),
+                                    title: Text("Excluir"),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              AddPetScreen(
+                                            pet: pet,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    // print("More options pet");
+                  },
+                ),
               SizedBox(
                 height: buttonHeight + 16,
               )

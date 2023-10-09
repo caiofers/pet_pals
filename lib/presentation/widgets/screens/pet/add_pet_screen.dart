@@ -78,6 +78,12 @@ class _AddPetScreenState extends State<AddPetScreen> {
         return Image.network(
           pet!.imageUrl,
           fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Image.asset(
+              "${GlobalPath.imageAssetPath}dog.png",
+              color: Colors.amber,
+            );
+          },
         );
       } else {
         return Image.asset(
@@ -212,11 +218,8 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         return null;
                       },
                     ),
-                    SizedBox(
-                      height: 60,
-                      child: Text(
-                          "Fazer uma página para selecionar raça (Buscar de uma API e mostrar nome com foto)"),
-                    ),
+
+                    //TODO Fazer uma página para selecionar raça (Buscar de uma API e mostrar nome com foto)
                     TextButton(
                       child: Text("Selecionar imagem do pet"),
                       onPressed: () {

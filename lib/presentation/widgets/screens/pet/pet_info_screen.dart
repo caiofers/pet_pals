@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
+import 'package:pet_pals/domain/global_path.dart';
 
 class PetInfoScreen extends StatefulWidget {
   const PetInfoScreen({super.key, required this.pet});
@@ -14,10 +15,12 @@ class _PetInfoScreenState extends State<PetInfoScreen> {
   final double appBarExpandedHeight = 300;
 
   late ScrollController _scrollController;
-
+  late ImageProvider petImage;
   @override
   void initState() {
     super.initState();
+    petImage = NetworkImage(widget.pet.imageUrl);
+
     _scrollController = ScrollController()
       ..addListener(() {
         setState(() {});
@@ -69,7 +72,13 @@ class _PetInfoScreenState extends State<PetInfoScreen> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(widget.pet.imageUrl),
+                      image: petImage,
+                      onError: (exception, stackTrace) {
+                        setState(() {
+                          petImage =
+                              AssetImage("${GlobalPath.imageAssetPath}dog.png");
+                        });
+                      },
                     ),
                   ),
                 ),

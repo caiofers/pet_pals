@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:pet_pals/data/models/pet_data_model.dart';
 import 'package:pet_pals/data/services/firebase_database_service.dart';
-import 'package:pet_pals/data/services/pets_mock_service.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';

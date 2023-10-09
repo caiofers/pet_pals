@@ -38,15 +38,21 @@ class FirebaseDatabaseService {
   }
 
   Future<String> uploadImage(String imagePath) async {
-    File file = File(imagePath);
-    await storage
-        .ref()
-        .child("images/${file.uri.pathSegments.last}")
-        .putFile(file);
-    return await storage
-        .ref()
-        .child("images/${file.uri.pathSegments.last}")
-        .getDownloadURL();
+    try {
+      File file = File(imagePath);
+      await storage
+          .ref()
+          .child("images/${file.uri.pathSegments.last}")
+          .putFile(file);
+      return await storage
+          .ref()
+          .child("images/${file.uri.pathSegments.last}")
+          .getDownloadURL();
+    } catch (err) {
+      //rethrow;
+      print(err);
+      return err.toString();
+    }
   }
 
   // Future<List<PetDataModel>> getPets() async {
