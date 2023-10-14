@@ -1,20 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:pet_pals/domain/global_path.dart';
+import 'package:pet_pals/data/services/firebase_auth_service.dart';
 import 'package:pet_pals/firebase_options.dart';
 import 'package:pet_pals/init.dart';
-import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
-import 'package:pet_pals/presentation/widgets/screens/alarm/notifications_screen.dart';
-import 'package:pet_pals/presentation/widgets/screens/pet/pets_screen.dart';
-import 'package:pet_pals/presentation/widgets/screens/login/signin_screen.dart';
+import 'package:pet_pals/main_page.dart';
 import 'package:pet_pals/presentation/bloc/alarms_bloc.dart';
+import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
 import 'package:pet_pals/presentation/bloc/pets_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:pet_pals/presentation/widgets/screens/home/home_screen.dart';
-import 'package:pet_pals/presentation/widgets/screens/settings/settings_screen.dart';
 import 'package:pet_pals/presentation/bloc/theme_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,11 +19,20 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<ThemeBloc>(create: (context) => ThemeBloc()),
-        ChangeNotifierProvider<PetsBloc>(create: (context) => PetsBloc()),
-        ChangeNotifierProvider<AlarmsBloc>(create: (context) => AlarmsBloc()),
+        ChangeNotifierProvider<FirebaseAuthService>(
+          create: (context) => FirebaseAuthService(),
+        ), //TODO Passar para clean code + bloc
+        ChangeNotifierProvider<ThemeBloc>(
+          create: (context) => ThemeBloc(),
+        ),
+        ChangeNotifierProvider<PetsBloc>(
+          create: (context) => PetsBloc(),
+        ),
+        ChangeNotifierProvider<AlarmsBloc>(
+          create: (context) => AlarmsBloc(),
+        ),
       ],
-      child: const InitializationApp(),
+      child: const MainApp(),
     ),
   );
 }
@@ -37,8 +41,8 @@ initializeApp() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }
 
-class InitializationApp extends StatelessWidget {
-  const InitializationApp({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   Future _initFuture(BuildContext context) async {
     await Init.initialize();
@@ -46,13 +50,13 @@ class InitializationApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ThemeBloc>(context);
+    final themeBloc = Provider.of<ThemeBloc>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: provider.currentTheme,
-      darkTheme: provider.currentDarkTheme,
+      theme: themeBloc.currentTheme,
+      darkTheme: themeBloc.currentDarkTheme,
       themeMode: ThemeMode.system,
-      home: const MyHomePage(),
+      home: const MainPage(),
       // FutureBuilder(
       //   future: _initFuture(context),
       //   builder: (context, snapshot) {
@@ -68,96 +72,9 @@ class InitializationApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       onGenerateTitle: (context) {
+        AppLocalizationsBloc.init(context);
         return AppLocalizationsBloc.appLocalizations?.appTitle ?? "";
       },
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
-
-  final List<Widget> _screens = const [
-    HomeScreen(),
-    PetsScreen(),
-    NotificationsScreen(),
-    SettingsScreen(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        appBar: AppBar(
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          title: Container(
-              alignment: AlignmentDirectional.centerStart,
-              child: Image(
-                image: AssetImage('${GlobalPath.imageAssetPath}logoofc1.png'),
-                width: 180,
-              )),
-          centerTitle: false,
-          actions: [
-            SizedBox(
-              width: 50,
-              child: IconButton(
-                iconSize: 30,
-                icon: Icon(Icons.account_circle_rounded),
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) => SignInScreen());
-
-                  if (kDebugMode) {
-                    print("Abrir login");
-                  }
-                },
-              ),
-            )
-          ],
-          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        ),
-        bottomNavigationBar: Container(
-          padding: const EdgeInsets.only(top: 8),
-          child: BottomNavigationBar(
-            elevation: 0,
-            type: BottomNavigationBarType.fixed,
-            items: [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: AppLocalizations.of(context)!.homePageLabel),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.pets),
-                  label: AppLocalizations.of(context)!.petsPageLabel),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.notifications),
-                  label: AppLocalizations.of(context)!.notificationsPageLabel),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: AppLocalizations.of(context)!.settingsPageLabel),
-            ],
-            backgroundColor:
-                Theme.of(context).bottomNavigationBarTheme.backgroundColor,
-            selectedItemColor:
-                Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
-            unselectedItemColor:
-                Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
-            currentIndex: _selectedIndex,
-            onTap: (value) {
-              setState(() {
-                _selectedIndex = value;
-              });
-            },
-          ),
-        ),
-        body: _screens[_selectedIndex]);
   }
 }

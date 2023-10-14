@@ -1,0 +1,141 @@
+import 'package:flutter/material.dart';
+import 'package:pet_pals/data/services/firebase_auth_service.dart';
+import 'package:pet_pals/presentation/widgets/screens/home/home_screen.dart';
+import 'package:pet_pals/presentation/widgets/screens/login/auth_check.dart';
+import 'package:pet_pals/presentation/widgets/screens/profile/profile_screen.dart';
+import 'package:pet_pals/presentation/widgets/screens/settings/settings_screen.dart';
+import 'package:pet_pals/presentation/widgets/screens/alarm/notifications_screen.dart';
+import 'package:pet_pals/presentation/widgets/screens/pet/pets_screen.dart';
+import 'package:pet_pals/presentation/widgets/screens/login/signin_screen.dart';
+import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
+import 'package:pet_pals/domain/global_path.dart';
+import 'package:provider/provider.dart';
+
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  int _selectedIndex = 0;
+  bool ignoreAuth = true;
+
+  final List<Widget> _screens = const [
+    HomeScreen(),
+    PetsScreen(),
+    NotificationsScreen(),
+    SettingsScreen(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    FirebaseAuthService authBloc = Provider.of<FirebaseAuthService>(context);
+
+    return Scaffold(
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        appBar: AppBar(
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          title: Container(
+            alignment: AlignmentDirectional.centerStart,
+            child: Image(
+              image: AssetImage('${GlobalPath.imageAssetPath}logoofc1.png'),
+              width: 180,
+            ),
+          ),
+          centerTitle: false,
+          actions: [
+            if (authBloc.firebaseUser != null)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: OutlinedButton.icon(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          const AuthCheck(pageToOpen: ProfileScreen()),
+                    );
+                  },
+                  icon: Image.network(
+                    authBloc.firebaseUser?.photoURL ?? "",
+                    fit: BoxFit.fill,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(
+                        Icons.person,
+                      );
+                    },
+                  ),
+                  label: Text(authBloc.firebaseUser?.displayName ?? "NO NAME"),
+                ),
+              ),
+            if (authBloc.firebaseUser == null)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: OutlinedButton.icon(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          const AuthCheck(pageToOpen: ProfileScreen()),
+                    );
+                  },
+                  icon: Icon(Icons.account_circle_rounded),
+                  label: Text("Fazer login"),
+                ),
+              )
+          ],
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        ),
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.only(top: 8),
+          child: BottomNavigationBar(
+            elevation: 0,
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label:
+                    AppLocalizationsBloc.appLocalizations?.homePageLabel ?? "",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.pets),
+                label:
+                    AppLocalizationsBloc.appLocalizations?.petsPageLabel ?? "",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.notifications),
+                label: AppLocalizationsBloc
+                        .appLocalizations?.notificationsPageLabel ??
+                    "",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label:
+                    AppLocalizationsBloc.appLocalizations?.settingsPageLabel ??
+                        "",
+              ),
+            ],
+            backgroundColor:
+                Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+            selectedItemColor:
+                Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
+            unselectedItemColor:
+                Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
+            currentIndex: _selectedIndex,
+            onTap: (value) {
+              setState(() {
+                ignoreAuth = value == 0;
+                _selectedIndex = value;
+              });
+            },
+          ),
+        ),
+        body: ignoreAuth
+            ? _screens[_selectedIndex]
+            : AuthCheck(
+                showAsInternalPage: true,
+                pageToOpen: _screens[_selectedIndex]));
+  }
+}

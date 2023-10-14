@@ -120,8 +120,6 @@ class _AddPetScreenState extends State<AddPetScreen> {
                     TextFormField(
                       controller: petNameController,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5))),
                         prefixIcon: Icon(Icons.abc),
                         hintText: "Enter with pet name",
                         labelText: "Pet name",

@@ -70,9 +70,10 @@ class FirebaseDatabaseService {
     var value = event.snapshot.value as Map?;
     if (value != null) {
       var pets = value["pets"] as Map;
-      return pets.values
-          .map((pet) => PetDataModel.fromJson(pet))
-          .toList(); //TODO: save KEY as ID of pet
+      return pets.entries.map((pet) {
+        pet.value['id'] = pet.key;
+        return PetDataModel.fromJson(pet.value);
+      }).toList(); //TODO: save KEY as ID of pet
     } else {
       return [];
     }

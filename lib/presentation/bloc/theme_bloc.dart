@@ -47,17 +47,41 @@ class ThemeBloc extends ChangeNotifier {
     return ThemeData(
       fontFamily: "Manrope",
       appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromRGBO(246, 229, 207, 0.90)),
+        backgroundColor: Color.fromRGBO(246, 229, 207, 0.90),
+      ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Color.fromRGBO(246, 229, 207, 0.90)),
+        backgroundColor: Color.fromRGBO(246, 229, 207, 0.90),
+      ),
       colorScheme: ColorScheme.fromSeed(
         seedColor: const Color.fromRGBO(180, 95, 6, 1),
         background: Color.fromRGBO(243, 235, 226, 1),
       ),
       inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5)))),
+        filled: true,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+          ),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+          ),
+        ),
+      ),
       useMaterial3: true,
     );
   }
