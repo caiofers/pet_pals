@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pals/data/repositories/pets_database_repository.dart';
-import 'package:pet_pals/domain/entities/tutor_entity.dart';
+import 'package:pet_pals/domain/entities/pet_tutor_entity.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
@@ -9,17 +9,17 @@ import 'package:pet_pals/domain/protocols/pet_repository_protocol.dart';
 class PetsBloc extends ChangeNotifier {
   PetRepositoryProtocol repository = PetsDataBaseRepository();
 
-  add(
+  Future<String> add(
     String name,
     PetType type,
     String breed,
     DateTime birthdate,
     PetGender gender,
     String imagePath,
-    List<Tutor> tutors,
+    List<PetTutor> tutors,
     List<String> alarmIds,
   ) async {
-    await repository.add(
+    String petId = await repository.add(
       name,
       type,
       breed,
@@ -29,7 +29,9 @@ class PetsBloc extends ChangeNotifier {
       tutors,
       alarmIds,
     );
+
     notifyListeners();
+    return petId;
   }
 
   remove(String id) {
@@ -45,7 +47,7 @@ class PetsBloc extends ChangeNotifier {
     DateTime birthdate,
     PetGender gender,
     String imagePath,
-    List<Tutor> tutors,
+    List<PetTutor> tutors,
     List<String> alarmIds,
   ) {
     repository.update(

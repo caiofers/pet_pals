@@ -1,4 +1,4 @@
-import 'package:pet_pals/domain/entities/tutor_entity.dart';
+import 'package:pet_pals/domain/entities/pet_tutor_entity.dart';
 import 'package:pet_pals/domain/enums/tutor_permissions_enum.dart';
 
 class PetTutorDataModel {
@@ -18,7 +18,7 @@ class PetTutorDataModel {
     );
   }
 
-  factory PetTutorDataModel.fromEntity(Tutor tutor) {
+  factory PetTutorDataModel.fromEntity(PetTutor tutor) {
     return PetTutorDataModel(
       tutor.id,
       tutor.name,
@@ -27,11 +27,11 @@ class PetTutorDataModel {
     );
   }
 
-  Tutor toEntity() {
+  PetTutor toEntity() {
     TutorPermissions tutorPermission =
         TutorPermissions.values.elementAt(permission);
 
-    return Tutor(id, name, avatarUrl, tutorPermission);
+    return PetTutor(id, name, avatarUrl, tutorPermission);
   }
 
   Map<String, Object?> toJson() {

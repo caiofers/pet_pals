@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:pet_pals/data/models/pet_data_model.dart';
 import 'package:pet_pals/data/models/pet_tutor_data_model.dart';
-import 'package:pet_pals/data/services/firebase_auth_service.dart';
 import 'package:pet_pals/data/services/firebase_database_service.dart';
-import 'package:pet_pals/domain/entities/tutor_entity.dart';
+import 'package:pet_pals/domain/entities/pet_tutor_entity.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
@@ -11,17 +10,16 @@ import 'package:pet_pals/domain/protocols/pet_repository_protocol.dart';
 
 class PetsDataBaseRepository implements PetRepositoryProtocol {
   final service = FirebaseDatabaseService();
-  final authService = FirebaseAuthService();
 
   @override
-  Future<void> add(
+  Future<String> add(
     String name,
     PetType type,
     String breed,
     DateTime birthdate,
     PetGender gender,
     String imagePath,
-    List<Tutor> tutors,
+    List<PetTutor> tutors,
     List<String> alarmIds,
   ) async {
     String? url = await service.uploadImage(imagePath);
@@ -36,7 +34,7 @@ class PetsDataBaseRepository implements PetRepositoryProtocol {
       tutors.map((tutor) => PetTutorDataModel.fromEntity(tutor)).toList(),
       alarmIds,
     );
-    service.setPet(pet);
+    return service.setPet(pet);
   }
 
   @override
@@ -53,7 +51,7 @@ class PetsDataBaseRepository implements PetRepositoryProtocol {
     DateTime birthdate,
     PetGender gender,
     String imagePath,
-    List<Tutor> tutors,
+    List<PetTutor> tutors,
     List<String> alarmIds,
   ) async {
     String? url = await service.uploadImage(imagePath);

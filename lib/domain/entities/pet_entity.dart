@@ -1,4 +1,4 @@
-import 'package:pet_pals/domain/entities/tutor_entity.dart';
+import 'package:pet_pals/domain/entities/pet_tutor_entity.dart';
 import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
@@ -11,7 +11,7 @@ class Pet {
   DateTime birthdate;
   String? imageUrl;
   PetGender gender;
-  List<Tutor> tutors;
+  List<PetTutor> tutors;
   List<String> alarmIds;
 
   Pet(this.id, this.name, this.type, this.breed, this.birthdate, this.gender,

@@ -8,7 +8,7 @@ import 'package:pet_pals/domain/extensions/time_of_day_extension.dart';
 import 'package:pet_pals/domain/entities/alarm_entity.dart';
 import 'package:pet_pals/domain/entities/alarm_recurrence_entity.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
-import 'package:pet_pals/domain/entities/tutor_entity.dart';
+import 'package:pet_pals/domain/entities/pet_tutor_entity.dart';
 import 'package:pet_pals/presentation/bloc/alarms_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';

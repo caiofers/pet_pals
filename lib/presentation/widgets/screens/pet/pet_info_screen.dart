@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
-import 'package:pet_pals/domain/entities/tutor_entity.dart';
+import 'package:pet_pals/domain/entities/pet_tutor_entity.dart';
 import 'package:pet_pals/domain/global_path.dart';
 
 class PetInfoScreen extends StatefulWidget {
@@ -300,7 +300,7 @@ class TutorPic extends StatelessWidget {
     required this.tutor,
   });
 
-  final Tutor tutor;
+  final PetTutor tutor;
 
   @override
   Widget build(BuildContext context) {

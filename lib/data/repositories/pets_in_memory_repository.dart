@@ -3,7 +3,7 @@ import 'package:pet_pals/data/models/pet_data_model.dart';
 import 'package:pet_pals/data/models/pet_tutor_data_model.dart';
 import 'package:pet_pals/data/services/firebase_database_service.dart';
 import 'package:pet_pals/data/services/pets_mock_service.dart';
-import 'package:pet_pals/domain/entities/tutor_entity.dart';
+import 'package:pet_pals/domain/entities/pet_tutor_entity.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
@@ -19,14 +19,14 @@ class PetsInMemoryRepository implements PetRepositoryProtocol {
   }
 
   @override
-  add(
+  Future<String> add(
     String name,
     PetType type,
     String breed,
     DateTime birthdate,
     PetGender gender,
     String imagePath,
-    List<Tutor> tutors,
+    List<PetTutor> tutors,
     List<String> alarmIds,
   ) async {
     String? url = await serviceFirebase.uploadImage(imagePath);
@@ -42,7 +42,7 @@ class PetsInMemoryRepository implements PetRepositoryProtocol {
       alarmIds,
     );
     _pets.add(pet);
-    await serviceFirebase.setPet(pet);
+    return await serviceFirebase.setPet(pet);
   }
 
   @override
@@ -59,7 +59,7 @@ class PetsInMemoryRepository implements PetRepositoryProtocol {
     DateTime birthdate,
     PetGender gender,
     String imagePath,
-    List<Tutor> tutors,
+    List<PetTutor> tutors,
     List<String> alarmIds,
   ) {
     var pet = _pets.firstWhere((element) => element.id == id);

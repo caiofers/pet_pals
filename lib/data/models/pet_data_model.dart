@@ -49,7 +49,7 @@ class PetDataModel {
       json['gender'] as int,
       json['breed'] as String,
       json['birthdate'] as String,
-      json['imgUrl'] as String,
+      json['imgUrl'] as String?,
       tutors,
       alarmIds,
     );

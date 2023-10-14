@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pet_pals/data/services/firebase_auth_service.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
+import 'package:pet_pals/presentation/bloc/tutors_bloc.dart';
 import 'package:pet_pals/presentation/widgets/screens/pet/add_pet_screen.dart';
 import 'package:pet_pals/presentation/widgets/components/pet_card.dart';
 import 'package:pet_pals/presentation/bloc/pets_bloc.dart';
@@ -19,15 +20,21 @@ class _PetsScreenState extends State<PetsScreen> {
   @override
   Widget build(BuildContext context) {
     final PetsBloc petsBloc = Provider.of<PetsBloc>(context);
+    final TutorsBloc tutorsBloc = Provider.of<TutorsBloc>(context);
     final FirebaseAuthService authService =
         Provider.of<FirebaseAuthService>(context);
     final bottomPadding = MediaQuery.of(context).padding.bottom;
     const double buttonHeight = 50;
 
+    Future<List<Pet>> getPets() async {
+      String tutorId = authService.firebaseUser?.uid ?? "";
+      List<String> petIds = await tutorsBloc.getTutorPetIds(tutorId);
+      return petsBloc.getPets(petIds);
+    }
+
     return Scaffold(
       body: FutureBuilder(
-          future: petsBloc
-              .getPets(["-Ngg_JKFC2tj1OniqCzQ", "-NghMSt93fLrU9nPA8b4"]),
+          future: getPets(),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -43,6 +50,7 @@ class _PetsScreenState extends State<PetsScreen> {
                     buttonHeight: buttonHeight,
                     bottomPadding: bottomPadding,
                     petsBloc: petsBloc,
+                    tutorsBloc: tutorsBloc,
                   );
             }
           }),
@@ -58,6 +66,7 @@ class ListOfPets extends StatelessWidget {
     required this.buttonHeight,
     required this.bottomPadding,
     required this.petsBloc,
+    required this.tutorsBloc,
   });
 
   final BuildContext context;
@@ -65,6 +74,7 @@ class ListOfPets extends StatelessWidget {
   final double buttonHeight;
   final double bottomPadding;
   final PetsBloc petsBloc;
+  final TutorsBloc tutorsBloc;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -190,8 +200,19 @@ class ListOfPets extends StatelessWidget {
                                                   child: Text("Cancelar"),
                                                 ),
                                                 ElevatedButton.icon(
-                                                  onPressed: () {
+                                                  onPressed: () async {
+                                                    for (var tutor
+                                                        in pet.tutors) {
+                                                      await tutorsBloc
+                                                          .removePetFromTutor(
+                                                        tutor.id,
+                                                        pet.id,
+                                                      );
+                                                    }
+
                                                     petsBloc.remove(pet.id);
+
+                                                    Navigator.pop(context);
                                                     Navigator.pop(context);
                                                   },
                                                   icon: Icon(Icons.delete),

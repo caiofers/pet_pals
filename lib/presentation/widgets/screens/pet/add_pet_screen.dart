@@ -2,13 +2,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pet_pals/data/services/firebase_auth_service.dart';
-import 'package:pet_pals/domain/entities/tutor_entity.dart';
+import 'package:pet_pals/domain/entities/pet_tutor_entity.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
 import 'package:pet_pals/domain/enums/tutor_permissions_enum.dart';
 import 'package:pet_pals/domain/global_path.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
 import 'package:pet_pals/presentation/bloc/pets_bloc.dart';
+import 'package:pet_pals/presentation/bloc/tutors_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -69,7 +70,8 @@ class _AddPetScreenState extends State<AddPetScreen> {
   Widget build(BuildContext context) {
     final topSpacing =
         MediaQuery.of(context).padding.top + AppBar().preferredSize.height;
-    final petsProvider = Provider.of<PetsBloc>(context);
+    final petsBloc = Provider.of<PetsBloc>(context);
+    final tutorsBloc = Provider.of<TutorsBloc>(context);
     final authBloc = Provider.of<FirebaseAuthService>(context);
 
     Image getPetImage() {
@@ -231,10 +233,10 @@ class _AddPetScreenState extends State<AddPetScreen> {
                     Container(
                       width: double.infinity,
                       child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState?.validate() ?? false) {
                               if (pet == null) {
-                                petsProvider.add(
+                                String petId = await petsBloc.add(
                                   petNameController.text,
                                   petType,
                                   "Vira lata",
@@ -242,7 +244,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                                   petGender,
                                   image?.path ?? "",
                                   [
-                                    Tutor(
+                                    PetTutor(
                                       authBloc.firebaseUser?.uid ?? "",
                                       authBloc.firebaseUser?.displayName ?? "",
                                       authBloc.firebaseUser?.photoURL,
@@ -251,13 +253,16 @@ class _AddPetScreenState extends State<AddPetScreen> {
                                   ],
                                   [], //TODO: Add alarmIds
                                 );
+
+                                tutorsBloc.addPetToTutor(
+                                    authBloc.firebaseUser?.uid ?? "", petId);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text("Olá"),
                                   ),
                                 );
                               } else {
-                                petsProvider.update(
+                                petsBloc.update(
                                   pet!.id,
                                   petNameController.text,
                                   petType,

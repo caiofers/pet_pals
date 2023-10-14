@@ -4,7 +4,7 @@ import 'package:pet_pals/domain/enums/alarm_type_enum.dart';
 import 'package:pet_pals/domain/entities/alarm_entity.dart';
 import 'package:pet_pals/domain/entities/alarm_recurrence_entity.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
-import 'package:pet_pals/domain/entities/tutor_entity.dart';
+import 'package:pet_pals/domain/entities/pet_tutor_entity.dart';
 import 'package:pet_pals/domain/protocols/alarms_repository_protocol.dart';
 
 class AlarmsBloc extends ChangeNotifier {
@@ -17,7 +17,7 @@ class AlarmsBloc extends ChangeNotifier {
     TimeOfDay time,
     bool enabled,
     List<Pet> pets,
-    List<Tutor> tutors,
+    List<PetTutor> tutors,
   ) {
     List<String> petIds = pets.map((pet) => pet.id).toList();
     List<String> tutorIds = tutors.map((tutor) => tutor.id).toList();
@@ -47,7 +47,7 @@ class AlarmsBloc extends ChangeNotifier {
     TimeOfDay time,
     bool enabled,
     List<Pet> pets,
-    List<Tutor> tutors,
+    List<PetTutor> tutors,
   ) {
     List<String> petIds = pets.map((pet) => pet.id).toList();
     List<String> tutorIds = tutors.map((tutor) => tutor.id).toList();

@@ -7,6 +7,7 @@ import 'package:pet_pals/main_page.dart';
 import 'package:pet_pals/presentation/bloc/alarms_bloc.dart';
 import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
 import 'package:pet_pals/presentation/bloc/pets_bloc.dart';
+import 'package:pet_pals/presentation/bloc/tutors_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:pet_pals/presentation/bloc/theme_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -27,6 +28,9 @@ void main() async {
         ),
         ChangeNotifierProvider<PetsBloc>(
           create: (context) => PetsBloc(),
+        ),
+        ChangeNotifierProvider<TutorsBloc>(
+          create: (context) => TutorsBloc(),
         ),
         ChangeNotifierProvider<AlarmsBloc>(
           create: (context) => AlarmsBloc(),
