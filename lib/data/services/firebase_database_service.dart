@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -11,21 +10,18 @@ class FirebaseDatabaseService {
 
   Future<void> setPet(PetDataModel pet) async {
     try {
-      await database.ref().child("pets").push().set(pet.toJson());
+      Map petJson = pet.toJson();
+      await database.ref().child("pets").push().set(petJson);
     } catch (err) {
-      print(err);
+      rethrow;
     }
   }
 
   Future<void> updatePet(String id, PetDataModel pet) async {
     try {
-      await database
-          .ref()
-          .child("pets")
-          .child(id)
-          .update(pet.toJson() as Map<String, Object?>);
+      await database.ref().child("pets").child(id).update(pet.toJson());
     } catch (err) {
-      print(err);
+      rethrow;
     }
   }
 
@@ -33,11 +29,11 @@ class FirebaseDatabaseService {
     try {
       await database.ref().child("pets").child(id).remove();
     } catch (err) {
-      print(err);
+      rethrow;
     }
   }
 
-  Future<String> uploadImage(String imagePath) async {
+  Future<String?> uploadImage(String imagePath) async {
     try {
       File file = File(imagePath);
       await storage
@@ -49,9 +45,7 @@ class FirebaseDatabaseService {
           .child("images/${file.uri.pathSegments.last}")
           .getDownloadURL();
     } catch (err) {
-      //rethrow;
       print(err);
-      return err.toString();
     }
   }
 
@@ -65,17 +59,30 @@ class FirebaseDatabaseService {
   //   }
   // }
 
-  Future<List<PetDataModel>> getPets() async {
-    final event = await database.ref().once(DatabaseEventType.value);
-    var value = event.snapshot.value as Map?;
-    if (value != null) {
-      var pets = value["pets"] as Map;
-      return pets.entries.map((pet) {
-        pet.value['id'] = pet.key;
-        return PetDataModel.fromJson(pet.value);
-      }).toList(); //TODO: save KEY as ID of pet
-    } else {
-      return [];
+  Future<List<PetDataModel>> getPets(List<String> petIds) async {
+    final databaseRef = database.ref().child('pets');
+    List<Query> petQueries =
+        petIds.map((id) => databaseRef.orderByKey().equalTo(id)).toList();
+    try {
+      var futurePetsEntries = petQueries.map((query) async {
+        return query
+            .once(DatabaseEventType.value)
+            .then((event) => event.snapshot.value as Map?)
+            .then((value) {
+          if (value?.entries != null) {
+            return value?.entries.first;
+          }
+        });
+      }).toList();
+
+      var petsEntries = await Future.wait(futurePetsEntries);
+
+      return petsEntries.map((pet) {
+        pet?.value['id'] = pet.key;
+        return PetDataModel.fromJson(pet?.value);
+      }).toList();
+    } catch (e) {
+      rethrow;
     }
   }
 }

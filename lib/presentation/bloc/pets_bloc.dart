@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pet_pals/data/repositories/pets_in_memory_repository.dart';
+import 'package:pet_pals/data/repositories/pets_database_repository.dart';
+import 'package:pet_pals/domain/entities/tutor_entity.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
 import 'package:pet_pals/domain/protocols/pet_repository_protocol.dart';
 
 class PetsBloc extends ChangeNotifier {
-  PetRepositoryProtocol repository = PetsInMemoryRepository();
+  PetRepositoryProtocol repository = PetsDataBaseRepository();
 
   add(
     String name,
@@ -15,7 +16,7 @@ class PetsBloc extends ChangeNotifier {
     DateTime birthdate,
     PetGender gender,
     String imagePath,
-    List<String> tutorIds,
+    List<Tutor> tutors,
     List<String> alarmIds,
   ) async {
     await repository.add(
@@ -25,7 +26,7 @@ class PetsBloc extends ChangeNotifier {
       birthdate,
       gender,
       imagePath,
-      tutorIds,
+      tutors,
       alarmIds,
     );
     notifyListeners();
@@ -44,7 +45,7 @@ class PetsBloc extends ChangeNotifier {
     DateTime birthdate,
     PetGender gender,
     String imagePath,
-    List<String> tutorIds,
+    List<Tutor> tutors,
     List<String> alarmIds,
   ) {
     repository.update(
@@ -55,13 +56,13 @@ class PetsBloc extends ChangeNotifier {
       birthdate,
       gender,
       imagePath,
-      tutorIds,
+      tutors,
       alarmIds,
     );
     notifyListeners();
   }
 
-  Future<List<Pet>> getAllPets() async {
-    return await repository.getAllPet();
+  Future<List<Pet>> getPets(List<String> petIds) async {
+    return await repository.getPets(petIds);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:pet_pals/data/models/pet_tutor_data_model.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
@@ -9,8 +10,8 @@ class PetDataModel {
   int gender;
   String breed;
   String birthdate;
-  String imgUrl;
-  List<String> tutorIds;
+  String? imgUrl;
+  List<PetTutorDataModel> tutors;
   List<String> alarmIds;
 
   PetDataModel(
@@ -21,15 +22,15 @@ class PetDataModel {
     this.breed,
     this.birthdate,
     this.imgUrl,
-    this.tutorIds,
+    this.tutors,
     this.alarmIds,
   );
 
   factory PetDataModel.fromJson(dynamic json) {
-    var tutorIdsJson = json['tutorIds'] as List?;
-    List<String> tutorIds = tutorIdsJson
+    var tutorsJson = json['tutors'] as List?;
+    List<PetTutorDataModel> tutors = tutorsJson
             ?.map(
-              (tutorIdJson) => tutorIdJson.toString(),
+              (tutorJson) => PetTutorDataModel.fromJson(tutorJson),
             )
             .toList() ??
         [];
@@ -49,7 +50,7 @@ class PetDataModel {
       json['breed'] as String,
       json['birthdate'] as String,
       json['imgUrl'] as String,
-      tutorIds,
+      tutors,
       alarmIds,
     );
   }
@@ -63,7 +64,7 @@ class PetDataModel {
       pet.breed,
       pet.birthdate.toIso8601String(),
       pet.imageUrl,
-      pet.tutorIds,
+      pet.tutors.map((tutor) => PetTutorDataModel.fromEntity(tutor)).toList(),
       pet.alarmIds,
     );
   }
@@ -81,12 +82,13 @@ class PetDataModel {
       petBirthdate,
       petGender,
       imgUrl,
-      tutorIds,
+      tutors.map((tutor) => tutor.toEntity()).toList(),
       alarmIds,
     );
   }
 
-  Map toJson() {
+  Map<String, Object?> toJson() {
+    List tutorsJson = tutors.map((e) => e.toJson()).toList();
     return {
       'id': id,
       'name': name,
@@ -95,7 +97,21 @@ class PetDataModel {
       'breed': breed,
       'birthdate': birthdate,
       'imgUrl': imgUrl,
-      'tutorIds': tutorIds,
+      'tutors': tutorsJson,
+      'alarmIds': alarmIds
+    };
+  }
+
+  Map<String, Object?> toJson2() {
+    return {
+      'id': id,
+      'name': name,
+      'type': type,
+      'gender': gender,
+      'breed': breed,
+      'birthdate': birthdate,
+      'imgUrl': imgUrl,
+      //'tutors': tutors.map((e) => e.toJson() as Map<String, Object?>).toList(),
       'alarmIds': alarmIds
     };
   }

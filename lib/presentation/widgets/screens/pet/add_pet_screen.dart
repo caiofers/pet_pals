@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pet_pals/data/services/firebase_auth_service.dart';
+import 'package:pet_pals/domain/entities/tutor_entity.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
+import 'package:pet_pals/domain/enums/tutor_permissions_enum.dart';
 import 'package:pet_pals/domain/global_path.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
 import 'package:pet_pals/presentation/bloc/pets_bloc.dart';
@@ -67,6 +70,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
     final topSpacing =
         MediaQuery.of(context).padding.top + AppBar().preferredSize.height;
     final petsProvider = Provider.of<PetsBloc>(context);
+    final authBloc = Provider.of<FirebaseAuthService>(context);
 
     Image getPetImage() {
       if (image != null) {
@@ -74,9 +78,9 @@ class _AddPetScreenState extends State<AddPetScreen> {
           image!,
           fit: BoxFit.cover,
         );
-      } else if (pet?.imageUrl.isNotEmpty ?? false) {
+      } else if (pet?.imageUrl?.isNotEmpty ?? false) {
         return Image.network(
-          pet!.imageUrl,
+          pet!.imageUrl ?? "",
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) {
             return Image.asset(
@@ -237,7 +241,14 @@ class _AddPetScreenState extends State<AddPetScreen> {
                                   petBirthdate,
                                   petGender,
                                   image?.path ?? "",
-                                  [], //TODO: Add tutorIds
+                                  [
+                                    Tutor(
+                                      authBloc.firebaseUser?.uid ?? "",
+                                      authBloc.firebaseUser?.displayName ?? "",
+                                      authBloc.firebaseUser?.photoURL,
+                                      TutorPermissions.admin,
+                                    )
+                                  ],
                                   [], //TODO: Add alarmIds
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -253,9 +264,9 @@ class _AddPetScreenState extends State<AddPetScreen> {
                                   "Vira lata",
                                   petBirthdate,
                                   petGender,
-                                  image?.path ?? pet!.imageUrl,
-                                  ["a"], //TODO: Add tutorIds
-                                  ["b"], //TODO: Add alarmIds
+                                  image?.path ?? pet!.imageUrl ?? "",
+                                  pet!.tutors,
+                                  pet!.alarmIds,
                                 );
                               }
                               Navigator.pop(context);

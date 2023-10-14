@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pet_pals/data/services/firebase_auth_service.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
 import 'package:pet_pals/presentation/widgets/screens/pet/add_pet_screen.dart';
 import 'package:pet_pals/presentation/widgets/components/pet_card.dart';
@@ -17,13 +18,16 @@ class PetsScreen extends StatefulWidget {
 class _PetsScreenState extends State<PetsScreen> {
   @override
   Widget build(BuildContext context) {
-    final petsBloc = Provider.of<PetsBloc>(context);
+    final PetsBloc petsBloc = Provider.of<PetsBloc>(context);
+    final FirebaseAuthService authService =
+        Provider.of<FirebaseAuthService>(context);
     final bottomPadding = MediaQuery.of(context).padding.bottom;
     const double buttonHeight = 50;
 
     return Scaffold(
       body: FutureBuilder(
-          future: petsBloc.getAllPets(),
+          future: petsBloc
+              .getPets(["-Ngg_JKFC2tj1OniqCzQ", "-NghMSt93fLrU9nPA8b4"]),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -38,6 +42,7 @@ class _PetsScreenState extends State<PetsScreen> {
                     snapshot: snapshot,
                     buttonHeight: buttonHeight,
                     bottomPadding: bottomPadding,
+                    petsBloc: petsBloc,
                   );
             }
           }),
@@ -52,13 +57,14 @@ class ListOfPets extends StatelessWidget {
     required this.snapshot,
     required this.buttonHeight,
     required this.bottomPadding,
+    required this.petsBloc,
   });
 
   final BuildContext context;
   final AsyncSnapshot<List<Pet>> snapshot;
   final double buttonHeight;
   final double bottomPadding;
-
+  final PetsBloc petsBloc;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -168,15 +174,32 @@ class ListOfPets extends StatelessWidget {
                                     leading: Icon(Icons.delete),
                                     title: Text("Excluir"),
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              AddPetScreen(
-                                            pet: pet,
-                                          ),
-                                        ),
-                                      );
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Text(
+                                                  "Deseja mesmo excluir pet?"),
+                                              actionsAlignment:
+                                                  MainAxisAlignment.center,
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text("Cancelar"),
+                                                ),
+                                                ElevatedButton.icon(
+                                                  onPressed: () {
+                                                    petsBloc.remove(pet.id);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: Icon(Icons.delete),
+                                                  label: Text("Excluir"),
+                                                ),
+                                              ],
+                                            );
+                                          });
                                     },
                                   ),
                                 ],

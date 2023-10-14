@@ -1,3 +1,4 @@
+import 'package:pet_pals/domain/entities/tutor_entity.dart';
 import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
@@ -8,13 +9,13 @@ class Pet {
   PetType type;
   String breed;
   DateTime birthdate;
-  String imageUrl;
+  String? imageUrl;
   PetGender gender;
-  List<String> tutorIds;
+  List<Tutor> tutors;
   List<String> alarmIds;
 
   Pet(this.id, this.name, this.type, this.breed, this.birthdate, this.gender,
-      this.imageUrl, this.tutorIds, this.alarmIds);
+      this.imageUrl, this.tutors, this.alarmIds);
 
   String get age {
     int ageInDays = DateTime.now().difference(birthdate).inDays;

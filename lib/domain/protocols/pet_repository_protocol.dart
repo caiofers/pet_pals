@@ -1,3 +1,4 @@
+import 'package:pet_pals/domain/entities/tutor_entity.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
@@ -10,7 +11,7 @@ abstract interface class PetRepositoryProtocol {
     DateTime birthdate,
     PetGender gender,
     String imagePath,
-    List<String> tutorIds,
+    List<Tutor> tutors,
     List<String> alarmIds,
   );
   void update(
@@ -21,9 +22,9 @@ abstract interface class PetRepositoryProtocol {
     DateTime birthdate,
     PetGender gender,
     String imagePath,
-    List<String> tutorIds,
+    List<Tutor> tutors,
     List<String> alarmIds,
   );
   void remove(String id);
-  Future<List<Pet>> getAllPet();
+  Future<List<Pet>> getPets(List<String> petIds);
 }

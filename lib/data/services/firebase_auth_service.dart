@@ -37,7 +37,7 @@ class FirebaseAuthService extends ChangeNotifier {
       await _firebaseAuth.currentUser?.updateDisplayName(name);
       if (imagePath != null) {
         try {
-          String url = await service.uploadImage(imagePath);
+          String? url = await service.uploadImage(imagePath);
           await _firebaseAuth.currentUser?.updatePhotoURL(url);
         } catch (e) {
           rethrow;

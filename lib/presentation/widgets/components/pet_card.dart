@@ -28,7 +28,7 @@ class PetCard extends StatelessWidget {
                       topLeft: Radius.circular(8),
                       topRight: Radius.circular(8)),
                   child: Image(
-                    image: NetworkImage(pet.imageUrl),
+                    image: NetworkImage(pet.imageUrl ?? ""),
                     fit: BoxFit.cover,
                     height: 200,
                     width: double.infinity,

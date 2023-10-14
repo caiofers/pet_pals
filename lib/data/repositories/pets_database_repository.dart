@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:pet_pals/data/models/pet_data_model.dart';
+import 'package:pet_pals/data/models/pet_tutor_data_model.dart';
+import 'package:pet_pals/data/services/firebase_auth_service.dart';
 import 'package:pet_pals/data/services/firebase_database_service.dart';
+import 'package:pet_pals/domain/entities/tutor_entity.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
@@ -8,6 +11,7 @@ import 'package:pet_pals/domain/protocols/pet_repository_protocol.dart';
 
 class PetsDataBaseRepository implements PetRepositoryProtocol {
   final service = FirebaseDatabaseService();
+  final authService = FirebaseAuthService();
 
   @override
   Future<void> add(
@@ -17,10 +21,10 @@ class PetsDataBaseRepository implements PetRepositoryProtocol {
     DateTime birthdate,
     PetGender gender,
     String imagePath,
-    List<String> tutorIds,
+    List<Tutor> tutors,
     List<String> alarmIds,
   ) async {
-    String url = await service.uploadImage(imagePath);
+    String? url = await service.uploadImage(imagePath);
     PetDataModel pet = PetDataModel(
       UniqueKey().toString(),
       name,
@@ -29,7 +33,7 @@ class PetsDataBaseRepository implements PetRepositoryProtocol {
       breed,
       birthdate.toIso8601String(),
       url,
-      tutorIds,
+      tutors.map((tutor) => PetTutorDataModel.fromEntity(tutor)).toList(),
       alarmIds,
     );
     service.setPet(pet);
@@ -49,10 +53,10 @@ class PetsDataBaseRepository implements PetRepositoryProtocol {
     DateTime birthdate,
     PetGender gender,
     String imagePath,
-    List<String> tutorIds,
+    List<Tutor> tutors,
     List<String> alarmIds,
   ) async {
-    String url = await service.uploadImage(imagePath);
+    String? url = await service.uploadImage(imagePath);
     service.updatePet(
       id,
       PetDataModel(
@@ -63,16 +67,16 @@ class PetsDataBaseRepository implements PetRepositoryProtocol {
         breed,
         birthdate.toIso8601String(),
         url,
-        tutorIds,
+        tutors.map((tutor) => PetTutorDataModel.fromEntity(tutor)).toList(),
         alarmIds,
       ),
     );
   }
 
   @override
-  Future<List<Pet>> getAllPet() async {
+  Future<List<Pet>> getPets(List<String> petIds) async {
     return await service
-        .getPets()
+        .getPets(petIds)
         .then((value) => value.map((e) => e.toEntity()).toList());
   }
 }

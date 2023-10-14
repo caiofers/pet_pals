@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
+import 'package:pet_pals/domain/entities/tutor_entity.dart';
 import 'package:pet_pals/domain/global_path.dart';
 
 class PetInfoScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class _PetInfoScreenState extends State<PetInfoScreen> {
   @override
   void initState() {
     super.initState();
-    petImage = NetworkImage(widget.pet.imageUrl);
+    petImage = NetworkImage(widget.pet.imageUrl ?? "");
 
     _scrollController = ScrollController()
       ..addListener(() {
@@ -153,14 +154,10 @@ class PetInfoData extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               PetAttribute(attributeTitle: "Sex", attribute: pet.gender.name),
-              PetAttribute(attributeTitle: "Age", attribute: pet.gender.name),
-              PetAttribute(
-                  attributeTitle: "Height", attribute: pet.gender.name),
-              PetAttribute(
-                  attributeTitle: "Weight", attribute: pet.gender.name),
+              PetAttribute(attributeTitle: "Age", attribute: pet.age),
             ],
           ),
         ),
@@ -180,7 +177,7 @@ class PetInfoData extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    TextButton(onPressed: () {}, child: Text("Editar"))
+                    //TextButton(onPressed: () {}, child: Text("Editar"))
                   ],
                 ),
               ),
@@ -197,12 +194,7 @@ class PetInfoData extends StatelessWidget {
                   crossAxisCount: 1,
                   scrollDirection: Axis.horizontal,
                   children: [
-                    TutorPic(pet: pet),
-                    TutorPic(pet: pet),
-                    TutorPic(pet: pet),
-                    TutorPic(pet: pet),
-                    TutorPic(pet: pet),
-                    TutorPic(pet: pet),
+                    for (var tutor in pet.tutors) TutorPic(tutor: tutor),
                   ],
                 ),
               )
@@ -225,7 +217,7 @@ class PetInfoData extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    TextButton(onPressed: () {}, child: Text("Editar"))
+                    //TextButton(onPressed: () {}, child: Text("Editar"))
                   ],
                 ),
               ),
@@ -280,7 +272,7 @@ class PetAttribute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 80,
-      width: 70,
+      width: 100,
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
@@ -305,33 +297,47 @@ class PetAttribute extends StatelessWidget {
 class TutorPic extends StatelessWidget {
   const TutorPic({
     super.key,
-    required this.pet,
+    required this.tutor,
   });
 
-  final Pet pet;
+  final Tutor tutor;
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      backgroundImage: NetworkImage(pet.imageUrl),
-      child: Container(
+    return Stack(
+      children: [
+        Container(
+          height: 70,
+          width: 70,
+          decoration: BoxDecoration(shape: BoxShape.circle),
+          child: Image.network(
+            tutor.avatarUrl ?? '',
+            errorBuilder: (context, error, stackTrace) {
+              return CircleAvatar(child: Icon(Icons.person));
+            },
+          ),
+        ),
+        Container(
           decoration: BoxDecoration(shape: BoxShape.circle),
           alignment: Alignment.bottomCenter,
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 4),
-              height: 20,
-              width: 70,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                  color: Colors.amber.shade200),
-              child: Text(
-                "Joãozinho".split(' ').first,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 12),
-              ))),
+            padding: EdgeInsets.symmetric(horizontal: 4),
+            height: 20,
+            width: 70,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5),
+                ),
+                color: Colors.amber.shade200),
+            child: Text(
+              tutor.name.split(' ').first,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 12),
+            ),
+          ),
+        )
+      ],
     );
   }
 }
