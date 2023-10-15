@@ -26,18 +26,17 @@ class Pet {
     String ageAsString = "";
 
     if (ageInYears > 0) {
-      ageAsString =
-          AppLocalizationsBloc.appLocalizations?.ageYears(ageInYears) ?? "";
+      ageAsString = AppLocalizationsBloc.appLocalizations.ageYears(ageInYears);
     }
     if (ageInMonths > 0 || ageAsString.isEmpty) {
       String ageInMonthsAsString =
-          AppLocalizationsBloc.appLocalizations?.ageMonths(ageInMonths) ?? "";
+          AppLocalizationsBloc.appLocalizations.ageMonths(ageInMonths);
 
       if (ageAsString.isEmpty) {
         ageAsString = ageInMonthsAsString;
       } else {
         String connectiveAnd =
-            AppLocalizationsBloc.appLocalizations?.connectiveAnd ?? "";
+            AppLocalizationsBloc.appLocalizations.connectiveAnd;
         ageAsString = "$ageAsString $connectiveAnd $ageInMonthsAsString";
       }
 

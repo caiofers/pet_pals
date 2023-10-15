@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pals/data/services/firebase_auth_service.dart';
-import 'package:pet_pals/domain/global_path.dart';
+import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
+import 'package:pet_pals/resources/assets/assets_path.dart';
 import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -18,15 +19,9 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController passwordController = TextEditingController();
 
   bool isLogin = true;
-
-  String get authHeaderText {
-    if (isLogin) {
-      return "Login";
-    } else {
-      return "Registrar";
-    }
-  }
-
+  bool isLoading = false;
+  MaterialStatesController loginButtonStatesController =
+      MaterialStatesController();
   @override
   Widget build(BuildContext context) {
     final authBloc = Provider.of<FirebaseAuthService>(context);
@@ -39,7 +34,7 @@ class _SignInScreenState extends State<SignInScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 32),
               child: Image.asset(
-                "${GlobalPath.imageAssetPath}logoofc1.png",
+                "${AssetsPath.images}logo.png",
                 width: 150,
                 color: Theme.of(context).colorScheme.primary,
               ),
@@ -54,7 +49,12 @@ class _SignInScreenState extends State<SignInScreen> {
                       padding:
                           EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       width: double.infinity,
-                      child: Text(authHeaderText),
+                      child: Text(
+                        isLogin
+                            ? AppLocalizationsBloc.appLocalizations.loginText
+                            : AppLocalizationsBloc
+                                .appLocalizations.createAccountText,
+                      ),
                     ),
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -71,49 +71,93 @@ class _SignInScreenState extends State<SignInScreen> {
           padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
           child: Column(
             children: [
-              ElevatedButton(
-                onPressed: () {
+              ElevatedButton.icon(
+                statesController: loginButtonStatesController,
+                onPressed: () async {
+                  setState(() {
+                    isLoading = true;
+                    loginButtonStatesController.update(
+                        MaterialState.disabled, true);
+                  });
                   if (isLogin) {
                     if (_loginFormKey.currentState?.validate() ?? false) {
                       try {
-                        authBloc.loginEmailPassword(
+                        await authBloc.loginEmailPassword(
                           emailController.text,
                           passwordController.text,
                         );
                       } catch (e) {
+                        setState(() {
+                          isLoading = false;
+                          loginButtonStatesController.update(
+                              MaterialState.disabled, false);
+                        });
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text("Falhou"),
+                            content: Text(AppLocalizationsBloc
+                                .appLocalizations.formSaveErrorText),
                           ),
                         );
                       }
+                    } else {
+                      setState(() {
+                        isLoading = false;
+                        loginButtonStatesController.update(
+                            MaterialState.disabled, false);
+                      });
                     }
                   } else {
                     if (_registerFormKey.currentState?.validate() ?? false) {
                       try {
-                        authBloc.registerEmailPassword(
+                        await authBloc.registerEmailPassword(
                           nameController.text,
                           null, //TODO upload profile image
                           emailController.text,
                           passwordController.text,
                         );
                       } catch (e) {
+                        setState(() {
+                          isLoading = false;
+                          loginButtonStatesController.update(
+                              MaterialState.disabled, false);
+                        });
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text("Falhou"),
+                            content: Text(AppLocalizationsBloc
+                                .appLocalizations.formSaveErrorText),
                           ),
                         );
                       }
+                    } else {
+                      setState(() {
+                        isLoading = false;
+                        loginButtonStatesController.update(
+                            MaterialState.disabled, false);
+                      });
                     }
                   }
                 },
-                child: isLogin ? Text("Login") : Text("Register"),
+                icon: isLoading
+                    ? Center(
+                        child: Container(
+                            height: 16,
+                            width: 16,
+                            margin: EdgeInsets.only(right: 8),
+                            child: CircularProgressIndicator()),
+                      )
+                    : Icon(Icons.login_rounded),
+                label: Text(
+                  isLogin
+                      ? AppLocalizationsBloc.appLocalizations.loginText
+                      : AppLocalizationsBloc.appLocalizations.createAccountText,
+                ),
               ),
               Row(
                 children: [
                   TextButton(
                     onPressed: () {},
-                    child: Text("Esqueci a senha"),
+                    child: Text(AppLocalizationsBloc
+                        .appLocalizations.forgotPasswordButtonText),
                   ),
                   Spacer(),
                   TextButton(
@@ -122,9 +166,13 @@ class _SignInScreenState extends State<SignInScreen> {
                         isLogin = !isLogin;
                       });
                     },
-                    child: isLogin
-                        ? Text("Não tem conta? Registre-se")
-                        : Text("Voltar para login"),
+                    child: Text(
+                      isLogin
+                          ? AppLocalizationsBloc
+                              .appLocalizations.changeToRegisterButtonText
+                          : AppLocalizationsBloc
+                              .appLocalizations.changeToLoginButtonText,
+                    ),
                   ),
                 ],
               )
@@ -147,14 +195,18 @@ class _SignInScreenState extends State<SignInScreen> {
                 controller: emailController,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.email_outlined),
-                  hintText: "Enter with email",
-                  labelText: "Email",
+                  hintText: AppLocalizationsBloc
+                      .appLocalizations.formLoginEmailHintText,
+                  labelText: AppLocalizationsBloc
+                      .appLocalizations.formLoginEmailLabelText,
                 ),
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return "Please, enter with an email";
+                    return AppLocalizationsBloc
+                        .appLocalizations.formLoginEmailEmptyErrorText;
                   }
                   // TODO Email validator
+                  // AppLocalizationsBloc.appLocalizations.formLoginEmailInvalidErrorText;
                   return null;
                 },
               ),
@@ -163,15 +215,16 @@ class _SignInScreenState extends State<SignInScreen> {
                 obscureText: true,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.password),
-                  hintText: "Enter with password",
-                  labelText: "Password",
+                  hintText: AppLocalizationsBloc
+                      .appLocalizations.formLoginPasswordHintText,
+                  labelText: AppLocalizationsBloc
+                      .appLocalizations.formLoginPasswordLabelText,
                 ),
                 validator: (value) {
                   if (value != null) {
                     if (value.isEmpty) {
-                      return "Please, enter with a password";
-                    } else if (value.length < 6) {
-                      return "Please, enter with an valid password (at least 6 characteres)";
+                      return AppLocalizationsBloc
+                          .appLocalizations.formLoginPasswordEmptyErrorText;
                     }
                   }
                   return null;
@@ -196,12 +249,15 @@ class _SignInScreenState extends State<SignInScreen> {
                 controller: nameController,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.abc),
-                  hintText: "Enter with name",
-                  labelText: "Name",
+                  hintText: AppLocalizationsBloc
+                      .appLocalizations.formLoginNameHintText,
+                  labelText: AppLocalizationsBloc
+                      .appLocalizations.formLoginNameLabelText,
                 ),
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return "Please, enter with a name";
+                    return AppLocalizationsBloc
+                        .appLocalizations.formLoginNameEmptyErrorText;
                   }
                   return null;
                 },
@@ -210,14 +266,18 @@ class _SignInScreenState extends State<SignInScreen> {
                 controller: emailController,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.email_outlined),
-                  hintText: "Enter with email",
-                  labelText: "Email",
+                  hintText: AppLocalizationsBloc
+                      .appLocalizations.formLoginEmailHintText,
+                  labelText: AppLocalizationsBloc
+                      .appLocalizations.formLoginEmailLabelText,
                 ),
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return "Please, enter with an email";
+                    return AppLocalizationsBloc
+                        .appLocalizations.formLoginEmailEmptyErrorText;
                   }
                   // TODO Email validator
+                  // AppLocalizationsBloc.appLocalizations.formLoginEmailInvalidErrorText;
                   return null;
                 },
               ),
@@ -226,15 +286,19 @@ class _SignInScreenState extends State<SignInScreen> {
                 obscureText: true,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.password),
-                  hintText: "Enter with password",
-                  labelText: "Password",
+                  hintText: AppLocalizationsBloc
+                      .appLocalizations.formLoginPasswordHintText,
+                  labelText: AppLocalizationsBloc
+                      .appLocalizations.formLoginPasswordLabelText,
                 ),
                 validator: (value) {
                   if (value != null) {
                     if (value.isEmpty) {
-                      return "Please, enter with a password";
+                      return AppLocalizationsBloc
+                          .appLocalizations.formLoginPasswordEmptyErrorText;
                     } else if (value.length < 6) {
-                      return "Please, enter with an valid password (at least 6 characteres)";
+                      return AppLocalizationsBloc
+                          .appLocalizations.formLoginPasswordInvalidErrorText;
                     }
                   }
                   return null;

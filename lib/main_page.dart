@@ -6,9 +6,8 @@ import 'package:pet_pals/presentation/widgets/screens/profile/profile_screen.dar
 import 'package:pet_pals/presentation/widgets/screens/settings/settings_screen.dart';
 import 'package:pet_pals/presentation/widgets/screens/alarm/notifications_screen.dart';
 import 'package:pet_pals/presentation/widgets/screens/pet/pets_screen.dart';
-import 'package:pet_pals/presentation/widgets/screens/login/signin_screen.dart';
 import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
-import 'package:pet_pals/domain/global_path.dart';
+import 'package:pet_pals/resources/assets/assets_path.dart';
 import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
@@ -41,7 +40,7 @@ class _MainPageState extends State<MainPage> {
           title: Container(
             alignment: AlignmentDirectional.centerStart,
             child: Image(
-              image: AssetImage('${GlobalPath.imageAssetPath}logoofc1.png'),
+              image: AssetImage('${AssetsPath.images}logo.png'),
               width: 180,
             ),
           ),
@@ -62,12 +61,12 @@ class _MainPageState extends State<MainPage> {
                     authBloc.firebaseUser?.photoURL ?? "",
                     fit: BoxFit.fill,
                     errorBuilder: (context, error, stackTrace) {
-                      return Icon(
+                      return const Icon(
                         Icons.person,
                       );
                     },
                   ),
-                  label: Text(authBloc.firebaseUser?.displayName ?? "NO NAME"),
+                  label: Text(authBloc.firebaseUser?.displayName ?? "-"),
                 ),
               ),
             if (authBloc.firebaseUser == null)
@@ -82,7 +81,7 @@ class _MainPageState extends State<MainPage> {
                     );
                   },
                   icon: Icon(Icons.account_circle_rounded),
-                  label: Text("Fazer login"),
+                  label: Text(AppLocalizationsBloc.appLocalizations.loginText),
                 ),
               )
           ],
@@ -96,25 +95,20 @@ class _MainPageState extends State<MainPage> {
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label:
-                    AppLocalizationsBloc.appLocalizations?.homePageLabel ?? "",
+                label: AppLocalizationsBloc.appLocalizations.homePageLabel,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.pets),
-                label:
-                    AppLocalizationsBloc.appLocalizations?.petsPageLabel ?? "",
+                label: AppLocalizationsBloc.appLocalizations.petsPageLabel,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.notifications),
                 label: AppLocalizationsBloc
-                        .appLocalizations?.notificationsPageLabel ??
-                    "",
+                    .appLocalizations.notificationsPageLabel,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
-                label:
-                    AppLocalizationsBloc.appLocalizations?.settingsPageLabel ??
-                        "",
+                label: AppLocalizationsBloc.appLocalizations.settingsPageLabel,
               ),
             ],
             backgroundColor:

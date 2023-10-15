@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pet_pals/data/services/firebase_auth_service.dart';
+import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
 import 'package:pet_pals/presentation/widgets/screens/alarm/add_pet_alarm_screen.dart';
 import 'package:pet_pals/presentation/widgets/components/alarm_card.dart';
 import 'package:pet_pals/presentation/bloc/alarms_bloc.dart';
@@ -11,6 +12,8 @@ class NotificationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final alarmBloc = Provider.of<AlarmsBloc>(context);
+    final FirebaseAuthService authService =
+        Provider.of<FirebaseAuthService>(context);
     final bottomPadding = MediaQuery.of(context).padding.bottom;
     const double buttonHeight = 50;
 
@@ -22,17 +25,18 @@ class NotificationsScreen extends StatelessWidget {
             ListView(
               children: [
                 Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(8),
-                    child: Text(
-                      alarmBloc.getAllAlarms().isNotEmpty
-                          ? "Seus alarmes"
-                          : "User, você ainda não tem alarmes cadastrados.",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
+                  width: double.infinity,
+                  padding: EdgeInsets.all(8),
+                  child: Text(
+                    AppLocalizationsBloc.appLocalizations.alarmScreenTitle(
+                        authService.firebaseUser?.displayName ?? "-",
+                        alarmBloc.getAllAlarms().length),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 for (var alarm in alarmBloc.getAllAlarms())
                   AlarmCard(alarm: alarm),
                 SizedBox(
@@ -59,7 +63,8 @@ class NotificationsScreen extends StatelessWidget {
                       ),
                     );
                   },
-                  child: const Text("Adicionar alarme"),
+                  child: Text(
+                      AppLocalizationsBloc.appLocalizations.addNewAlarmText),
                 ),
               ),
             ),

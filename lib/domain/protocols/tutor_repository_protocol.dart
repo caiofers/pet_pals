@@ -15,5 +15,5 @@ abstract interface class TutorRepositoryProtocol {
     String tutorId,
     String petId,
   );
-  Future<List<String>> getTutorPetIds(String tutorId);
+  Future<List<String>> getPetIdsFromTutor(String tutorId);
 }

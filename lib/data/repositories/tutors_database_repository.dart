@@ -22,7 +22,7 @@ class TutorsDataBaseRepository implements TutorRepositoryProtocol {
   }
 
   @override
-  Future<List<String>> getTutorPetIds(String tutorId) async {
-    return await service.getTutorPetIds(tutorId);
+  Future<List<String>> getPetIdsFromTutor(String tutorId) async {
+    return await service.getPetIdsFromTutor(tutorId);
   }
 }

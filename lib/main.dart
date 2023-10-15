@@ -77,7 +77,7 @@ class MainApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       onGenerateTitle: (context) {
         AppLocalizationsBloc.init(context);
-        return AppLocalizationsBloc.appLocalizations?.appTitle ?? "";
+        return AppLocalizationsBloc.appLocalizations.appTitle;
       },
     );
   }

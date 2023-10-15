@@ -1,4 +1,5 @@
-import 'package:pet_pals/domain/global_path.dart';
+import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
+import 'package:pet_pals/resources/assets/assets_path.dart';
 
 // TODO: Adicionar name do type com internacionalização (+ diferenciação de gênero);
 enum PetType {
@@ -10,27 +11,26 @@ enum PetType {
   String get name {
     switch (this) {
       case PetType.dog:
-        return "Dog";
+        return AppLocalizationsBloc.appLocalizations.petTypeDog;
       case PetType.cat:
-        return "Cat";
+        return AppLocalizationsBloc.appLocalizations.petTypeCat;
       case PetType.fish:
-        return "Fish";
+        return AppLocalizationsBloc.appLocalizations.petTypeFish;
       case PetType.bird:
-        return "Bird";
+        return AppLocalizationsBloc.appLocalizations.petTypeBird;
     }
   }
 
-  // TODO: Adicionar icones para cada tipo de animal
   String get iconAssetName {
     switch (this) {
       case PetType.dog:
-        return "${GlobalPath.imageAssetPath}dog.png";
+        return "${AssetsPath.images}dog.png";
       case PetType.cat:
-        return "${GlobalPath.imageAssetPath}dog.png";
+        return "${AssetsPath.images}cat.png";
       case PetType.fish:
-        return "${GlobalPath.imageAssetPath}dog.png";
+        return "${AssetsPath.images}fish.png";
       case PetType.bird:
-        return "${GlobalPath.imageAssetPath}dog.png";
+        return "${AssetsPath.images}bird.png";
     }
   }
 }

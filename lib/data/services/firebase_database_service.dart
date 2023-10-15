@@ -1,6 +1,4 @@
-import 'dart:ffi';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -19,6 +17,7 @@ class FirebaseDatabaseService {
       await reference.set(petJson);
       return reference.key!;
     } catch (err) {
+      //TODO
       rethrow;
     }
   }
@@ -27,6 +26,7 @@ class FirebaseDatabaseService {
     try {
       await database.ref().child("pets").child(id).update(pet.toJson());
     } catch (err) {
+      //TODO
       rethrow;
     }
   }
@@ -35,6 +35,7 @@ class FirebaseDatabaseService {
     try {
       await database.ref().child("pets").child(id).remove();
     } catch (err) {
+      //TODO
       rethrow;
     }
   }
@@ -72,6 +73,7 @@ class FirebaseDatabaseService {
         return PetDataModel.fromJson(pet?.value);
       }).toList();
     } catch (e) {
+      //TODO
       rethrow;
     }
   }
@@ -79,16 +81,12 @@ class FirebaseDatabaseService {
   Future<String?> uploadImage(String imagePath) async {
     try {
       File file = File(imagePath);
-      await storage
-          .ref()
-          .child("images/${file.uri.pathSegments.last}")
-          .putFile(file);
-      return await storage
-          .ref()
-          .child("images/${file.uri.pathSegments.last}")
-          .getDownloadURL();
+      Reference reference =
+          storage.ref().child("images/${file.uri.pathSegments.last}");
+      await reference.putFile(file);
+      return await reference.getDownloadURL();
     } catch (err) {
-      print(err);
+      return null;
     }
   }
 
@@ -138,6 +136,7 @@ class FirebaseDatabaseService {
           .update(tutorDataModel.toJson().cast<String, Object?>());
       //await reference.parent?.child('petIds').push().set(petId);
     } catch (err) {
+      //TODO
       print(err);
       rethrow;
     }
@@ -160,22 +159,12 @@ class FirebaseDatabaseService {
           .child("tutors")
           .child(tutorKey)
           .update(tutorDataModel.toJson().cast<String, Object?>());
-      //await reference.parent?.child('petIds').push().set(petId);
     } catch (err) {
+      //TODO
       print(err);
       rethrow;
     }
   }
-
-  // Future<List<PetDataModel>> getPets() async {
-  //   final ref = FirebaseDatabase.instance.ref();
-  //   final snapshot = await ref.child('pets/').get();
-  //   if (snapshot.exists) {
-  //     print(snapshot.value);
-  //   } else {
-  //     print('No data available.');
-  //   }
-  // }
 
   Future<List<TutorDataModel>> getTutors(List<String> tutorIds) async {
     final databaseRef = database.ref().child('tutors');
@@ -200,23 +189,29 @@ class FirebaseDatabaseService {
         return TutorDataModel.fromJson(tutor?.value);
       }).toList();
     } catch (e) {
+      //TODO
       rethrow;
     }
   }
 
-  Future<List<String>> getTutorPetIds(String tutorId) async {
-    final event = await database
-        .ref('tutors')
-        .orderByChild('id')
-        .equalTo(tutorId)
-        .once(DatabaseEventType.value);
-    List tutors = event.snapshot.value as List;
-    Map tutor = tutors.first;
-    List? petIds = tutor['petIds'] as List?;
+  Future<List<String>> getPetIdsFromTutor(String tutorId) async {
+    try {
+      final event = await database
+          .ref('tutors')
+          .orderByChild('id')
+          .equalTo(tutorId)
+          .once(DatabaseEventType.value);
+      List tutors = event.snapshot.value as List;
+      Map tutor = tutors.first;
+      List? petIds = tutor['petIds'] as List?;
 
-    if (petIds != null) {
-      return petIds.map((petId) => petId as String).toList();
+      if (petIds != null) {
+        return petIds.map((petId) => petId as String).toList();
+      }
+      return [];
+    } catch (e) {
+      //TODO
+      rethrow;
     }
-    return [];
   }
 }

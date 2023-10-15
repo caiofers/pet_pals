@@ -6,7 +6,8 @@ import 'package:pet_pals/domain/entities/pet_tutor_entity.dart';
 import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
 import 'package:pet_pals/domain/enums/pet_type_enum.dart';
 import 'package:pet_pals/domain/enums/tutor_permissions_enum.dart';
-import 'package:pet_pals/domain/global_path.dart';
+import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
+import 'package:pet_pals/resources/assets/assets_path.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
 import 'package:pet_pals/presentation/bloc/pets_bloc.dart';
 import 'package:pet_pals/presentation/bloc/tutors_bloc.dart';
@@ -28,9 +29,13 @@ class _AddPetScreenState extends State<AddPetScreen> {
   final TextEditingController petNameController = TextEditingController();
   final TextEditingController petBirthdateController = TextEditingController();
   DateTime petBirthdate = DateTime.now();
-  PetType petType = PetType.dog;
-  PetGender petGender = PetGender.male;
+  PetType? petType;
+  PetGender? petGender;
   File? image;
+
+  bool isSaving = false;
+  MaterialStatesController saveButtonStatesController =
+      MaterialStatesController();
 
   DateFormat dateFormat =
       DateFormat(DateFormat.YEAR_MONTH_DAY, Platform.localeName);
@@ -51,6 +56,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
   void dispose() {
     petNameController.dispose();
     petBirthdateController.dispose();
+    saveButtonStatesController.dispose();
     super.dispose();
   }
 
@@ -60,9 +66,13 @@ class _AddPetScreenState extends State<AddPetScreen> {
       if (image == null) return;
       final imageTemp = File(image.path);
       setState(() => this.image = imageTemp);
-    } on Exception catch (e) {
-      // TODO: Adicionar erro para avisar que falhou ao escolher imagem.
-      print("Failed to pickimage: $e");
+    } on Exception {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizationsBloc
+              .appLocalizations.formPetChangePetImageErrorText),
+        ),
+      );
     }
   }
 
@@ -86,15 +96,15 @@ class _AddPetScreenState extends State<AddPetScreen> {
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) {
             return Image.asset(
-              "${GlobalPath.imageAssetPath}dog.png",
-              color: Colors.amber,
+              "${AssetsPath.images}pet_img_placeholder.png",
+              color: Colors.black54,
             );
           },
         );
       } else {
         return Image.asset(
-          "${GlobalPath.imageAssetPath}dog.png",
-          color: Colors.amber,
+          "${AssetsPath.images}pet_img_placeholder.png",
+          color: Colors.black54,
         );
       }
     }
@@ -102,19 +112,91 @@ class _AddPetScreenState extends State<AddPetScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Column(
+                    children: [
+                      Text(
+                        pet == null
+                            ? AppLocalizationsBloc
+                                .appLocalizations.cancelAddingFormPetDialogTitle
+                            : AppLocalizationsBloc.appLocalizations
+                                .cancelEditingFormPetDialogTitle,
+                        textAlign: TextAlign.center,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          AppLocalizationsBloc.appLocalizations
+                              .cancelEditingFormPetDialogSubtitle,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      )
+                    ],
+                  ),
+                  actionsAlignment: MainAxisAlignment.spaceEvenly,
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                      child: Text(AppLocalizationsBloc.appLocalizations
+                          .cancelEditingFormPetDialogCancelButtonText),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(AppLocalizationsBloc.appLocalizations
+                          .cancelEditingFormPetDialogContinueButtonText),
+                    )
+                  ],
+                );
+              },
+            );
+          },
+          icon: Icon(Icons.arrow_back_ios),
+        ),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         scrolledUnderElevation: 0,
-        title: Text("Adicionar pet"),
+        title: Text(pet == null
+            ? AppLocalizationsBloc.appLocalizations.addNewPetScreenTitle
+            : AppLocalizationsBloc.appLocalizations.editPetScreenTitle),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-                margin: EdgeInsets.only(top: topSpacing),
-                height: 300,
-                width: double.infinity,
-                child: getPetImage()),
+              margin: EdgeInsets.only(top: topSpacing),
+              height: 300,
+              width: double.infinity,
+              child: Stack(
+                children: [
+                  Center(child: getPetImage()),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          pickImage();
+                        },
+                        icon: Icon(Icons.edit),
+                        label: Text(AppLocalizationsBloc
+                            .appLocalizations.formPetChangePetImageText),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
               child: Form(
@@ -127,12 +209,15 @@ class _AddPetScreenState extends State<AddPetScreen> {
                       controller: petNameController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.abc),
-                        hintText: "Enter with pet name",
-                        labelText: "Pet name",
+                        hintText: AppLocalizationsBloc
+                            .appLocalizations.formPetNameHintText,
+                        labelText: AppLocalizationsBloc
+                            .appLocalizations.formPetNameLabelText,
                       ),
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return "Please, enter with a name";
+                          return AppLocalizationsBloc
+                              .appLocalizations.formPetNameEmptyErrorText;
                         }
 
                         return null;
@@ -141,14 +226,31 @@ class _AddPetScreenState extends State<AddPetScreen> {
                     DropdownButtonFormField(
                       value: petType,
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.abc),
-                        hintText: "Select type of pet",
-                        labelText: "Pet type",
+                        prefixIcon: Icon(
+                          petType == null
+                              ? Icons.check_box_outline_blank_rounded
+                              : Icons.check_box_rounded,
+                        ),
+                        hintText: AppLocalizationsBloc
+                            .appLocalizations.formPetTypeHintText,
+                        labelText: AppLocalizationsBloc
+                            .appLocalizations.formPetTypeLabelText,
                       ),
                       items: PetType.values.map((PetType value) {
                         return DropdownMenuItem(
                           value: value,
-                          child: Text(value.name),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 12.0),
+                                child: Image.asset(
+                                  value.iconAssetName,
+                                  width: 16,
+                                ),
+                              ),
+                              Text(value.name),
+                            ],
+                          ),
                         );
                       }).toList(),
                       onChanged: (value) {
@@ -158,7 +260,8 @@ class _AddPetScreenState extends State<AddPetScreen> {
                       },
                       validator: (value) {
                         if (value?.name.isEmpty ?? true) {
-                          return "Please, select the type of animal";
+                          return AppLocalizationsBloc
+                              .appLocalizations.formPetTypeEmptyErrorText;
                         }
 
                         return null;
@@ -167,9 +270,11 @@ class _AddPetScreenState extends State<AddPetScreen> {
                     TextFormField(
                       controller: petBirthdateController,
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.abc),
-                        hintText: "Enter with pet birthdate",
-                        labelText: "Pet birthdate",
+                        prefixIcon: Icon(Icons.calendar_month),
+                        hintText: AppLocalizationsBloc
+                            .appLocalizations.formPetBirthdateHintText,
+                        labelText: AppLocalizationsBloc
+                            .appLocalizations.formPetBirthdateLabelText,
                       ),
                       onTap: () async {
                         FocusScope.of(context).requestFocus(FocusNode());
@@ -190,7 +295,8 @@ class _AddPetScreenState extends State<AddPetScreen> {
                       },
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return "Please, enter with the birthdate";
+                          return AppLocalizationsBloc
+                              .appLocalizations.formPetBirthdateEmptyErrorText;
                         }
 
                         return null;
@@ -199,9 +305,15 @@ class _AddPetScreenState extends State<AddPetScreen> {
                     DropdownButtonFormField(
                       value: petGender,
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.abc),
-                        hintText: "Select pet's gender",
-                        labelText: "Pet gender",
+                        prefixIcon: Icon(
+                          petGender == null
+                              ? Icons.check_box_outline_blank_rounded
+                              : Icons.check_box_rounded,
+                        ),
+                        hintText: AppLocalizationsBloc
+                            .appLocalizations.formPetGenderHintText,
+                        labelText: AppLocalizationsBloc
+                            .appLocalizations.formPetGenderLabelText,
                       ),
                       items: PetGender.values.map((PetGender value) {
                         return DropdownMenuItem(
@@ -211,78 +323,200 @@ class _AddPetScreenState extends State<AddPetScreen> {
                       }).toList(),
                       onChanged: (value) {
                         if (value != null) {
-                          petGender = value;
+                          setState(() {
+                            petGender = value;
+                          });
                         }
                       },
                       validator: (value) {
                         if (value?.name.isEmpty ?? true) {
-                          return "Please, select the pet's gender";
+                          return AppLocalizationsBloc
+                              .appLocalizations.formPetGenderEmptyErrorText;
                         }
 
                         return null;
                       },
                     ),
 
-                    //TODO Fazer uma página para selecionar raça (Buscar de uma API e mostrar nome com foto)
-                    TextButton(
-                      child: Text("Selecionar imagem do pet"),
-                      onPressed: () {
-                        pickImage();
-                      },
-                    ),
-                    Container(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            if (_formKey.currentState?.validate() ?? false) {
-                              if (pet == null) {
-                                String petId = await petsBloc.add(
-                                  petNameController.text,
-                                  petType,
-                                  "Vira lata",
-                                  petBirthdate,
-                                  petGender,
-                                  image?.path ?? "",
-                                  [
-                                    PetTutor(
-                                      authBloc.firebaseUser?.uid ?? "",
-                                      authBloc.firebaseUser?.displayName ?? "",
-                                      authBloc.firebaseUser?.photoURL,
-                                      TutorPermissions.admin,
-                                    )
-                                  ],
-                                  [], //TODO: Add alarmIds
-                                );
+                    TextButton.icon(
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(AppLocalizationsBloc
+                                  .appLocalizations.unavailableFeat),
+                            ),
+                          );
+                        },
+                        icon: Icon(Icons.arrow_circle_right_rounded),
+                        label: Text(AppLocalizationsBloc
+                            .appLocalizations.formPetBreedText))
 
-                                tutorsBloc.addPetToTutor(
-                                    authBloc.firebaseUser?.uid ?? "", petId);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Olá"),
-                                  ),
-                                );
-                              } else {
-                                petsBloc.update(
-                                  pet!.id,
-                                  petNameController.text,
-                                  petType,
-                                  "Vira lata",
-                                  petBirthdate,
-                                  petGender,
-                                  image?.path ?? pet!.imageUrl ?? "",
-                                  pet!.tutors,
-                                  pet!.alarmIds,
-                                );
-                              }
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: Text("Save")),
-                    )
+                    //TODO Fazer uma página para selecionar raça (Buscar de uma API e mostrar nome com foto)
                   ],
                 ),
               ),
             ),
+            Container(
+              padding:
+                  EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 32),
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton.icon(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Column(
+                              children: [
+                                Text(pet == null
+                                    ? AppLocalizationsBloc.appLocalizations
+                                        .cancelAddingFormPetDialogTitle
+                                    : AppLocalizationsBloc.appLocalizations
+                                        .cancelEditingFormPetDialogTitle),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    AppLocalizationsBloc.appLocalizations
+                                        .cancelEditingFormPetDialogSubtitle,
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                )
+                              ],
+                            ),
+                            actions: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(AppLocalizationsBloc
+                                        .appLocalizations
+                                        .cancelEditingFormPetDialogCancelButtonText),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(AppLocalizationsBloc
+                                        .appLocalizations
+                                        .cancelEditingFormPetDialogContinueButtonText),
+                                  ),
+                                ],
+                              )
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    icon: Icon(Icons.close),
+                    label: Text(AppLocalizationsBloc
+                        .appLocalizations.cancelFormPetActionText),
+                  ),
+                  ElevatedButton.icon(
+                    statesController: saveButtonStatesController,
+                    onPressed: () async {
+                      setState(() {
+                        isSaving = true;
+                        saveButtonStatesController.update(
+                            MaterialState.disabled, true);
+                      });
+                      try {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          if (pet == null) {
+                            String? imageUrl;
+                            if (image != null) {
+                              imageUrl =
+                                  await petsBloc.uploadImage(image?.path ?? "");
+                            }
+                            String petId = await petsBloc.add(
+                              petNameController.text,
+                              petType!,
+                              "Undefined",
+                              petBirthdate,
+                              petGender!,
+                              imageUrl,
+                              [
+                                PetTutor(
+                                  authBloc.firebaseUser?.uid ?? "",
+                                  authBloc.firebaseUser?.displayName ?? "",
+                                  authBloc.firebaseUser?.photoURL,
+                                  TutorPermissions.admin,
+                                )
+                              ],
+                              [], //TODO: Add alarmIds
+                            );
+
+                            await tutorsBloc.addPetToTutor(
+                                authBloc.firebaseUser?.uid ?? "", petId);
+                          } else {
+                            String? imageUrl = pet!.imageUrl;
+                            if (image != null) {
+                              imageUrl =
+                                  await petsBloc.uploadImage(image?.path ?? "");
+                            }
+                            await petsBloc.update(
+                              pet!.id,
+                              petNameController.text,
+                              petType!,
+                              "Undefined",
+                              petBirthdate,
+                              petGender!,
+                              imageUrl,
+                              pet!.tutors,
+                              pet!.alarmIds,
+                            );
+                          }
+
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(AppLocalizationsBloc
+                                  .appLocalizations.formSaveSucessText),
+                            ),
+                          );
+                        } else {
+                          setState(() {
+                            isSaving = false;
+                            saveButtonStatesController.update(
+                                MaterialState.disabled, false);
+                          });
+                        }
+                      } catch (e) {
+                        setState(() {
+                          isSaving = false;
+                          saveButtonStatesController.update(
+                              MaterialState.disabled, false);
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(AppLocalizationsBloc
+                                .appLocalizations.formSaveErrorText),
+                          ),
+                        );
+                      }
+                    },
+                    icon: isSaving
+                        ? Center(
+                            child: Container(
+                                height: 16,
+                                width: 16,
+                                margin: EdgeInsets.only(right: 8),
+                                child: CircularProgressIndicator()),
+                          )
+                        : Icon(Icons.save),
+                    label: Text(AppLocalizationsBloc
+                        .appLocalizations.saveFormPetActionText),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

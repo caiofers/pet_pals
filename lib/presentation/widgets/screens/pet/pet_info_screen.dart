@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
 import 'package:pet_pals/domain/entities/pet_tutor_entity.dart';
-import 'package:pet_pals/domain/global_path.dart';
+import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
+import 'package:pet_pals/resources/assets/assets_path.dart';
 
 class PetInfoScreen extends StatefulWidget {
   const PetInfoScreen({super.key, required this.pet});
@@ -17,6 +18,8 @@ class _PetInfoScreenState extends State<PetInfoScreen> {
 
   late ScrollController _scrollController;
   late ImageProvider petImage;
+  ColorFilter? petImageColorFilter;
+
   @override
   void initState() {
     super.initState();
@@ -74,10 +77,13 @@ class _PetInfoScreenState extends State<PetInfoScreen> {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: petImage,
+                      colorFilter: petImageColorFilter,
                       onError: (exception, stackTrace) {
                         setState(() {
-                          petImage =
-                              AssetImage("${GlobalPath.imageAssetPath}dog.png");
+                          petImageColorFilter =
+                              ColorFilter.mode(Colors.black54, BlendMode.srcIn);
+                          petImage = AssetImage(
+                              "${AssetsPath.images}pet_img_placeholder@3x.png");
                         });
                       },
                     ),
@@ -144,9 +150,24 @@ class PetInfoData extends StatelessWidget {
                   Text("${pet.type.name}, ${pet.breed}"),
                 ],
               ),
-              CircleAvatar(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                child: Text(pet.type.name),
+              Container(
+                height: 48,
+                width: 48,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.black,
+                    child: Image.asset(
+                      pet.type.iconAssetName,
+                      color: Colors.white,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                            "${AssetsPath.images}pet_img_placeholder.png");
+                      },
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -156,8 +177,16 @@ class PetInfoData extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              PetAttribute(attributeTitle: "Sex", attribute: pet.gender.name),
-              PetAttribute(attributeTitle: "Age", attribute: pet.age),
+              PetAttribute(
+                attributeTitle: AppLocalizationsBloc
+                    .appLocalizations.petAttributeGenderText,
+                attribute: pet.gender.name,
+              ),
+              PetAttribute(
+                attributeTitle:
+                    AppLocalizationsBloc.appLocalizations.petAttributeAgeText,
+                attribute: pet.age,
+              ),
             ],
           ),
         ),
@@ -173,7 +202,8 @@ class PetInfoData extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Tutores",
+                      AppLocalizationsBloc
+                          .appLocalizations.petTutorsSectionTitle,
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -213,7 +243,8 @@ class PetInfoData extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Tarefas de hoje",
+                      AppLocalizationsBloc
+                          .appLocalizations.petAlarmsSectionTitle,
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -255,7 +286,6 @@ class PetInfoData extends StatelessWidget {
             ],
           ),
         ),
-        Divider(),
       ],
     ));
   }

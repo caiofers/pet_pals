@@ -25,7 +25,6 @@ class FirebaseAuthService extends ChangeNotifier {
 
   _getUser() {
     firebaseUser = _firebaseAuth.currentUser;
-    print(firebaseUser);
     notifyListeners();
   }
 

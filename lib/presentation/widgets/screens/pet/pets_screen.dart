@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pet_pals/data/services/firebase_auth_service.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
+import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
 import 'package:pet_pals/presentation/bloc/tutors_bloc.dart';
 import 'package:pet_pals/presentation/widgets/screens/pet/add_pet_screen.dart';
 import 'package:pet_pals/presentation/widgets/components/pet_card.dart';
@@ -39,10 +39,11 @@ class _PetsScreenState extends State<PetsScreen> {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
-                return Text("Loading");
+                return Center(child: CircularProgressIndicator());
               default:
                 if (snapshot.hasError)
-                  return Text("Erro");
+                  //TODO Error InfoView
+                  return Center(child: Text("Erro"));
                 else
                   return ListOfPets(
                     context: context,
@@ -51,6 +52,7 @@ class _PetsScreenState extends State<PetsScreen> {
                     bottomPadding: bottomPadding,
                     petsBloc: petsBloc,
                     tutorsBloc: tutorsBloc,
+                    authService: authService,
                   );
             }
           }),
@@ -67,6 +69,7 @@ class ListOfPets extends StatelessWidget {
     required this.bottomPadding,
     required this.petsBloc,
     required this.tutorsBloc,
+    required this.authService,
   });
 
   final BuildContext context;
@@ -75,6 +78,7 @@ class ListOfPets extends StatelessWidget {
   final double bottomPadding;
   final PetsBloc petsBloc;
   final TutorsBloc tutorsBloc;
+  final FirebaseAuthService authService;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -84,17 +88,18 @@ class ListOfPets extends StatelessWidget {
           ListView(
             children: [
               Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(8),
-                  child: Text(
-                    (snapshot.data?.isNotEmpty ?? false)
-                        ? "Seus pets:"
-                        : "User, você ainda não tem pets cadastrado.",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
+                width: double.infinity,
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  AppLocalizationsBloc.appLocalizations.petScreenTitle(
+                      authService.firebaseUser?.displayName ?? "-",
+                      snapshot.data?.length ?? 0),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               for (var pet in snapshot.data!)
                 PetCard(
                   pet: pet,
@@ -136,7 +141,8 @@ class ListOfPets extends StatelessWidget {
                                 children: [
                                   ListTile(
                                     leading: Icon(Icons.edit),
-                                    title: Text("Editar"),
+                                    title: Text(AppLocalizationsBloc
+                                        .appLocalizations.editPetText),
                                     onTap: () {
                                       Navigator.pop(context);
                                       Navigator.push(
@@ -152,7 +158,8 @@ class ListOfPets extends StatelessWidget {
                                   ),
                                   ListTile(
                                     leading: Icon(Icons.people),
-                                    title: Text("Gerenciar tutores"),
+                                    title: Text(AppLocalizationsBloc
+                                        .appLocalizations.managePetTutorsText),
                                     onTap: () {
                                       Navigator.push(
                                         context,
@@ -167,7 +174,8 @@ class ListOfPets extends StatelessWidget {
                                   ),
                                   ListTile(
                                     leading: Icon(Icons.alarm),
-                                    title: Text("Gerenciar alarmes"),
+                                    title: Text(AppLocalizationsBloc
+                                        .appLocalizations.managePetAlarmsText),
                                     onTap: () {
                                       Navigator.push(
                                         context,
@@ -182,22 +190,49 @@ class ListOfPets extends StatelessWidget {
                                   ),
                                   ListTile(
                                     leading: Icon(Icons.delete),
-                                    title: Text("Excluir"),
+                                    title: Text(AppLocalizationsBloc
+                                        .appLocalizations.deletePetText),
                                     onTap: () {
                                       showDialog(
                                           context: context,
                                           builder: (context) {
                                             return AlertDialog(
-                                              title: Text(
-                                                  "Deseja mesmo excluir pet?"),
+                                              title: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    AppLocalizationsBloc
+                                                        .appLocalizations
+                                                        .deletePetDialogTitle,
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(
+                                                      AppLocalizationsBloc
+                                                          .appLocalizations
+                                                          .deletePetDialogTitleSubtitle,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 14),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                               actionsAlignment:
-                                                  MainAxisAlignment.center,
+                                                  MainAxisAlignment.spaceEvenly,
                                               actions: [
                                                 TextButton(
                                                   onPressed: () {
                                                     Navigator.pop(context);
                                                   },
-                                                  child: Text("Cancelar"),
+                                                  child: Text(AppLocalizationsBloc
+                                                      .appLocalizations
+                                                      .deletePetDialogCancelButtonText),
                                                 ),
                                                 ElevatedButton.icon(
                                                   onPressed: () async {
@@ -216,7 +251,9 @@ class ListOfPets extends StatelessWidget {
                                                     Navigator.pop(context);
                                                   },
                                                   icon: Icon(Icons.delete),
-                                                  label: Text("Excluir"),
+                                                  label: Text(AppLocalizationsBloc
+                                                      .appLocalizations
+                                                      .deletePetDialogConfirmButtonText),
                                                 ),
                                               ],
                                             );
@@ -230,7 +267,6 @@ class ListOfPets extends StatelessWidget {
                         );
                       },
                     );
-                    // print("More options pet");
                   },
                 ),
               SizedBox(
@@ -255,7 +291,8 @@ class ListOfPets extends StatelessWidget {
                                 pet: null,
                               )));
                 },
-                child: const Text("Add pet"),
+                child:
+                    Text(AppLocalizationsBloc.appLocalizations.addNewPetText),
               ),
             ),
           ),

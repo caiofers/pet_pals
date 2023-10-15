@@ -1,9 +1,41 @@
 {
     "appTitle": "Pet Pals",
 
+    "homePageLabel": "Home",
+    "petsPageLabel": "Pets",
+    "notificationsPageLabel": "Notificações",
+    "settingsPageLabel": "Configurações",
+
+    "formSaveErrorText": "Algo de errado aconteceu, confira os campos do formulário e a sua conexão com a internet",
+
+    "loginText": "Entrar",
+    "logoutText": "Sair",
+    "createAccountText": "Criar conta",
+
+    "formLoginNameHintText": "Digite seu nome",
+    "formLoginNameLabelText": "Nome",
+    "formLoginNameEmptyErrorText": "Por favor, digite seu nome",
+
+    "formLoginEmailHintText": "Digite um email válido",
+    "formLoginEmailLabelText": "Email",
+    "formLoginEmailEmptyErrorText": "Por favor, digite um email",
+    "formLoginEmailInvalidErrorText": "Por favor, digite um email válido",
+
+    "formLoginPasswordHintText": "Digite a senha",
+    "formLoginPasswordLabelText": "Senha",
+    "formLoginPasswordEmptyErrorText": "Por favor, digite a senha",
+    "formLoginPasswordInvalidErrorText": "Por favor, digite uma senha válida (pelo menos 6 characteres)",
+
+
+    "forgotPasswordButtonText": "Esqueci a senha",
+    "changeToRegisterButtonText": "Não tem uma conte? Crie agora",
+    "changeToLoginButtonText": "Voltar para login",
+
+    "editProfileText": "Editar perfil",
+    "unavailableFeat": "Funcionalidade indisponível",
+
     "helloUser": "Olá, {userName}!",
     "@helloUser": {
-        "description": "A message to refer to user on home page with a single parameter",
         "placeholders": {
             "userName": {
                 "type": "String",
@@ -12,12 +44,54 @@
         }
     },
 
-    "homePageLabel": "Home",
-    "petsPageLabel": "Pets",
-    "notificationsPageLabel": "Notificações",
-    "settingsPageLabel": "Configurações",
-    
-    "ageYears": "{count, plural, =0{0 anos} =1{1 ano} other{{count} anos}}",
+    "petScreenTitle": "{userName}, {count, plural, =0{você ainda não tem pets cadastrados.} =1{esse é o seu pet:} other{esses são seus pets:}}",
+    "@petScreenTitle": {
+        "placeholders": {
+            "userName": {
+                "type": "String",
+                "example": "Caio"
+            },
+            "count": {
+                "type": "num",
+                "format": "compact"
+            }
+        }
+    },
+
+    "addNewPetText": "Adicionar novo pet",
+
+    "editPetText": "Editar pet",
+    "managePetTutorsText": "Gerenciar tutores do pet",
+    "managePetAlarmsText": "Gerenciar alarmes do pet",
+    "deletePetText": "Excluir pet",
+
+    "deletePetDialogTitle": "Você realmente quer excluir o pet?",
+    "deletePetDialogTitleSubtitle": "Você vai perder tudo seobre seu pet",
+
+    "deletePetDialogCancelButtonText": "Cancelar",
+    "deletePetDialogConfirmButtonText": "Excluir",
+
+    "petCardAgeText": "Idade: {age}",
+    "@petCardAgeText": {
+        "placeholders": {
+            "age": {
+                "type": "String",
+                "example": "1 yr"
+            }
+        }
+    },
+
+    "petCardBreedText": "Raça: {breed}",
+    "@petCardBreedText": {
+        "placeholders": {
+            "breed": {
+                "type": "String",
+                "example": "Undefined"
+            }
+        }
+    },
+
+    "ageYears": "{count, plural, =0{0 a} =1{1 a} other{{count} a}}",
     "@ageYears": {
         "placeholders": {
             "count": {
@@ -27,7 +101,7 @@
         }
     },
 
-    "ageMonths": "{count, plural, =0{0 meses} =1{1 mês} other{{count} meses}}",
+    "ageMonths": "{count, plural, =0{0 m} =1{1 m} other{{count} m}}",
     "@ageMonths": {
         "placeholders": {
             "count": {
@@ -37,5 +111,70 @@
         }
     },
 
-    "connectiveAnd": "e"
+    "connectiveAnd": "e",
+
+    "petAttributeGenderText": "Gênero",
+    "petAttributeAgeText": "Idade",
+
+    "petTutorsSectionTitle": "Tutores",
+    "petAlarmsSectionTitle": "Alarmes",
+
+    "petTypeDog": "Cachorro",
+    "petTypeCat": "Gato",
+    "petTypeFish": "Peixe",
+    "petTypeBird": "Pássaro",
+
+    "petGenderMale": "Macho",
+    "petGenderFemale": "Fêmea",
+
+    "addNewPetScreenTitle": "Adicionar novo pet",
+    "editPetScreenTitle": "Editar pet",
+
+    "formPetNameHintText": "Digite o nome do pet",
+    "formPetNameLabelText": "Nome",
+    "formPetNameEmptyErrorText": "Por favor, digite o nome do pet.",
+
+    "formPetTypeHintText": "Selecione o tipo do pet",
+    "formPetTypeLabelText": "Tipo",
+    "formPetTypeEmptyErrorText": "Por favor, selecione o tipo do pet.",
+
+    "formPetBirthdateHintText": "Quando seu pet nasceu?",
+    "formPetBirthdateLabelText": "Data de nascimento",
+    "formPetBirthdateEmptyErrorText": "Por favor, selecione a data de nascimento.",
+
+    "formPetGenderHintText": "Selecione o gênero do pet",
+    "formPetGenderLabelText": "Gênero",
+    "formPetGenderEmptyErrorText": "Por favor, selecione o gênero do pet",
+
+    "formPetChangePetImageText": "Trocar imagem do pet",
+    "formPetChangePetImageErrorText": "Falha ao selecionar imagem",
+
+    "formPetBreedText": "Selecione a raça do pet",
+
+    "cancelFormPetActionText": "Cancelar",
+    "saveFormPetActionText": "Salvar",
+
+    "cancelAddingFormPetDialogTitle": "Cancelar a adição do pet?",
+    "cancelEditingFormPetDialogTitle": "Cancelar a edição do pet?",
+    "cancelEditingFormPetDialogSubtitle": "Se você cancelar, vai perder tudo que foi editado até agora.",
+    "cancelEditingFormPetDialogContinueButtonText": "Continuar editando",
+    "cancelEditingFormPetDialogCancelButtonText": "Perder edição",
+
+    "formSaveSucessText": "Pet adicionado com sucesso",
+
+    "alarmScreenTitle": "{userName}, {count, plural, =0{você ainda não tem alarmes cadastrados.} =1{esse é o seu alarme:} other{esses são seus alarmes:}}",
+    "@alarmScreenTitle": {
+        "placeholders": {
+            "userName": {
+                "type": "String",
+                "example": "Caio"
+            },
+            "count": {
+                "type": "num",
+                "format": "compact"
+            }
+        }
+    },
+
+    "addNewAlarmText": "Adicionar novo alarme"
 }

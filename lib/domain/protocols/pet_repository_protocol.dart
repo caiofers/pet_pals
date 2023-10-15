@@ -10,7 +10,7 @@ abstract interface class PetRepositoryProtocol {
     String breed,
     DateTime birthdate,
     PetGender gender,
-    String imagePath,
+    String? imageUrl,
     List<PetTutor> tutors,
     List<String> alarmIds,
   );
@@ -21,10 +21,11 @@ abstract interface class PetRepositoryProtocol {
     String breed,
     DateTime birthdate,
     PetGender gender,
-    String imagePath,
+    String? imageUrl,
     List<PetTutor> tutors,
     List<String> alarmIds,
   );
+  Future<String?> uploadImage(String imagePath);
   void remove(String id);
   Future<List<Pet>> getPets(List<String> petIds);
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pals/data/services/firebase_auth_service.dart';
+import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -36,11 +37,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  authBloc.firebaseUser?.displayName ?? "No name",
+                  authBloc.firebaseUser?.displayName ?? "-",
                   style: TextStyle(fontSize: 18),
                 ),
                 Text(
-                  authBloc.firebaseUser?.email ?? "No email",
+                  authBloc.firebaseUser?.email ?? "-",
                   style: TextStyle(fontSize: 14),
                 ),
               ],
@@ -58,9 +59,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.edit),
+                      child: const Icon(Icons.edit),
                     ),
-                    Text("Editar perfil"),
+                    Text(AppLocalizationsBloc.appLocalizations.editProfileText),
                   ],
                 ),
                 onTap: () {
@@ -74,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Icon(Icons.exit_to_app),
                     ),
-                    Text("Logout"),
+                    Text(AppLocalizationsBloc.appLocalizations.logoutText),
                   ],
                 ),
                 onTap: () {

@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_pals/data/repositories/pets_database_repository.dart';
 import 'package:pet_pals/data/repositories/tutors_database_repository.dart';
-import 'package:pet_pals/domain/entities/pet_tutor_entity.dart';
-import 'package:pet_pals/domain/enums/pet_gender_enum.dart';
-import 'package:pet_pals/domain/enums/pet_type_enum.dart';
-import 'package:pet_pals/domain/entities/pet_entity.dart';
-import 'package:pet_pals/domain/protocols/pet_repository_protocol.dart';
 import 'package:pet_pals/domain/protocols/tutor_repository_protocol.dart';
 
 class TutorsBloc extends ChangeNotifier {
@@ -32,6 +26,6 @@ class TutorsBloc extends ChangeNotifier {
   }
 
   Future<List<String>> getTutorPetIds(String tutorId) async {
-    return await repository.getTutorPetIds(tutorId);
+    return await repository.getPetIdsFromTutor(tutorId);
   }
 }

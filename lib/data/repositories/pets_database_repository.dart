@@ -18,11 +18,10 @@ class PetsDataBaseRepository implements PetRepositoryProtocol {
     String breed,
     DateTime birthdate,
     PetGender gender,
-    String imagePath,
+    String? imageUrl,
     List<PetTutor> tutors,
     List<String> alarmIds,
   ) async {
-    String? url = await service.uploadImage(imagePath);
     PetDataModel pet = PetDataModel(
       UniqueKey().toString(),
       name,
@@ -30,7 +29,7 @@ class PetsDataBaseRepository implements PetRepositoryProtocol {
       gender.index,
       breed,
       birthdate.toIso8601String(),
-      url,
+      imageUrl,
       tutors.map((tutor) => PetTutorDataModel.fromEntity(tutor)).toList(),
       alarmIds,
     );
@@ -50,11 +49,10 @@ class PetsDataBaseRepository implements PetRepositoryProtocol {
     String breed,
     DateTime birthdate,
     PetGender gender,
-    String imagePath,
+    String? imageUrl,
     List<PetTutor> tutors,
     List<String> alarmIds,
   ) async {
-    String? url = await service.uploadImage(imagePath);
     service.updatePet(
       id,
       PetDataModel(
@@ -64,11 +62,16 @@ class PetsDataBaseRepository implements PetRepositoryProtocol {
         gender.index,
         breed,
         birthdate.toIso8601String(),
-        url,
+        imageUrl,
         tutors.map((tutor) => PetTutorDataModel.fromEntity(tutor)).toList(),
         alarmIds,
       ),
     );
+  }
+
+  @override
+  Future<String?> uploadImage(String imagePath) async {
+    return await service.uploadImage(imagePath);
   }
 
   @override

@@ -15,7 +15,7 @@ class PetsBloc extends ChangeNotifier {
     String breed,
     DateTime birthdate,
     PetGender gender,
-    String imagePath,
+    String? imageUrl,
     List<PetTutor> tutors,
     List<String> alarmIds,
   ) async {
@@ -25,13 +25,17 @@ class PetsBloc extends ChangeNotifier {
       breed,
       birthdate,
       gender,
-      imagePath,
+      imageUrl,
       tutors,
       alarmIds,
     );
 
     notifyListeners();
     return petId;
+  }
+
+  Future<String?> uploadImage(String imagePath) async {
+    return await repository.uploadImage(imagePath);
   }
 
   remove(String id) {
@@ -46,7 +50,7 @@ class PetsBloc extends ChangeNotifier {
     String breed,
     DateTime birthdate,
     PetGender gender,
-    String imagePath,
+    String? imageUrl,
     List<PetTutor> tutors,
     List<String> alarmIds,
   ) {
@@ -57,7 +61,7 @@ class PetsBloc extends ChangeNotifier {
       breed,
       birthdate,
       gender,
-      imagePath,
+      imageUrl,
       tutors,
       alarmIds,
     );

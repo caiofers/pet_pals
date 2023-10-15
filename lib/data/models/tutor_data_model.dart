@@ -1,6 +1,4 @@
-import 'package:pet_pals/domain/entities/pet_tutor_entity.dart';
 import 'package:pet_pals/domain/entities/tutor_entity.dart';
-import 'package:pet_pals/domain/enums/tutor_permissions_enum.dart';
 
 class TutorDataModel {
   String id;

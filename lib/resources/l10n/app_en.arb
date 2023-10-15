@@ -1,6 +1,39 @@
 {
     "appTitle": "Pet Pals",
 
+    "homePageLabel": "Home",
+    "petsPageLabel": "Pets",
+    "notificationsPageLabel": "Notifications",
+    "settingsPageLabel": "Settings",
+
+    "formSaveErrorText": "Something went wrong, check the form fields and your internet connection",
+
+    "loginText": "Login",
+    "logoutText": "Logout",
+    "createAccountText": "Create account",
+
+    "formLoginNameHintText": "Put user name",
+    "formLoginNameLabelText": "Name",
+    "formLoginNameEmptyErrorText": "Please, enter with a name",
+
+    "formLoginEmailHintText": "Put valid email",
+    "formLoginEmailLabelText": "Email",
+    "formLoginEmailEmptyErrorText": "Please, enter with an email",
+    "formLoginEmailInvalidErrorText": "Please, enter with a valid email",
+
+    "formLoginPasswordHintText": "Enter with password",
+    "formLoginPasswordLabelText": "Password",
+    "formLoginPasswordEmptyErrorText": "Please, enter with a password",
+    "formLoginPasswordInvalidErrorText": "Please, enter with an valid password (at least 6 characters)",
+
+
+    "forgotPasswordButtonText": "Forgot password",
+    "changeToRegisterButtonText": "Don't have account? Register now",
+    "changeToLoginButtonText": "Go back to login",
+
+    "editProfileText": "Edit profile",
+    "unavailableFeat": "Unavailable feature",
+
     "helloUser": "Hello, {userName}!",
     "@helloUser": {
         "placeholders": {
@@ -11,12 +44,54 @@
         }
     },
 
-    "homePageLabel": "Home",
-    "petsPageLabel": "Pets",
-    "notificationsPageLabel": "Notifications",
-    "settingsPageLabel": "Settings",
+    "petScreenTitle": "{userName}, {count, plural, =0{you do not have pets registered yet.} =1{this is your pet:} other{these are your pets:}}",
+    "@petScreenTitle": {
+        "placeholders": {
+            "userName": {
+                "type": "String",
+                "example": "Caio"
+            },
+            "count": {
+                "type": "num",
+                "format": "compact"
+            }
+        }
+    },
 
-    "ageYears": "{count, plural, =0{0 years} =1{1 year} other{{count} years}}",
+    "addNewPetText": "Add new pet",
+
+    "editPetText": "Edit pet",
+    "managePetTutorsText": "Manage pet tutors",
+    "managePetAlarmsText": "Manage pet alarms",
+    "deletePetText": "Delete pet",
+
+    "deletePetDialogTitle": "Do you really want to delete this pet?",
+    "deletePetDialogTitleSubtitle": "You will lose everything about your pet.",
+
+    "deletePetDialogCancelButtonText": "Cancel",
+    "deletePetDialogConfirmButtonText": "Delete",
+
+    "petCardAgeText": "Age: {age}",
+    "@petCardAgeText": {
+        "placeholders": {
+            "age": {
+                "type": "String",
+                "example": "1 yr"
+            }
+        }
+    },
+
+    "petCardBreedText": "Breed: {breed}",
+    "@petCardBreedText": {
+        "placeholders": {
+            "breed": {
+                "type": "String",
+                "example": "Undefined"
+            }
+        }
+    },
+
+    "ageYears": "{count, plural, =0{0 yrs} =1{1 yr} other{{count} yrs}}",
     "@ageYears": {
         "placeholders": {
             "count": {
@@ -26,7 +101,7 @@
         }
     },
 
-    "ageMonths": "{count, plural, =0{0 months} =1{1 month} other{{count} months}}",
+    "ageMonths": "{count, plural, =0{0 mos} =1{1 mo} other{{count} mos}}",
     "@ageMonths": {
         "placeholders": {
             "count": {
@@ -36,5 +111,70 @@
         }
     },
 
-    "connectiveAnd": "and"
+    "connectiveAnd": "and",
+
+    "petAttributeGenderText": "Gender",
+    "petAttributeAgeText": "Age",
+
+    "petTutorsSectionTitle": "Tutors",
+    "petAlarmsSectionTitle": "Alarms",
+
+    "petTypeDog": "Dog",
+    "petTypeCat": "Cat",
+    "petTypeFish": "Fish",
+    "petTypeBird": "Bird",
+
+    "petGenderMale": "Male",
+    "petGenderFemale": "Female",
+
+    "addNewPetScreenTitle": "Add new pet",
+    "editPetScreenTitle": "Edit pet",
+
+    "formPetNameHintText": "Put the pet's name",
+    "formPetNameLabelText": "Pet's name",
+    "formPetNameEmptyErrorText": "Please, put the pet's name.",
+
+    "formPetTypeHintText": "Select pet's type",
+    "formPetTypeLabelText": "Pet's type",
+    "formPetTypeEmptyErrorText": "Please, select pet's type",
+
+    "formPetBirthdateHintText": "Select pet's birthdate",
+    "formPetBirthdateLabelText": "Pet's birthdate",
+    "formPetBirthdateEmptyErrorText": "Please, select pet's birthdate",
+
+    "formPetGenderHintText": "Select pet's gender",
+    "formPetGenderLabelText": "Pet's gender",
+    "formPetGenderEmptyErrorText": "Please, select pet's gender",
+
+    "formPetChangePetImageText": "Change pet image",
+    "formPetChangePetImageErrorText": "Failed to pick image",
+
+    "formPetBreedText": "Select pet's breed",
+
+    "cancelFormPetActionText": "Cancel",
+    "saveFormPetActionText": "Save",
+
+    "cancelAddingFormPetDialogTitle": "Cancel adding pet",
+    "cancelEditingFormPetDialogTitle": "Cancel editing pet",
+    "cancelEditingFormPetDialogSubtitle": "If you cancel will lose everything edited so far.",
+    "cancelEditingFormPetDialogContinueButtonText": "Continue editing",
+    "cancelEditingFormPetDialogCancelButtonText": "Lose edited",
+
+    "formSaveSucessText": "Pet added with sucess",
+
+    "alarmScreenTitle": "{userName}, {count, plural, =0{you do not have alarms registered yet.} =1{this is your alarm:} other{these are your alarms:}}",
+    "@alarmScreenTitle": {
+        "placeholders": {
+            "userName": {
+                "type": "String",
+                "example": "Caio"
+            },
+            "count": {
+                "type": "num",
+                "format": "compact"
+            }
+        }
+    },
+
+    "addNewAlarmText": "Add new alarm"
 }

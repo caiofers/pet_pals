@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
-
 class Init {
   static Future initialize() async {
     await _registerServices();

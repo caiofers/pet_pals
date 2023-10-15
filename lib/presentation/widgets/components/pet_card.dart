@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pet_pals/domain/global_path.dart';
+import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
+import 'package:pet_pals/resources/assets/assets_path.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
 
 class PetCard extends StatelessWidget {
@@ -34,7 +35,8 @@ class PetCard extends StatelessWidget {
                     width: double.infinity,
                     errorBuilder: (context, error, stackTrace) {
                       return Image.asset(
-                        "${GlobalPath.imageAssetPath}dog.png",
+                        "${AssetsPath.images}pet_img_placeholder.png",
+                        color: Colors.black54,
                         height: 200,
                       );
                     },
@@ -69,8 +71,10 @@ class PetCard extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Idade: ${pet.age}"),
-                            Text("Raça: ${pet.breed}"),
+                            Text(AppLocalizationsBloc.appLocalizations
+                                .petCardAgeText(pet.age)),
+                            Text(AppLocalizationsBloc.appLocalizations
+                                .petCardBreedText(pet.breed)),
                           ],
                         ),
                       ),
@@ -93,8 +97,15 @@ class PetCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50),
                 child: Container(
                   padding: const EdgeInsets.all(8),
-                  color: Colors.amber,
-                  child: Image.asset(pet.type.iconAssetName),
+                  color: Colors.black,
+                  child: Image.asset(
+                    pet.type.iconAssetName,
+                    color: Colors.white,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                          "${AssetsPath.images}pet_img_placeholder.png");
+                    },
+                  ),
                 ),
               ),
             ),
