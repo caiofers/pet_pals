@@ -4,8 +4,8 @@ import 'package:pet_pals/presentation/widgets/screens/home/home_screen.dart';
 import 'package:pet_pals/presentation/widgets/screens/login/auth_check.dart';
 import 'package:pet_pals/presentation/widgets/screens/profile/profile_screen.dart';
 import 'package:pet_pals/presentation/widgets/screens/settings/settings_screen.dart';
-import 'package:pet_pals/presentation/widgets/screens/alarm/notifications_screen.dart';
-import 'package:pet_pals/presentation/widgets/screens/pet/pets_screen.dart';
+import 'package:pet_pals/presentation/widgets/screens/alarm/alarm_list_screen.dart';
+import 'package:pet_pals/presentation/widgets/screens/pet/pet_list_screen.dart';
 import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
 import 'package:pet_pals/resources/assets/assets_path.dart';
 import 'package:provider/provider.dart';
@@ -22,8 +22,8 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> _screens = const [
     HomeScreen(),
-    PetsScreen(),
-    NotificationsScreen(),
+    PetListScreen(),
+    AlarmListScreen(),
     SettingsScreen(),
   ];
 
@@ -103,8 +103,7 @@ class _MainPageState extends State<MainPage> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.notifications),
-                label: AppLocalizationsBloc
-                    .appLocalizations.notificationsPageLabel,
+                label: AppLocalizationsBloc.appLocalizations.alarmsPageLabel,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),

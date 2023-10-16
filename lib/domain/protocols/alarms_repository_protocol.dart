@@ -3,28 +3,29 @@ import 'package:pet_pals/domain/entities/alarm_recurrence_entity.dart';
 import 'package:pet_pals/domain/enums/alarm_type_enum.dart';
 
 abstract interface class AlarmsRepositoryProtocol {
-  void addAlarm(
+  Future<String> addAlarm(
     String name,
     AlarmType type,
     AlarmRecurrence recurrence,
     String time,
     bool enabled,
-    List<String> petIds,
+    String petId,
     List<String> tutorIds,
   );
-  void updateAlarm(
+  Future<void> updateAlarm(
     String id,
     String name,
     AlarmType type,
     AlarmRecurrence recurrence,
     String time,
     bool enabled,
-    List<String> petIds,
+    String petId,
     List<String> tutorIds,
   );
-  void removeAlarm(String id);
-  void updateRecurrence(String id, AlarmRecurrence recurrence);
-  void switchAlarmOnOff(String id, bool enabled);
-  Alarm getAlarm(String id);
-  List<Alarm> getAllAlarms(DateTime? date);
+  Future<void> removeAlarm(String id);
+  Future<void> updateRecurrence(String id, AlarmRecurrence recurrence);
+  Future<void> switchAlarmOnOff(String id, bool enabled);
+  Future<Alarm> getAlarm(String id);
+  Future<List<Alarm>> getAllAlarms(DateTime? date);
+  Future<List<Alarm>> getAlarmsByIds(List<String> alarmIds);
 }

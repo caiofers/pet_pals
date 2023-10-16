@@ -68,6 +68,26 @@ class PetsBloc extends ChangeNotifier {
     notifyListeners();
   }
 
+  // addTutorToPet(String petId, String tutorId) async {
+  //   await repository.addTutorToPet(petId, tutorId);
+  //   notifyListeners();
+  // }
+
+  // removeTutorFromPet(String petId, String tutorId) async {
+  //   await repository.removeTutorFromPet(petId, tutorId);
+  //   notifyListeners();
+  // }
+
+  // addAlarmToPet(String petId, String alarmId) async {
+  //   await repository.addAlarmToPet(petId, alarmId);
+  //   notifyListeners();
+  // }
+
+  // removeAlarmFromPet(String petId, String alarmId) async {
+  //   await repository.removeAlarmFromPet(petId, alarmId);
+  //   notifyListeners();
+  // }
+
   Future<List<Pet>> getPets(List<String> petIds) async {
     return await repository.getPets(petIds);
   }

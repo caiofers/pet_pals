@@ -3,7 +3,6 @@ abstract interface class TutorRepositoryProtocol {
     String id,
     String name,
     String? avatarUrl,
-    List<String> petIds,
   );
 
   Future<void> addPetToTutor(
@@ -15,5 +14,18 @@ abstract interface class TutorRepositoryProtocol {
     String tutorId,
     String petId,
   );
+
   Future<List<String>> getPetIdsFromTutor(String tutorId);
+
+  Future<void> addAlarmToTutor(
+    String tutorId,
+    String alarmId,
+  );
+
+  Future<void> removeAlarmFromTutor(
+    String tutorId,
+    String alarmId,
+  );
+
+  Future<List<String>> getAlarmIdsFromTutor(String tutorId);
 }

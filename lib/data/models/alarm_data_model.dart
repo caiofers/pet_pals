@@ -10,7 +10,7 @@ class AlarmDataModel {
   AlarmRecurrenceDataModel recurrence;
   String time;
   bool enabled;
-  List<String> petIds;
+  String petId;
   List<String> tutorIds;
 
   AlarmDataModel(
@@ -20,24 +20,18 @@ class AlarmDataModel {
     this.recurrence,
     this.time,
     this.enabled,
-    this.petIds,
+    this.petId,
     this.tutorIds,
   );
 
   factory AlarmDataModel.fromJson(dynamic json) {
-    var petIdsJson = json['petIds'] as List;
-    List<String> petIds = petIdsJson
-        .map(
-          (petIdJson) => petIdJson.toString(),
-        )
-        .toList();
-
-    var tutorIdsJson = json['tutorIds'] as List;
+    var tutorIdsJson = json['tutorIds'] as List?;
     List<String> tutorIds = tutorIdsJson
-        .map(
-          (tutorIdJson) => tutorIdJson.toString(),
-        )
-        .toList();
+            ?.map(
+              (tutorIdJson) => tutorIdJson.toString(),
+            )
+            .toList() ??
+        [];
     return AlarmDataModel(
       json['id'] as String,
       json['name'] as String,
@@ -45,7 +39,7 @@ class AlarmDataModel {
       AlarmRecurrenceDataModel.fromJson(json['recurrence']),
       json['time'] as String,
       json['enabled'] as bool,
-      petIds,
+      json['petId'] as String,
       tutorIds,
     );
   }
@@ -58,7 +52,7 @@ class AlarmDataModel {
       AlarmRecurrenceDataModel.fromEntity(alarm.recurrence),
       alarm.time.toString(), //TODO: Check if this is what I want
       alarm.enabled,
-      alarm.petIds,
+      alarm.petId,
       alarm.tutorIds,
     );
   }
@@ -68,7 +62,27 @@ class AlarmDataModel {
 
     TimeOfDay tempTimeOfDay = TimeOfDay.now(); //TODO Convert time to TimeOfDay
 
-    return Alarm(id, name, alarmType, recurrence.toEntity(), tempTimeOfDay,
-        tutorIds, petIds);
+    return Alarm(
+      id,
+      name,
+      alarmType,
+      recurrence.toEntity(),
+      tempTimeOfDay,
+      tutorIds,
+      petId,
+    );
+  }
+
+  Map<String, Object?> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'type': type,
+      'recurrence': recurrence.toJson(),
+      'time': time,
+      'enabled': enabled,
+      'petId': petId,
+      'tutorIds': tutorIds,
+    };
   }
 }

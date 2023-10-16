@@ -14,7 +14,8 @@ abstract interface class PetRepositoryProtocol {
     List<PetTutor> tutors,
     List<String> alarmIds,
   );
-  void update(
+
+  Future<void> update(
     String id,
     String name,
     PetType type,
@@ -25,7 +26,20 @@ abstract interface class PetRepositoryProtocol {
     List<PetTutor> tutors,
     List<String> alarmIds,
   );
+
   Future<String?> uploadImage(String imagePath);
-  void remove(String id);
+
+  Future<void> remove(String id);
+
   Future<List<Pet>> getPets(List<String> petIds);
+
+  // Future<void> addTutorToPet(String petId, String tutorId);
+
+  // Future<void> removeTutorFromPet(String petId, String tutorId);
+
+  Future<void> addAlarmToPet(String petId, String alarmId);
+
+  Future<void> removeAlarmFromPet(String petId, String alarmId);
+
+  Future<List<String>> getAlarmIdsFromPet(String petId);
 }

@@ -7,6 +7,7 @@ class AlarmRecurrenceDataModel {
   int type;
   int endsWhen;
   int maxOccurrences;
+  int everyAmountofTime;
   String firstAlarmDate;
   List<String> nextAlarmsDate;
   List<String> daysOfWeekEnabled;
@@ -14,6 +15,7 @@ class AlarmRecurrenceDataModel {
 
   AlarmRecurrenceDataModel(
     this.type,
+    this.everyAmountofTime,
     this.endsWhen,
     this.maxOccurrences,
     this.firstAlarmDate,
@@ -26,13 +28,12 @@ class AlarmRecurrenceDataModel {
     var nextAlarmsDateJson = json['nextAlarmsDate'];
     var daysOfWeekEnabledJson = json['daysOfWeekEnabled'];
 
-    List<String> nextAlarmsDate =
-        nextAlarmsDateJson != null ? List.from(nextAlarmsDateJson) : [];
-    List<String> daysOfWeekEnabled =
-        daysOfWeekEnabledJson != null ? List.from(daysOfWeekEnabledJson) : [];
+    List<String> nextAlarmsDate = nextAlarmsDateJson != null ? List.from(nextAlarmsDateJson) : [];
+    List<String> daysOfWeekEnabled = daysOfWeekEnabledJson != null ? List.from(daysOfWeekEnabledJson) : [];
 
     return AlarmRecurrenceDataModel(
       json['type'] as int,
+      json['everyAmountOfTime'] as int,
       json['endsWhen'] as int,
       json['maxOccurences'] as int,
       json['firstAlarmDate'] as String,
@@ -45,6 +46,7 @@ class AlarmRecurrenceDataModel {
   factory AlarmRecurrenceDataModel.fromEntity(AlarmRecurrence recurrence) {
     return AlarmRecurrenceDataModel(
       recurrence.recurrenceType.index,
+      recurrence.everyAmountOfTime,
       recurrence.recurrenceEnds.index,
       recurrence.maxOccurrences,
       recurrence.firstAlarmDate.toIso8601String(),
@@ -55,10 +57,8 @@ class AlarmRecurrenceDataModel {
   }
 
   AlarmRecurrence toEntity() {
-    AlarmRecurrenceType alarmRecurrenceType =
-        AlarmRecurrenceType.values.elementAt(type);
-    AlarmRecurrenceEnds alarmRecurrenceEnds =
-        AlarmRecurrenceEnds.values.elementAt(endsWhen);
+    AlarmRecurrenceType alarmRecurrenceType = AlarmRecurrenceType.values.elementAt(type);
+    AlarmRecurrenceEnds alarmRecurrenceEnds = AlarmRecurrenceEnds.values.elementAt(endsWhen);
 
     AlarmRecurrenceMonthlyRepetition alarmRecurrenceMonthlyRepetition =
         AlarmRecurrenceMonthlyRepetition.values.elementAt(monthlyRepetition);
@@ -84,14 +84,26 @@ class AlarmRecurrenceDataModel {
 
     return AlarmRecurrence(
       alarmRecurrenceType,
+      everyAmountofTime,
       alarmRecurrenceEnds,
       maxOccurrences,
       daysOfWeekSelection,
       alarmRecurrenceMonthlyRepetition,
       DateTime.parse(firstAlarmDate),
-      nextAlarmsDate
-          .map((nextAlarmsAsString) => DateTime.parse(nextAlarmsAsString))
-          .toList(),
+      nextAlarmsDate.map((nextAlarmsAsString) => DateTime.parse(nextAlarmsAsString)).toList(),
     );
+  }
+
+  Map<String, Object?> toJson() {
+    return {
+      'type': type,
+      'everyAmountOfTime': everyAmountofTime,
+      'endsWhen': endsWhen,
+      'maxOccurences': maxOccurrences,
+      'firstAlarmDate': firstAlarmDate,
+      'nextAlarmsDate': nextAlarmsDate,
+      'daysOfWeekEnabled': daysOfWeekEnabled,
+      'monthlyRepetition': monthlyRepetition
+    };
   }
 }

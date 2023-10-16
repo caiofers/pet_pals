@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pals/domain/entities/pet_entity.dart';
-import 'package:pet_pals/domain/entities/pet_tutor_entity.dart';
 import 'package:pet_pals/presentation/bloc/app_localizations_bloc.dart';
+import 'package:pet_pals/presentation/widgets/components/tutor_pic.dart';
 import 'package:pet_pals/resources/assets/assets_path.dart';
 
 class PetInfoScreen extends StatefulWidget {
@@ -32,13 +32,11 @@ class _PetInfoScreenState extends State<PetInfoScreen> {
   }
 
   bool get _isSliverAppBarCollapsed {
-    return _scrollController.hasClients &&
-        _scrollController.offset > (appBarExpandedHeight - kToolbarHeight);
+    return _scrollController.hasClients && _scrollController.offset > (appBarExpandedHeight - kToolbarHeight);
   }
 
   bool get _isAppBarTitleShowed {
-    return _scrollController.hasClients &&
-        _scrollController.offset > (appBarExpandedHeight + 50 - kToolbarHeight);
+    return _scrollController.hasClients && _scrollController.offset > (appBarExpandedHeight + 50 - kToolbarHeight);
   }
 
   @override
@@ -80,10 +78,8 @@ class _PetInfoScreenState extends State<PetInfoScreen> {
                       colorFilter: petImageColorFilter,
                       onError: (exception, stackTrace) {
                         setState(() {
-                          petImageColorFilter =
-                              ColorFilter.mode(Colors.black54, BlendMode.srcIn);
-                          petImage = AssetImage(
-                              "${AssetsPath.images}pet_img_placeholder@3x.png");
+                          petImageColorFilter = ColorFilter.mode(Colors.black54, BlendMode.srcIn);
+                          petImage = AssetImage("${AssetsPath.images}pet_img_placeholder@3x.png");
                         });
                       },
                     ),
@@ -94,10 +90,7 @@ class _PetInfoScreenState extends State<PetInfoScreen> {
                   duration: Duration(milliseconds: 200),
                   child: Container(
                     alignment: Alignment.bottomCenter,
-                    color: Theme.of(context)
-                        .appBarTheme
-                        .backgroundColor
-                        ?.withOpacity(1),
+                    color: Theme.of(context).appBarTheme.backgroundColor?.withOpacity(1),
                     child: Container(
                       padding: EdgeInsets.all(8),
                       child: AnimatedOpacity(
@@ -162,8 +155,7 @@ class PetInfoData extends StatelessWidget {
                       pet.type.iconAssetName,
                       color: Colors.white,
                       errorBuilder: (context, error, stackTrace) {
-                        return Image.asset(
-                            "${AssetsPath.images}pet_img_placeholder.png");
+                        return Image.asset("${AssetsPath.images}pet_img_placeholder.png");
                       },
                     ),
                   ),
@@ -178,13 +170,11 @@ class PetInfoData extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               PetAttribute(
-                attributeTitle: AppLocalizationsBloc
-                    .appLocalizations.petAttributeGenderText,
+                attributeTitle: AppLocalizationsBloc.appLocalizations.petAttributeGenderText,
                 attribute: pet.gender.name,
               ),
               PetAttribute(
-                attributeTitle:
-                    AppLocalizationsBloc.appLocalizations.petAttributeAgeText,
+                attributeTitle: AppLocalizationsBloc.appLocalizations.petAttributeAgeText,
                 attribute: pet.age,
               ),
             ],
@@ -202,10 +192,8 @@ class PetInfoData extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      AppLocalizationsBloc
-                          .appLocalizations.petTutorsSectionTitle,
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      AppLocalizationsBloc.appLocalizations.petTutorsSectionTitle,
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     //TextButton(onPressed: () {}, child: Text("Editar"))
                   ],
@@ -224,7 +212,13 @@ class PetInfoData extends StatelessWidget {
                   crossAxisCount: 1,
                   scrollDirection: Axis.horizontal,
                   children: [
-                    for (var tutor in pet.tutors) TutorPic(tutor: tutor),
+                    for (var tutor in pet.tutors)
+                      TutorPic(
+                        tutorId: tutor.id,
+                        tutorName: tutor.name,
+                        tutorAvatarUrl: tutor.avatarUrl,
+                        onTap: () {},
+                      ),
                   ],
                 ),
               )
@@ -243,10 +237,8 @@ class PetInfoData extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      AppLocalizationsBloc
-                          .appLocalizations.petAlarmsSectionTitle,
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      AppLocalizationsBloc.appLocalizations.petAlarmsSectionTitle,
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     //TextButton(onPressed: () {}, child: Text("Editar"))
                   ],
@@ -292,8 +284,7 @@ class PetInfoData extends StatelessWidget {
 }
 
 class PetAttribute extends StatelessWidget {
-  const PetAttribute(
-      {super.key, required this.attributeTitle, required this.attribute});
+  const PetAttribute({super.key, required this.attributeTitle, required this.attribute});
 
   final String attributeTitle;
   final String attribute;
@@ -320,54 +311,6 @@ class PetAttribute extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [Text(attributeTitle), Text(attribute)],
       ),
-    );
-  }
-}
-
-class TutorPic extends StatelessWidget {
-  const TutorPic({
-    super.key,
-    required this.tutor,
-  });
-
-  final PetTutor tutor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          height: 70,
-          width: 70,
-          decoration: BoxDecoration(shape: BoxShape.circle),
-          child: Image.network(
-            tutor.avatarUrl ?? '',
-            errorBuilder: (context, error, stackTrace) {
-              return CircleAvatar(child: Icon(Icons.person));
-            },
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(shape: BoxShape.circle),
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 4),
-            height: 20,
-            width: 70,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-                color: Colors.amber.shade200),
-            child: Text(
-              tutor.name.split(' ').first,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 12),
-            ),
-          ),
-        )
-      ],
     );
   }
 }

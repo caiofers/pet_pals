@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pals/domain/extensions/time_of_day_extension.dart';
 import 'package:pet_pals/domain/entities/alarm_entity.dart';
-import 'package:pet_pals/presentation/widgets/screens/alarm/add_pet_alarm_screen.dart';
 import 'package:pet_pals/presentation/bloc/alarms_bloc.dart';
 import 'package:provider/provider.dart';
 
 class AlarmCard extends StatelessWidget {
-  const AlarmCard({super.key, required this.alarm});
+  const AlarmCard({super.key, required this.alarm, required this.onCardTap});
   final Alarm alarm;
+  final Function onCardTap;
 
   @override
   Widget build(BuildContext context) {
@@ -16,20 +16,12 @@ class AlarmCard extends StatelessWidget {
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => AddPetAlarmScreen(
-                alarm: alarm,
-              ),
-            ),
-          );
+          onCardTap();
         },
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.only(
-                  top: 16.0, bottom: 8, left: 16, right: 16),
+              padding: const EdgeInsets.only(top: 16.0, bottom: 8, left: 16, right: 16),
               child: Row(
                 children: [
                   Padding(
@@ -39,8 +31,7 @@ class AlarmCard extends StatelessWidget {
                       children: [
                         Text(
                           alarm.name,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                         ),
                         Row(
                           children: [
@@ -84,9 +75,7 @@ class AlarmCard extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8, bottom: 16),
               child: Row(
                 children: [
-                  Container(
-                      margin: const EdgeInsets.only(right: 8),
-                      child: const Icon(Icons.alarm)),
+                  Container(margin: const EdgeInsets.only(right: 8), child: const Icon(Icons.alarm)),
                   Text(
                     alarm.time.toStringByLocale(),
                     style: const TextStyle(fontWeight: FontWeight.bold),

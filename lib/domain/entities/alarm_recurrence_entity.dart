@@ -6,6 +6,7 @@ class AlarmRecurrence {
   AlarmRecurrenceType recurrenceType;
   AlarmRecurrenceEnds recurrenceEnds;
   int maxOccurrences;
+  int everyAmountOfTime;
 
   //When weekly recurrence
   Map<String, bool> daysOfWeekSelection;
@@ -18,6 +19,7 @@ class AlarmRecurrence {
 
   AlarmRecurrence(
     this.recurrenceType,
+    this.everyAmountOfTime,
     this.recurrenceEnds,
     this.maxOccurrences,
     this.daysOfWeekSelection,

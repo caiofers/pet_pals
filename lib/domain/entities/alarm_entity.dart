@@ -9,9 +9,8 @@ class Alarm {
   AlarmRecurrence recurrence;
   TimeOfDay time = TimeOfDay.now();
   bool enabled = true;
-
-  List<String> tutorIds = [];
-  List<String> petIds = [];
+  List<String> tutorIds;
+  String petId;
 
   Alarm(
     this.id,
@@ -20,6 +19,6 @@ class Alarm {
     this.recurrence,
     this.time,
     this.tutorIds,
-    this.petIds,
+    this.petId,
   );
 }

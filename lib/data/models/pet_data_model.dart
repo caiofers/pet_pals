@@ -42,6 +42,7 @@ class PetDataModel {
             )
             .toList() ??
         [];
+
     return PetDataModel(
       json['id'] as String,
       json['name'] as String,
@@ -98,20 +99,6 @@ class PetDataModel {
       'birthdate': birthdate,
       'imgUrl': imgUrl,
       'tutors': tutorsJson,
-      'alarmIds': alarmIds
-    };
-  }
-
-  Map<String, Object?> toJson2() {
-    return {
-      'id': id,
-      'name': name,
-      'type': type,
-      'gender': gender,
-      'breed': breed,
-      'birthdate': birthdate,
-      'imgUrl': imgUrl,
-      //'tutors': tutors.map((e) => e.toJson() as Map<String, Object?>).toList(),
       'alarmIds': alarmIds
     };
   }

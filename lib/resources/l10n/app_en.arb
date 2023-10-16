@@ -3,7 +3,7 @@
 
     "homePageLabel": "Home",
     "petsPageLabel": "Pets",
-    "notificationsPageLabel": "Notifications",
+    "alarmsPageLabel": "Alarms",
     "settingsPageLabel": "Settings",
 
     "formSaveErrorText": "Something went wrong, check the form fields and your internet connection",

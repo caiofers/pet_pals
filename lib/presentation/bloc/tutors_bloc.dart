@@ -9,9 +9,8 @@ class TutorsBloc extends ChangeNotifier {
     String id,
     String name,
     String avatarUrl,
-    List<String> petIds,
   ) async {
-    await repository.add(id, name, avatarUrl, petIds);
+    await repository.add(id, name, avatarUrl);
     notifyListeners();
   }
 
@@ -22,6 +21,16 @@ class TutorsBloc extends ChangeNotifier {
 
   removePetFromTutor(String tutorId, String petId) async {
     await repository.removePetFromTutor(tutorId, petId);
+    notifyListeners();
+  }
+
+  addAlarmToTutor(String tutorId, String alarmId) async {
+    await repository.addAlarmToTutor(tutorId, alarmId);
+    notifyListeners();
+  }
+
+  removeAlarmFromTutor(String tutorId, String alarmId) async {
+    await repository.removeAlarmFromTutor(tutorId, alarmId);
     notifyListeners();
   }
 

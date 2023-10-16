@@ -6,9 +6,8 @@ class TutorsDataBaseRepository implements TutorRepositoryProtocol {
   final service = FirebaseDatabaseService();
 
   @override
-  Future<void> add(
-      String id, String name, String? avatarUrl, List<String> petIds) async {
-    await service.setTutor(TutorDataModel(id, name, avatarUrl, petIds));
+  Future<void> add(String id, String name, String? avatarUrl) async {
+    await service.setTutor(TutorDataModel(id, name, avatarUrl, [], []));
   }
 
   @override
@@ -24,5 +23,20 @@ class TutorsDataBaseRepository implements TutorRepositoryProtocol {
   @override
   Future<List<String>> getPetIdsFromTutor(String tutorId) async {
     return await service.getPetIdsFromTutor(tutorId);
+  }
+
+  @override
+  Future<void> addAlarmToTutor(String tutorId, String alarmId) async {
+    await service.addAlarmToTutor(tutorId, alarmId);
+  }
+
+  @override
+  Future<void> removeAlarmFromTutor(String tutorId, String alarmId) async {
+    await service.removeAlarmFromTutor(tutorId, alarmId);
+  }
+
+  @override
+  Future<List<String>> getAlarmIdsFromTutor(String tutorId) async {
+    return await service.getAlarmIdsFromTutor(tutorId);
   }
 }

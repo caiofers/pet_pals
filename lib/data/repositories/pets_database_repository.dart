@@ -33,12 +33,12 @@ class PetsDataBaseRepository implements PetRepositoryProtocol {
       tutors.map((tutor) => PetTutorDataModel.fromEntity(tutor)).toList(),
       alarmIds,
     );
-    return service.setPet(pet);
+    return await service.setPet(pet);
   }
 
   @override
-  remove(String id) {
-    service.removePet(id);
+  remove(String id) async {
+    await service.removePet(id);
   }
 
   @override
@@ -53,7 +53,7 @@ class PetsDataBaseRepository implements PetRepositoryProtocol {
     List<PetTutor> tutors,
     List<String> alarmIds,
   ) async {
-    service.updatePet(
+    await service.updatePet(
       id,
       PetDataModel(
         id,
@@ -76,8 +76,21 @@ class PetsDataBaseRepository implements PetRepositoryProtocol {
 
   @override
   Future<List<Pet>> getPets(List<String> petIds) async {
-    return await service
-        .getPets(petIds)
-        .then((value) => value.map((e) => e.toEntity()).toList());
+    return await service.getPets(petIds).then((value) => value.map((e) => e.toEntity()).toList());
+  }
+
+  @override
+  Future<void> addAlarmToPet(String petId, String alarmId) async {
+    await service.addAlarmToPet(petId, alarmId);
+  }
+
+  @override
+  Future<void> removeAlarmFromPet(String petId, String alarmId) async {
+    await service.removeAlarmFromPet(petId, alarmId);
+  }
+
+  @override
+  Future<List<String>> getAlarmIdsFromPet(String petId) async {
+    return await service.getAlarmIdsFromPet(petId);
   }
 }
