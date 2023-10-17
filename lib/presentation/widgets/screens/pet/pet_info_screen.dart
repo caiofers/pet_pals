@@ -50,7 +50,7 @@ class _PetInfoScreenState extends State<PetInfoScreen> {
               icon: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   color: Theme.of(context).appBarTheme.backgroundColor,
                   child: const Icon(
                     Icons.arrow_back_ios_new,
@@ -78,7 +78,7 @@ class _PetInfoScreenState extends State<PetInfoScreen> {
                       colorFilter: petImageColorFilter,
                       onError: (exception, stackTrace) {
                         setState(() {
-                          petImageColorFilter = ColorFilter.mode(Colors.black54, BlendMode.srcIn);
+                          petImageColorFilter = const ColorFilter.mode(Colors.black54, BlendMode.srcIn);
                           petImage = AssetImage("${AssetsPath.images}pet_img_placeholder@3x.png");
                         });
                       },
@@ -87,18 +87,18 @@ class _PetInfoScreenState extends State<PetInfoScreen> {
                 ),
                 AnimatedOpacity(
                   opacity: _isSliverAppBarCollapsed ? 1.0 : 0,
-                  duration: Duration(milliseconds: 200),
+                  duration: const Duration(milliseconds: 200),
                   child: Container(
                     alignment: Alignment.bottomCenter,
                     color: Theme.of(context).appBarTheme.backgroundColor?.withOpacity(1),
                     child: Container(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: AnimatedOpacity(
                         opacity: _isAppBarTitleShowed ? 1 : 0,
-                        duration: Duration(milliseconds: 200),
+                        duration: const Duration(milliseconds: 200),
                         child: Text(
                           widget.pet.name,
-                          style: TextStyle(fontSize: 24),
+                          style: const TextStyle(fontSize: 24),
                         ),
                       ),
                     ),
@@ -125,11 +125,10 @@ class PetInfoData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
+    return Column(
       children: [
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -138,12 +137,12 @@ class PetInfoData extends StatelessWidget {
                 children: [
                   Text(
                     pet.name,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   Text("${pet.type.name}, ${pet.breed}"),
                 ],
               ),
-              Container(
+              SizedBox(
                 height: 48,
                 width: 48,
                 child: ClipRRect(
@@ -180,9 +179,9 @@ class PetInfoData extends StatelessWidget {
             ],
           ),
         ),
-        Divider(),
+        const Divider(),
         Container(
-          padding: EdgeInsets.only(bottom: 16),
+          padding: const EdgeInsets.only(bottom: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -193,13 +192,13 @@ class PetInfoData extends StatelessWidget {
                   children: [
                     Text(
                       AppLocalizationsBloc.appLocalizations.petTutorsSectionTitle,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     //TextButton(onPressed: () {}, child: Text("Editar"))
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Container(
@@ -207,7 +206,7 @@ class PetInfoData extends StatelessWidget {
                 width: double.infinity,
                 alignment: Alignment.topCenter,
                 child: GridView.count(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   mainAxisSpacing: 8,
                   crossAxisCount: 1,
                   scrollDirection: Axis.horizontal,
@@ -225,9 +224,9 @@ class PetInfoData extends StatelessWidget {
             ],
           ),
         ),
-        Divider(),
+        const Divider(),
         Container(
-          padding: EdgeInsets.only(bottom: 16),
+          padding: const EdgeInsets.only(bottom: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -238,36 +237,36 @@ class PetInfoData extends StatelessWidget {
                   children: [
                     Text(
                       AppLocalizationsBloc.appLocalizations.petAlarmsSectionTitle,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     //TextButton(onPressed: () {}, child: Text("Editar"))
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
-              Container(
+              SizedBox(
                 height: 150,
                 width: double.infinity,
                 child: ListView(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   scrollDirection: Axis.horizontal,
-                  children: [
+                  children: const [
                     Card(
-                      child: Container(
+                      child: SizedBox(
                         height: 200,
                         width: 300,
                       ),
                     ),
                     Card(
-                      child: Container(
+                      child: SizedBox(
                         height: 200,
                         width: 300,
                       ),
                     ),
                     Card(
-                      child: Container(
+                      child: SizedBox(
                         height: 200,
                         width: 300,
                       ),
@@ -279,7 +278,7 @@ class PetInfoData extends StatelessWidget {
           ),
         ),
       ],
-    ));
+    );
   }
 }
 
@@ -294,11 +293,11 @@ class PetAttribute extends StatelessWidget {
     return Container(
       height: 80,
       width: 100,
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: Colors.blue.shade100,
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black12,
             blurRadius: 2,

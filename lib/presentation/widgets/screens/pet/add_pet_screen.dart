@@ -34,11 +34,9 @@ class _AddPetScreenState extends State<AddPetScreen> {
   File? image;
 
   bool isSaving = false;
-  MaterialStatesController saveButtonStatesController =
-      MaterialStatesController();
+  MaterialStatesController saveButtonStatesController = MaterialStatesController();
 
-  DateFormat dateFormat =
-      DateFormat(DateFormat.YEAR_MONTH_DAY, Platform.localeName);
+  DateFormat dateFormat = DateFormat(DateFormat.YEAR_MONTH_DAY, Platform.localeName);
   @override
   void initState() {
     super.initState();
@@ -67,19 +65,19 @@ class _AddPetScreenState extends State<AddPetScreen> {
       final imageTemp = File(image.path);
       setState(() => this.image = imageTemp);
     } on Exception {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizationsBloc
-              .appLocalizations.formPetChangePetImageErrorText),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizationsBloc.appLocalizations.formPetChangePetImageErrorText),
+          ),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final topSpacing =
-        MediaQuery.of(context).padding.top + AppBar().preferredSize.height;
+    final topSpacing = MediaQuery.of(context).padding.top + AppBar().preferredSize.height;
     final petsBloc = Provider.of<PetsBloc>(context);
     final tutorsBloc = Provider.of<TutorsBloc>(context);
     final authBloc = Provider.of<FirebaseAuthService>(context);
@@ -122,19 +120,16 @@ class _AddPetScreenState extends State<AddPetScreen> {
                     children: [
                       Text(
                         pet == null
-                            ? AppLocalizationsBloc
-                                .appLocalizations.cancelAddingFormPetDialogTitle
-                            : AppLocalizationsBloc.appLocalizations
-                                .cancelEditingFormPetDialogTitle,
+                            ? AppLocalizationsBloc.appLocalizations.cancelAddingFormPetDialogTitle
+                            : AppLocalizationsBloc.appLocalizations.cancelEditingFormPetDialogTitle,
                         textAlign: TextAlign.center,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          AppLocalizationsBloc.appLocalizations
-                              .cancelEditingFormPetDialogSubtitle,
+                          AppLocalizationsBloc.appLocalizations.cancelEditingFormPetDialogSubtitle,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 14),
+                          style: const TextStyle(fontSize: 14),
                         ),
                       )
                     ],
@@ -146,22 +141,20 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         Navigator.pop(context);
                         Navigator.pop(context);
                       },
-                      child: Text(AppLocalizationsBloc.appLocalizations
-                          .cancelEditingFormPetDialogCancelButtonText),
+                      child: Text(AppLocalizationsBloc.appLocalizations.cancelEditingFormPetDialogCancelButtonText),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text(AppLocalizationsBloc.appLocalizations
-                          .cancelEditingFormPetDialogContinueButtonText),
+                      child: Text(AppLocalizationsBloc.appLocalizations.cancelEditingFormPetDialogContinueButtonText),
                     )
                   ],
                 );
               },
             );
           },
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
@@ -188,9 +181,8 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         onPressed: () {
                           pickImage();
                         },
-                        icon: Icon(Icons.edit),
-                        label: Text(AppLocalizationsBloc
-                            .appLocalizations.formPetChangePetImageText),
+                        icon: const Icon(Icons.edit),
+                        label: Text(AppLocalizationsBloc.appLocalizations.formPetChangePetImageText),
                       ),
                     ),
                   ),
@@ -198,7 +190,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
               child: Form(
                 key: _formKey,
                 child: Wrap(
@@ -208,16 +200,13 @@ class _AddPetScreenState extends State<AddPetScreen> {
                     TextFormField(
                       controller: petNameController,
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.abc),
-                        hintText: AppLocalizationsBloc
-                            .appLocalizations.formPetNameHintText,
-                        labelText: AppLocalizationsBloc
-                            .appLocalizations.formPetNameLabelText,
+                        prefixIcon: const Icon(Icons.abc),
+                        hintText: AppLocalizationsBloc.appLocalizations.formPetNameHintText,
+                        labelText: AppLocalizationsBloc.appLocalizations.formPetNameLabelText,
                       ),
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return AppLocalizationsBloc
-                              .appLocalizations.formPetNameEmptyErrorText;
+                          return AppLocalizationsBloc.appLocalizations.formPetNameEmptyErrorText;
                         }
 
                         return null;
@@ -227,14 +216,10 @@ class _AddPetScreenState extends State<AddPetScreen> {
                       value: petType,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
-                          petType == null
-                              ? Icons.check_box_outline_blank_rounded
-                              : Icons.check_box_rounded,
+                          petType == null ? Icons.check_box_outline_blank_rounded : Icons.check_box_rounded,
                         ),
-                        hintText: AppLocalizationsBloc
-                            .appLocalizations.formPetTypeHintText,
-                        labelText: AppLocalizationsBloc
-                            .appLocalizations.formPetTypeLabelText,
+                        hintText: AppLocalizationsBloc.appLocalizations.formPetTypeHintText,
+                        labelText: AppLocalizationsBloc.appLocalizations.formPetTypeLabelText,
                       ),
                       items: PetType.values.map((PetType value) {
                         return DropdownMenuItem(
@@ -260,8 +245,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                       },
                       validator: (value) {
                         if (value?.name.isEmpty ?? true) {
-                          return AppLocalizationsBloc
-                              .appLocalizations.formPetTypeEmptyErrorText;
+                          return AppLocalizationsBloc.appLocalizations.formPetTypeEmptyErrorText;
                         }
 
                         return null;
@@ -270,33 +254,27 @@ class _AddPetScreenState extends State<AddPetScreen> {
                     TextFormField(
                       controller: petBirthdateController,
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.calendar_month),
-                        hintText: AppLocalizationsBloc
-                            .appLocalizations.formPetBirthdateHintText,
-                        labelText: AppLocalizationsBloc
-                            .appLocalizations.formPetBirthdateLabelText,
+                        prefixIcon: const Icon(Icons.calendar_month),
+                        hintText: AppLocalizationsBloc.appLocalizations.formPetBirthdateHintText,
+                        labelText: AppLocalizationsBloc.appLocalizations.formPetBirthdateLabelText,
                       ),
                       onTap: () async {
                         FocusScope.of(context).requestFocus(FocusNode());
                         DateTime? birthdate = await showDatePicker(
                           context: context,
-                          initialDate: petBirthdateController.text.isEmpty
-                              ? DateTime.now()
-                              : petBirthdate,
+                          initialDate: petBirthdateController.text.isEmpty ? DateTime.now() : petBirthdate,
                           firstDate: DateTime(1900),
                           lastDate: DateTime.now(),
                         );
 
                         if (birthdate != null) {
                           petBirthdate = birthdate;
-                          petBirthdateController.text =
-                              dateFormat.format(birthdate);
+                          petBirthdateController.text = dateFormat.format(birthdate);
                         }
                       },
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return AppLocalizationsBloc
-                              .appLocalizations.formPetBirthdateEmptyErrorText;
+                          return AppLocalizationsBloc.appLocalizations.formPetBirthdateEmptyErrorText;
                         }
 
                         return null;
@@ -306,14 +284,10 @@ class _AddPetScreenState extends State<AddPetScreen> {
                       value: petGender,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
-                          petGender == null
-                              ? Icons.check_box_outline_blank_rounded
-                              : Icons.check_box_rounded,
+                          petGender == null ? Icons.check_box_outline_blank_rounded : Icons.check_box_rounded,
                         ),
-                        hintText: AppLocalizationsBloc
-                            .appLocalizations.formPetGenderHintText,
-                        labelText: AppLocalizationsBloc
-                            .appLocalizations.formPetGenderLabelText,
+                        hintText: AppLocalizationsBloc.appLocalizations.formPetGenderHintText,
+                        labelText: AppLocalizationsBloc.appLocalizations.formPetGenderLabelText,
                       ),
                       items: PetGender.values.map((PetGender value) {
                         return DropdownMenuItem(
@@ -330,8 +304,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                       },
                       validator: (value) {
                         if (value?.name.isEmpty ?? true) {
-                          return AppLocalizationsBloc
-                              .appLocalizations.formPetGenderEmptyErrorText;
+                          return AppLocalizationsBloc.appLocalizations.formPetGenderEmptyErrorText;
                         }
 
                         return null;
@@ -342,14 +315,12 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(AppLocalizationsBloc
-                                  .appLocalizations.unavailableFeat),
+                              content: Text(AppLocalizationsBloc.appLocalizations.unavailableFeat),
                             ),
                           );
                         },
-                        icon: Icon(Icons.arrow_circle_right_rounded),
-                        label: Text(AppLocalizationsBloc
-                            .appLocalizations.formPetBreedText))
+                        icon: const Icon(Icons.arrow_circle_right_rounded),
+                        label: Text(AppLocalizationsBloc.appLocalizations.formPetBreedText))
 
                     //TODO Fazer uma página para selecionar raça (Buscar de uma API e mostrar nome com foto)
                   ],
@@ -357,8 +328,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
               ),
             ),
             Container(
-              padding:
-                  EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 32),
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 32),
               width: double.infinity,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -372,24 +342,20 @@ class _AddPetScreenState extends State<AddPetScreen> {
                             title: Column(
                               children: [
                                 Text(pet == null
-                                    ? AppLocalizationsBloc.appLocalizations
-                                        .cancelAddingFormPetDialogTitle
-                                    : AppLocalizationsBloc.appLocalizations
-                                        .cancelEditingFormPetDialogTitle),
+                                    ? AppLocalizationsBloc.appLocalizations.cancelAddingFormPetDialogTitle
+                                    : AppLocalizationsBloc.appLocalizations.cancelEditingFormPetDialogTitle),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    AppLocalizationsBloc.appLocalizations
-                                        .cancelEditingFormPetDialogSubtitle,
-                                    style: TextStyle(fontSize: 14),
+                                    AppLocalizationsBloc.appLocalizations.cancelEditingFormPetDialogSubtitle,
+                                    style: const TextStyle(fontSize: 14),
                                   ),
                                 )
                               ],
                             ),
                             actions: [
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   TextButton(
                                     onPressed: () {
@@ -397,16 +363,14 @@ class _AddPetScreenState extends State<AddPetScreen> {
                                       Navigator.pop(context);
                                     },
                                     child: Text(AppLocalizationsBloc
-                                        .appLocalizations
-                                        .cancelEditingFormPetDialogCancelButtonText),
+                                        .appLocalizations.cancelEditingFormPetDialogCancelButtonText),
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
                                     child: Text(AppLocalizationsBloc
-                                        .appLocalizations
-                                        .cancelEditingFormPetDialogContinueButtonText),
+                                        .appLocalizations.cancelEditingFormPetDialogContinueButtonText),
                                   ),
                                 ],
                               )
@@ -415,25 +379,22 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         },
                       );
                     },
-                    icon: Icon(Icons.close),
-                    label: Text(AppLocalizationsBloc
-                        .appLocalizations.cancelFormPetActionText),
+                    icon: const Icon(Icons.close),
+                    label: Text(AppLocalizationsBloc.appLocalizations.cancelFormPetActionText),
                   ),
                   ElevatedButton.icon(
                     statesController: saveButtonStatesController,
                     onPressed: () async {
                       setState(() {
                         isSaving = true;
-                        saveButtonStatesController.update(
-                            MaterialState.disabled, true);
+                        saveButtonStatesController.update(MaterialState.disabled, true);
                       });
                       try {
                         if (_formKey.currentState?.validate() ?? false) {
                           if (pet == null) {
                             String? imageUrl;
                             if (image != null) {
-                              imageUrl =
-                                  await petsBloc.uploadImage(image?.path ?? "");
+                              imageUrl = await petsBloc.uploadImage(image?.path ?? "");
                             }
                             String petId = await petsBloc.add(
                               petNameController.text,
@@ -453,13 +414,11 @@ class _AddPetScreenState extends State<AddPetScreen> {
                               [], //TODO: Add alarmIds
                             );
 
-                            await tutorsBloc.addPetToTutor(
-                                authBloc.firebaseUser?.uid ?? "", petId);
+                            await tutorsBloc.addPetToTutor(authBloc.firebaseUser?.uid ?? "", petId);
                           } else {
                             String? imageUrl = pet!.imageUrl;
                             if (image != null) {
-                              imageUrl =
-                                  await petsBloc.uploadImage(image?.path ?? "");
+                              imageUrl = await petsBloc.uploadImage(image?.path ?? "");
                             }
                             await petsBloc.update(
                               pet!.id,
@@ -474,32 +433,33 @@ class _AddPetScreenState extends State<AddPetScreen> {
                             );
                           }
 
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(AppLocalizationsBloc
-                                  .appLocalizations.formSaveSucessText),
-                            ),
-                          );
+                          if (mounted) {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(AppLocalizationsBloc.appLocalizations.formSaveSucessText),
+                              ),
+                            );
+                          }
                         } else {
                           setState(() {
                             isSaving = false;
-                            saveButtonStatesController.update(
-                                MaterialState.disabled, false);
+                            saveButtonStatesController.update(MaterialState.disabled, false);
                           });
                         }
                       } catch (e) {
                         setState(() {
                           isSaving = false;
-                          saveButtonStatesController.update(
-                              MaterialState.disabled, false);
+                          saveButtonStatesController.update(MaterialState.disabled, false);
                         });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(AppLocalizationsBloc
-                                .appLocalizations.formSaveErrorText),
-                          ),
-                        );
+
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(AppLocalizationsBloc.appLocalizations.formSaveErrorText),
+                            ),
+                          );
+                        }
                       }
                     },
                     icon: isSaving
@@ -507,12 +467,11 @@ class _AddPetScreenState extends State<AddPetScreen> {
                             child: Container(
                                 height: 16,
                                 width: 16,
-                                margin: EdgeInsets.only(right: 8),
-                                child: CircularProgressIndicator()),
+                                margin: const EdgeInsets.only(right: 8),
+                                child: const CircularProgressIndicator()),
                           )
-                        : Icon(Icons.save),
-                    label: Text(AppLocalizationsBloc
-                        .appLocalizations.saveFormPetActionText),
+                        : const Icon(Icons.save),
+                    label: Text(AppLocalizationsBloc.appLocalizations.saveFormPetActionText),
                   ),
                 ],
               ),

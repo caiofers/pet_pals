@@ -30,11 +30,13 @@ class TutorPic extends StatelessWidget {
               Container(
                 height: 70,
                 width: 70,
-                decoration: BoxDecoration(shape: BoxShape.circle),
+                decoration: const BoxDecoration(shape: BoxShape.circle),
                 child: Image.network(
                   tutorAvatarUrl ?? '',
                   errorBuilder: (context, error, stackTrace) {
-                    return CircleAvatar(child: Icon(Icons.person));
+                    return const CircleAvatar(
+                      child: Icon(Icons.person),
+                    );
                   },
                 ),
               ),
@@ -43,19 +45,20 @@ class TutorPic extends StatelessWidget {
                 width: 70,
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
                   height: 20,
                   width: 70,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
-                      ),
-                      color: Colors.amber.shade200),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(5),
+                    ),
+                    color: Colors.amber.shade200,
+                  ),
                   child: Text(
                     tutorName.split(' ').first,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ),
               )

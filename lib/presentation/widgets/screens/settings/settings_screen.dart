@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
-  //TODO
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ThemeBloc>(context);
@@ -13,21 +13,19 @@ class SettingsScreen extends StatelessWidget {
       body: ListView(
         children: [
           ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            leading: Icon(Icons.share),
-            title: Text("Green Theme"),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            leading: const Icon(Icons.share),
+            title: const Text("Green Theme"),
             onTap: () {
               provider.theme = ThemeOptions.greenTheme;
-              print(provider.currentThemeName);
             },
           ),
           ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            leading: Icon(Icons.share),
-            title: Text("Default Theme"),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            leading: const Icon(Icons.share),
+            title: const Text("Default Theme"),
             onTap: () {
               provider.theme = ThemeOptions.defaultTheme;
-              print(provider.currentThemeName);
             },
           )
         ],

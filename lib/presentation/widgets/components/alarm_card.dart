@@ -41,14 +41,14 @@ class AlarmCard extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
                                 child: Container(
-                                    height: 32,
-                                    width: 32,
-                                    //padding: EdgeInsets.all(8),
-                                    color: Colors.amber,
-                                    child: const Icon(
-                                      size: 20,
-                                      Icons.pets,
-                                    )),
+                                  height: 32,
+                                  width: 32,
+                                  color: Colors.amber,
+                                  child: const Icon(
+                                    size: 20,
+                                    Icons.pets,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -95,8 +95,8 @@ class AlarmCard extends StatelessWidget {
                           ),
                           shape: BoxShape.circle,
                         ),
-                        margin: EdgeInsets.only(right: 0),
-                        child: CircleAvatar(
+                        margin: const EdgeInsets.only(right: 0),
+                        child: const CircleAvatar(
                           backgroundColor: Colors.red,
                         ),
                       ),
@@ -111,8 +111,8 @@ class AlarmCard extends StatelessWidget {
                           ),
                           shape: BoxShape.circle,
                         ),
-                        margin: EdgeInsets.only(right: 24),
-                        child: CircleAvatar(
+                        margin: const EdgeInsets.only(right: 24),
+                        child: const CircleAvatar(
                           backgroundColor: Colors.amber,
                         ),
                       ),
@@ -120,7 +120,7 @@ class AlarmCard extends StatelessWidget {
                         height: 32,
                         width: 32,
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(right: 48),
+                        margin: const EdgeInsets.only(right: 48),
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: Colors.white,
@@ -128,7 +128,7 @@ class AlarmCard extends StatelessWidget {
                           ),
                           shape: BoxShape.circle,
                         ),
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                           backgroundColor: Colors.blue,
                         ),
                       ),
@@ -136,7 +136,7 @@ class AlarmCard extends StatelessWidget {
                         height: 32,
                         width: 32,
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(right: 72),
+                        margin: const EdgeInsets.only(right: 72),
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: Colors.white,
@@ -144,7 +144,7 @@ class AlarmCard extends StatelessWidget {
                           ),
                           shape: BoxShape.circle,
                         ),
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                           backgroundColor: Colors.blue,
                         ),
                       ),
@@ -152,7 +152,7 @@ class AlarmCard extends StatelessWidget {
                         height: 32,
                         width: 32,
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(right: 96),
+                        margin: const EdgeInsets.only(right: 96),
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: Colors.white,
@@ -160,7 +160,7 @@ class AlarmCard extends StatelessWidget {
                           ),
                           shape: BoxShape.circle,
                         ),
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                           backgroundColor: Colors.blue,
                         ),
                       ),
@@ -168,7 +168,7 @@ class AlarmCard extends StatelessWidget {
                         height: 32,
                         width: 32,
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(right: 120),
+                        margin: const EdgeInsets.only(right: 120),
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: Colors.white,
@@ -176,7 +176,7 @@ class AlarmCard extends StatelessWidget {
                           ),
                           shape: BoxShape.circle,
                         ),
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                           backgroundColor: Colors.blue,
                         ),
                       ),

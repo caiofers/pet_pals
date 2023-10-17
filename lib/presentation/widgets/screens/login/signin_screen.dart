@@ -20,8 +20,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   bool isLogin = true;
   bool isLoading = false;
-  MaterialStatesController loginButtonStatesController =
-      MaterialStatesController();
+  MaterialStatesController loginButtonStatesController = MaterialStatesController();
   @override
   Widget build(BuildContext context) {
     final authBloc = Provider.of<FirebaseAuthService>(context);
@@ -46,21 +45,17 @@ class _SignInScreenState extends State<SignInScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       width: double.infinity,
                       child: Text(
                         isLogin
                             ? AppLocalizationsBloc.appLocalizations.loginText
-                            : AppLocalizationsBloc
-                                .appLocalizations.createAccountText,
+                            : AppLocalizationsBloc.appLocalizations.createAccountText,
                       ),
                     ),
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: isLogin
-                            ? loginForm(authBloc)
-                            : registerForm(authBloc))
+                        child: isLogin ? loginForm(authBloc) : registerForm(authBloc))
                   ],
                 ),
               ),
@@ -76,8 +71,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 onPressed: () async {
                   setState(() {
                     isLoading = true;
-                    loginButtonStatesController.update(
-                        MaterialState.disabled, true);
+                    loginButtonStatesController.update(MaterialState.disabled, true);
                   });
                   if (isLogin) {
                     if (_loginFormKey.currentState?.validate() ?? false) {
@@ -89,21 +83,18 @@ class _SignInScreenState extends State<SignInScreen> {
                       } catch (e) {
                         setState(() {
                           isLoading = false;
-                          loginButtonStatesController.update(
-                              MaterialState.disabled, false);
+                          loginButtonStatesController.update(MaterialState.disabled, false);
                         });
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(AppLocalizationsBloc
-                                .appLocalizations.formSaveErrorText),
+                            content: Text(AppLocalizationsBloc.appLocalizations.formSaveErrorText),
                           ),
                         );
                       }
                     } else {
                       setState(() {
                         isLoading = false;
-                        loginButtonStatesController.update(
-                            MaterialState.disabled, false);
+                        loginButtonStatesController.update(MaterialState.disabled, false);
                       });
                     }
                   } else {
@@ -118,21 +109,18 @@ class _SignInScreenState extends State<SignInScreen> {
                       } catch (e) {
                         setState(() {
                           isLoading = false;
-                          loginButtonStatesController.update(
-                              MaterialState.disabled, false);
+                          loginButtonStatesController.update(MaterialState.disabled, false);
                         });
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(AppLocalizationsBloc
-                                .appLocalizations.formSaveErrorText),
+                            content: Text(AppLocalizationsBloc.appLocalizations.formSaveErrorText),
                           ),
                         );
                       }
                     } else {
                       setState(() {
                         isLoading = false;
-                        loginButtonStatesController.update(
-                            MaterialState.disabled, false);
+                        loginButtonStatesController.update(MaterialState.disabled, false);
                       });
                     }
                   }
@@ -142,10 +130,10 @@ class _SignInScreenState extends State<SignInScreen> {
                         child: Container(
                             height: 16,
                             width: 16,
-                            margin: EdgeInsets.only(right: 8),
-                            child: CircularProgressIndicator()),
+                            margin: const EdgeInsets.only(right: 8),
+                            child: const CircularProgressIndicator()),
                       )
-                    : Icon(Icons.login_rounded),
+                    : const Icon(Icons.login_rounded),
                 label: Text(
                   isLogin
                       ? AppLocalizationsBloc.appLocalizations.loginText
@@ -156,10 +144,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 children: [
                   TextButton(
                     onPressed: () {},
-                    child: Text(AppLocalizationsBloc
-                        .appLocalizations.forgotPasswordButtonText),
+                    child: Text(AppLocalizationsBloc.appLocalizations.forgotPasswordButtonText),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   TextButton(
                     onPressed: () {
                       setState(() {
@@ -168,10 +155,8 @@ class _SignInScreenState extends State<SignInScreen> {
                     },
                     child: Text(
                       isLogin
-                          ? AppLocalizationsBloc
-                              .appLocalizations.changeToRegisterButtonText
-                          : AppLocalizationsBloc
-                              .appLocalizations.changeToLoginButtonText,
+                          ? AppLocalizationsBloc.appLocalizations.changeToRegisterButtonText
+                          : AppLocalizationsBloc.appLocalizations.changeToLoginButtonText,
                     ),
                   ),
                 ],
@@ -194,16 +179,13 @@ class _SignInScreenState extends State<SignInScreen> {
               TextFormField(
                 controller: emailController,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.email_outlined),
-                  hintText: AppLocalizationsBloc
-                      .appLocalizations.formLoginEmailHintText,
-                  labelText: AppLocalizationsBloc
-                      .appLocalizations.formLoginEmailLabelText,
+                  prefixIcon: const Icon(Icons.email_outlined),
+                  hintText: AppLocalizationsBloc.appLocalizations.formLoginEmailHintText,
+                  labelText: AppLocalizationsBloc.appLocalizations.formLoginEmailLabelText,
                 ),
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return AppLocalizationsBloc
-                        .appLocalizations.formLoginEmailEmptyErrorText;
+                    return AppLocalizationsBloc.appLocalizations.formLoginEmailEmptyErrorText;
                   }
                   // TODO Email validator
                   // AppLocalizationsBloc.appLocalizations.formLoginEmailInvalidErrorText;
@@ -214,17 +196,14 @@ class _SignInScreenState extends State<SignInScreen> {
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.password),
-                  hintText: AppLocalizationsBloc
-                      .appLocalizations.formLoginPasswordHintText,
-                  labelText: AppLocalizationsBloc
-                      .appLocalizations.formLoginPasswordLabelText,
+                  prefixIcon: const Icon(Icons.password),
+                  hintText: AppLocalizationsBloc.appLocalizations.formLoginPasswordHintText,
+                  labelText: AppLocalizationsBloc.appLocalizations.formLoginPasswordLabelText,
                 ),
                 validator: (value) {
                   if (value != null) {
                     if (value.isEmpty) {
-                      return AppLocalizationsBloc
-                          .appLocalizations.formLoginPasswordEmptyErrorText;
+                      return AppLocalizationsBloc.appLocalizations.formLoginPasswordEmptyErrorText;
                     }
                   }
                   return null;
@@ -248,16 +227,13 @@ class _SignInScreenState extends State<SignInScreen> {
               TextFormField(
                 controller: nameController,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.abc),
-                  hintText: AppLocalizationsBloc
-                      .appLocalizations.formLoginNameHintText,
-                  labelText: AppLocalizationsBloc
-                      .appLocalizations.formLoginNameLabelText,
+                  prefixIcon: const Icon(Icons.abc),
+                  hintText: AppLocalizationsBloc.appLocalizations.formLoginNameHintText,
+                  labelText: AppLocalizationsBloc.appLocalizations.formLoginNameLabelText,
                 ),
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return AppLocalizationsBloc
-                        .appLocalizations.formLoginNameEmptyErrorText;
+                    return AppLocalizationsBloc.appLocalizations.formLoginNameEmptyErrorText;
                   }
                   return null;
                 },
@@ -265,16 +241,13 @@ class _SignInScreenState extends State<SignInScreen> {
               TextFormField(
                 controller: emailController,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.email_outlined),
-                  hintText: AppLocalizationsBloc
-                      .appLocalizations.formLoginEmailHintText,
-                  labelText: AppLocalizationsBloc
-                      .appLocalizations.formLoginEmailLabelText,
+                  prefixIcon: const Icon(Icons.email_outlined),
+                  hintText: AppLocalizationsBloc.appLocalizations.formLoginEmailHintText,
+                  labelText: AppLocalizationsBloc.appLocalizations.formLoginEmailLabelText,
                 ),
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return AppLocalizationsBloc
-                        .appLocalizations.formLoginEmailEmptyErrorText;
+                    return AppLocalizationsBloc.appLocalizations.formLoginEmailEmptyErrorText;
                   }
                   // TODO Email validator
                   // AppLocalizationsBloc.appLocalizations.formLoginEmailInvalidErrorText;
@@ -285,20 +258,16 @@ class _SignInScreenState extends State<SignInScreen> {
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.password),
-                  hintText: AppLocalizationsBloc
-                      .appLocalizations.formLoginPasswordHintText,
-                  labelText: AppLocalizationsBloc
-                      .appLocalizations.formLoginPasswordLabelText,
+                  prefixIcon: const Icon(Icons.password),
+                  hintText: AppLocalizationsBloc.appLocalizations.formLoginPasswordHintText,
+                  labelText: AppLocalizationsBloc.appLocalizations.formLoginPasswordLabelText,
                 ),
                 validator: (value) {
                   if (value != null) {
                     if (value.isEmpty) {
-                      return AppLocalizationsBloc
-                          .appLocalizations.formLoginPasswordEmptyErrorText;
+                      return AppLocalizationsBloc.appLocalizations.formLoginPasswordEmptyErrorText;
                     } else if (value.length < 6) {
-                      return AppLocalizationsBloc
-                          .appLocalizations.formLoginPasswordInvalidErrorText;
+                      return AppLocalizationsBloc.appLocalizations.formLoginPasswordInvalidErrorText;
                     }
                   }
                   return null;

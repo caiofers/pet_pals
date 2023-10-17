@@ -60,11 +60,9 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
 
   Map<PetTutor, bool> getPreviousTutorsSelection() {
     Map<PetTutor, bool> selection = {};
-    widget.pet.tutors.forEach(
-      (e) {
-        selection.addAll({e: widget.alarm?.tutorIds.contains(e.id) ?? false});
-      },
-    );
+    for (var e in widget.pet.tutors) {
+      selection.addAll({e: widget.alarm?.tutorIds.contains(e.id) ?? false});
+    }
     return selection;
   }
 
@@ -112,7 +110,7 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         scrolledUnderElevation: 0,
-        title: Text("Adicionar alarme"),
+        title: const Text("Adicionar alarme"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -127,7 +125,7 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
                   children: [
                     TextFormField(
                       controller: alarmNameController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
                         prefixIcon: Icon(Icons.abc),
                         hintText: "Enter with alarm name",
@@ -171,7 +169,7 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
                     ),
                     TextFormField(
                       controller: alarmTimeController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.alarm),
                         hintText: "Enter with time for alarm",
                         labelText: "Alarm time",
@@ -201,7 +199,7 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
                           children: [
                             DropdownButtonFormField(
                               value: recurrence.recurrenceType,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 prefixIcon: Icon(Icons.refresh),
                                 hintText: "Select type of recurrence",
                                 labelText: "Alarm recurrence",
@@ -230,7 +228,7 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
                                   recurrence.recurrenceType == AlarmRecurrenceType.annualy,
                               child: TextFormField(
                                 controller: firstAlarmDateController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   prefixIcon: Icon(Icons.calendar_month),
                                   hintText: "Enter with alarm date",
                                   labelText: "Alarm date",
@@ -268,7 +266,15 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
                               child: Center(
                                 child: ToggleButtons(
                                   borderRadius: BorderRadius.circular(5),
-                                  children: [
+                                  onPressed: (index) {
+                                    setState(() {
+                                      String day = recurrence.daysOfWeekSelection.keys.elementAt(index);
+                                      recurrence.daysOfWeekSelection[day] =
+                                          !(recurrence.daysOfWeekSelection[day] ?? false);
+                                    });
+                                  },
+                                  isSelected: recurrence.daysOfWeekSelection.values.toList(),
+                                  children: const [
                                     Text("Sun"),
                                     Text("Mon"),
                                     Text("Tue"),
@@ -277,16 +283,6 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
                                     Text("Fri"),
                                     Text("Sat"),
                                   ],
-                                  onPressed: (index) {
-                                    setState(() {
-                                      String day = recurrence.daysOfWeekSelection.keys.elementAt(index);
-                                      recurrence.daysOfWeekSelection[day] =
-                                          !(recurrence.daysOfWeekSelection[day] ?? false);
-                                    });
-
-                                    print(recurrence.daysOfWeekSelection);
-                                  },
-                                  isSelected: recurrence.daysOfWeekSelection.values.toList(),
                                 ),
                               ),
                             ),
@@ -295,7 +291,7 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
                               child: TextFormField(
                                 controller: alarmRecurrenceAmountOfTimeController,
                                 keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
                                   prefixIcon: Icon(Icons.numbers),
                                   hintText: "Enter with number",
@@ -319,8 +315,8 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
                           child: Text("Selecione o(s) tutor(es) responsáveis:"),
                         ),
                         Container(
@@ -357,7 +353,7 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
                                             borderRadius: BorderRadius.circular(50),
                                             child: Container(
                                                 color: Colors.white,
-                                                child: Icon(
+                                                child: const Icon(
                                                   Icons.check_circle,
                                                   color: Colors.green,
                                                 )),
@@ -382,7 +378,7 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
                           ),
                       ],
                     ),
-                    Container(
+                    SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         statesController: saveButtonStatesController,
@@ -427,7 +423,7 @@ class _AddPetAlarmScreenState extends State<AddPetAlarmScreen> {
                             }
                           }
                         },
-                        child: Text("Salvar"),
+                        child: const Text("Salvar"),
                       ),
                     )
                   ],

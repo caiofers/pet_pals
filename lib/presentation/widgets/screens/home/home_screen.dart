@@ -7,10 +7,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ListView(children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 12.0),
           child: Text(
             "Curiosidade do dia - Cachorro",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -18,49 +18,48 @@ class HomeScreen extends StatelessWidget {
         ),
         Card(
           color: Colors.red,
-          child: Container(
+          child: SizedBox(
             //margin: EdgeInsets.symmetric(horizontal: 8),
             height: 250,
-            child: Center(
-                child: Text(AppLocalizations.of(context)!.helloUser("Caio"))),
+            child: Center(child: Text(AppLocalizations.of(context)!.helloUser("Caio"))),
           ),
         ),
-        Card(
-          child: Container(
+        const Card(
+          child: SizedBox(
             //margin: EdgeInsets.symmetric(horizontal: 8),
             height: 250,
             child: Center(child: Text("Test")),
           ),
         ),
-        Container(
+        SizedBox(
           height: 230,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            children: [
+            children: const [
               Card(
                 color: Colors.red,
-                child: Container(
+                child: SizedBox(
                   //margin: EdgeInsets.symmetric(horizontal: 8),
                   width: 300,
                   child: Center(child: Text("Test")),
                 ),
               ),
               Card(
-                child: Container(
+                child: SizedBox(
                   //margin: EdgeInsets.symmetric(horizontal: 8),
                   width: 300,
                   child: Center(child: Text("Test")),
                 ),
               ),
               Card(
-                child: Container(
+                child: SizedBox(
                   //margin: EdgeInsets.symmetric(horizontal: 8),
                   width: 300,
                   child: Center(child: Text("Test")),
                 ),
               ),
               Card(
-                child: Container(
+                child: SizedBox(
                   //margin: EdgeInsets.symmetric(horizontal: 8),
                   width: 300,
                   child: Center(child: Text("Test")),

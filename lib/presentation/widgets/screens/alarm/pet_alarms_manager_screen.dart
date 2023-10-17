@@ -23,7 +23,6 @@ class _PetAlarmsManagerScreenState extends State<PetAlarmsManagerScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     pet = widget.pet;
   }
@@ -47,7 +46,7 @@ class _PetAlarmsManagerScreenState extends State<PetAlarmsManagerScreen> {
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         scrolledUnderElevation: 0,
-        title: Text("Gerenciar alarmes"),
+        title: const Text("Gerenciar alarmes"),
       ),
       body: FutureBuilder(
         future: getAlarms(),
@@ -55,28 +54,28 @@ class _PetAlarmsManagerScreenState extends State<PetAlarmsManagerScreen> {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
             case ConnectionState.waiting:
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             default:
               if (snapshot.hasError) {
-                return Center(
+                return const Center(
                   child: Text("Error"),
                 );
               } else {
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Stack(
                     children: [
                       ListView(
                         children: [
                           Container(
                             width: double.infinity,
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             child: Text(
                               AppLocalizationsBloc.appLocalizations.alarmScreenTitle(
                                   authService.firebaseUser?.displayName ?? "-", snapshot.data!.length),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -92,8 +91,8 @@ class _PetAlarmsManagerScreenState extends State<PetAlarmsManagerScreen> {
                                   builder: (context) {
                                     return Column(
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(vertical: 16.0),
                                           child: SizedBox(
                                             height: 8,
                                             width: 80,
@@ -111,8 +110,8 @@ class _PetAlarmsManagerScreenState extends State<PetAlarmsManagerScreen> {
                                           child: ListView(
                                             children: [
                                               ListTile(
-                                                leading: Icon(Icons.edit),
-                                                title: Text("Editar alarme"),
+                                                leading: const Icon(Icons.edit),
+                                                title: const Text("Editar alarme"),
                                                 onTap: () {
                                                   Navigator.pop(context);
                                                   Navigator.push(
@@ -127,14 +126,14 @@ class _PetAlarmsManagerScreenState extends State<PetAlarmsManagerScreen> {
                                                 },
                                               ),
                                               ListTile(
-                                                leading: Icon(Icons.delete),
-                                                title: Text("Excluir alarme"),
+                                                leading: const Icon(Icons.delete),
+                                                title: const Text("Excluir alarme"),
                                                 onTap: () {
                                                   showDialog(
                                                       context: context,
                                                       builder: (context) {
                                                         return AlertDialog(
-                                                          title: Column(
+                                                          title: const Column(
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             children: [
                                                               Text(
@@ -142,7 +141,7 @@ class _PetAlarmsManagerScreenState extends State<PetAlarmsManagerScreen> {
                                                                 textAlign: TextAlign.center,
                                                               ),
                                                               Padding(
-                                                                padding: const EdgeInsets.all(8.0),
+                                                                padding: EdgeInsets.all(8.0),
                                                                 child: Text(
                                                                   "Essa ação não poderá ser desfeita.",
                                                                   textAlign: TextAlign.center,
@@ -157,7 +156,7 @@ class _PetAlarmsManagerScreenState extends State<PetAlarmsManagerScreen> {
                                                               onPressed: () {
                                                                 Navigator.pop(context);
                                                               },
-                                                              child: Text("Cancelar"),
+                                                              child: const Text("Cancelar"),
                                                             ),
                                                             ElevatedButton.icon(
                                                               onPressed: () async {
@@ -166,8 +165,8 @@ class _PetAlarmsManagerScreenState extends State<PetAlarmsManagerScreen> {
                                                                 Navigator.pop(context);
                                                                 Navigator.pop(context);
                                                               },
-                                                              icon: Icon(Icons.delete),
-                                                              label: Text("Excluir"),
+                                                              icon: const Icon(Icons.delete),
+                                                              label: const Text("Excluir"),
                                                             ),
                                                           ],
                                                         );
@@ -183,7 +182,7 @@ class _PetAlarmsManagerScreenState extends State<PetAlarmsManagerScreen> {
                                 );
                               },
                             ),
-                          SizedBox(
+                          const SizedBox(
                             height: buttonHeight + 16,
                           )
                         ],

@@ -26,26 +26,26 @@ class AlarmListScreen extends StatelessWidget {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
             case ConnectionState.waiting:
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             default:
               if (snapshot.hasError) {
-                return Center(
+                return const Center(
                   child: Text("Error"),
                 );
               } else {
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: ListView(
                     children: [
                       Container(
                         width: double.infinity,
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: Text(
                           AppLocalizationsBloc.appLocalizations
                               .alarmScreenTitle(authService.firebaseUser?.displayName ?? "-", snapshot.data!.length),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -56,7 +56,7 @@ class AlarmListScreen extends StatelessWidget {
                           alarm: alarm,
                           onCardTap: () {},
                         ),
-                      SizedBox(
+                      const SizedBox(
                         height: buttonHeight + 16,
                       )
                     ],

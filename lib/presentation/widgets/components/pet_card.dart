@@ -26,8 +26,9 @@ class PetCard extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8)),
+                    topLeft: Radius.circular(8),
+                    topRight: Radius.circular(8),
+                  ),
                   child: Image(
                     image: NetworkImage(pet.imageUrl ?? ""),
                     fit: BoxFit.cover,
@@ -43,8 +44,7 @@ class PetCard extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 24.0, horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 8.0),
                   child: Row(
                     children: [
                       Padding(
@@ -54,13 +54,10 @@ class PetCard extends StatelessWidget {
                           children: [
                             Text(
                               pet.name,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                             Row(
-                              children: [
-                                Text("${pet.type.name}, ${pet.gender.name}")
-                              ],
+                              children: [Text("${pet.type.name}, ${pet.gender.name}")],
                             ),
                           ],
                         ),
@@ -71,10 +68,8 @@ class PetCard extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(AppLocalizationsBloc.appLocalizations
-                                .petCardAgeText(pet.age)),
-                            Text(AppLocalizationsBloc.appLocalizations
-                                .petCardBreedText(pet.breed)),
+                            Text(AppLocalizationsBloc.appLocalizations.petCardAgeText(pet.age)),
+                            Text(AppLocalizationsBloc.appLocalizations.petCardBreedText(pet.breed)),
                           ],
                         ),
                       ),
@@ -102,8 +97,7 @@ class PetCard extends StatelessWidget {
                     pet.type.iconAssetName,
                     color: Colors.white,
                     errorBuilder: (context, error, stackTrace) {
-                      return Image.asset(
-                          "${AssetsPath.images}pet_img_placeholder.png");
+                      return Image.asset("${AssetsPath.images}pet_img_placeholder.png");
                     },
                   ),
                 ),

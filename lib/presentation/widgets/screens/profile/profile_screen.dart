@@ -19,14 +19,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Row(
           children: [
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
               child: CircleAvatar(
                 child: Image.network(
                   authBloc.firebaseUser?.photoURL ?? "",
                   fit: BoxFit.fill,
                   errorBuilder: (context, error, stackTrace) {
-                    return Icon(
+                    return const Icon(
                       Icons.person,
                     );
                   },
@@ -38,17 +37,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Text(
                   authBloc.firebaseUser?.displayName ?? "-",
-                  style: TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 18),
                 ),
                 Text(
                   authBloc.firebaseUser?.email ?? "-",
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 ),
               ],
             )
           ],
         ),
-        Divider(
+        const Divider(
           height: 1,
         ),
         Expanded(
@@ -57,9 +56,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ListTile(
                 title: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: const Icon(Icons.edit),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(Icons.edit),
                     ),
                     Text(AppLocalizationsBloc.appLocalizations.editProfileText),
                   ],
@@ -71,8 +70,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ListTile(
                 title: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Icon(Icons.exit_to_app),
                     ),
                     Text(AppLocalizationsBloc.appLocalizations.logoutText),
