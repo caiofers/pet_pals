@@ -140,27 +140,22 @@ class _SignInScreenState extends State<SignInScreen> {
                       : AppLocalizationsBloc.appLocalizations.createAccountText,
                 ),
               ),
-              Row(
-                children: [
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(AppLocalizationsBloc.appLocalizations.forgotPasswordButtonText),
-                  ),
-                  const Spacer(),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        isLogin = !isLogin;
-                      });
-                    },
-                    child: Text(
-                      isLogin
-                          ? AppLocalizationsBloc.appLocalizations.changeToRegisterButtonText
-                          : AppLocalizationsBloc.appLocalizations.changeToLoginButtonText,
-                    ),
-                  ),
-                ],
-              )
+              TextButton(
+                onPressed: () {},
+                child: Text(AppLocalizationsBloc.appLocalizations.forgotPasswordButtonText),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    isLogin = !isLogin;
+                  });
+                },
+                child: Text(
+                  isLogin
+                      ? AppLocalizationsBloc.appLocalizations.changeToRegisterButtonText
+                      : AppLocalizationsBloc.appLocalizations.changeToLoginButtonText,
+                ),
+              ),
             ],
           ),
         ),

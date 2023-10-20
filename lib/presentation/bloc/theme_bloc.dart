@@ -37,9 +37,11 @@ class ThemeBloc extends ChangeNotifier {
   ThemeData get currentDarkTheme {
     switch (_currentTheme) {
       case ThemeOptions.defaultTheme:
-        return _getDefaultDarkTheme();
+        return _getDefaultTheme();
+      //TODO return _getDefaultDarkTheme();
       case ThemeOptions.greenTheme:
-        return _getGreenDarkTheme();
+        return _getGreenTheme();
+      //TODO return _getGreenDarkTheme();
     }
   }
 
@@ -54,9 +56,9 @@ class ThemeBloc extends ChangeNotifier {
       ),
       colorScheme: ColorScheme.fromSeed(
         seedColor: const Color.fromRGBO(180, 95, 6, 1),
-        background: Color.fromRGBO(243, 235, 226, 1),
+        background: const Color.fromRGBO(243, 235, 226, 1),
       ),
-      inputDecorationTheme: InputDecorationTheme(
+      inputDecorationTheme: const InputDecorationTheme(
         filled: true,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(
@@ -90,8 +92,8 @@ class ThemeBloc extends ChangeNotifier {
     return ThemeData(
       fontFamily: "Manrope",
       colorScheme: ColorScheme.fromSeed(
-        seedColor: Color.fromARGB(255, 68, 36, 2),
-        background: Color.fromARGB(255, 61, 35, 4),
+        seedColor: const Color.fromARGB(255, 68, 36, 2),
+        background: const Color.fromARGB(255, 61, 35, 4),
       ),
       useMaterial3: true,
     );
@@ -102,7 +104,7 @@ class ThemeBloc extends ChangeNotifier {
       fontFamily: "Manrope",
       colorScheme: ColorScheme.fromSeed(
         seedColor: const Color.fromARGB(255, 44, 103, 46),
-        background: Color.fromARGB(255, 227, 250, 228),
+        background: const Color.fromARGB(255, 227, 250, 228),
       ),
       useMaterial3: true,
     );
@@ -112,8 +114,8 @@ class ThemeBloc extends ChangeNotifier {
     return ThemeData(
       fontFamily: "Manrope",
       colorScheme: ColorScheme.fromSeed(
-        seedColor: Color.fromARGB(255, 4, 52, 5),
-        background: Color.fromARGB(255, 3, 35, 4),
+        seedColor: const Color.fromARGB(255, 4, 52, 5),
+        background: const Color.fromARGB(255, 3, 35, 4),
       ),
       useMaterial3: true,
     );
